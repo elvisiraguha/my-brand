@@ -12,7 +12,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 60vw;
+  width: 70vw;
   margin: 0 auto;
   background-color: #c3cc4666;
 }
@@ -62,62 +62,109 @@ main > p {
   font-weight: lighter;
 }
 
-main div {
+main > section {
+  width: 90%;
+  margin: 30px auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  box-shadow: 0 2px 5px 0 #c3cc46;
 }
 
-main div p {
-  font-size: 36px;
+main section p {
+  font-size: 28px;
   font-weight: lighter;
   text-align: center;
+  margin-top: 20px;
 }
 
-main div p span {
+main article p span {
   font-size: 96px;
   font-family: "Sanchez", serif;
 }
 
-div.profile-intro {
+article.profile-intro {
+  width: 90%;
+  margin: 30px auto;
+  display: flex;
   flex-direction: row;
+  justify-content: space-between;
   align-items: center;
 }
 
-div.profile-intro p {
+article.profile-intro p {
+  font-size: 36px;
   text-align: start;
 }
 
-main div h3 {
-  padding: 10px 0;
+main section h3 {
   text-align: center;
   font-size: 48px;
   font-weight: normal;
+  background-color: #c3cc46;
 }
 
-.projects-cards {
-  flex-direction: row;
-  justify-content: space-between;
+.projects-cards-container {
+  margin: 20px 0;
+  display: grid;
+  justify-content: center;
+  grid-template-columns: repeat(auto-fit, 250px);
+  grid-gap: 20px;
 }
 
 .project-card {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 3fr 1fr 1fr;
   background-color: #c3cc46;
-  border: 2px solid white;
-  width: 25%;
-  height: 200px;
+  width: 250px;
+  height: 300px;
+}
+
+.project-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  grid-column: 1 / span 1;
+  grid-row: 1 / span 4;
 }
 
 .project-card > h5 {
   font-size: 36px;
   font-weight: normal;
   text-align: center;
+  grid-column: 1 / span 1;
+  grid-row: 1 / span 1;
+  background-color: #c3cc46e3;
+  z-index: 2;
 }
 
 .project-card > p {
-  font-size: 24px;
+  grid-column: 1 / span 1;
+  grid-row: 4 / span 1;
+  font-size: 18px;
+  font-weight: normal;
+  z-index: 2;
+  background-color: #c3cc46e3;
+}
+
+.btn {
+  border: none;
+  padding: 10px 30px;
+}
+
+.btn.visit-project {
+  grid-column: 1 / span 1;
+  grid-row: 3 / span 1;
+  margin: 10px auto;
+  background-color: #c3cc46;
+  border-radius: 5px;
+  color: black;
+  border: 2px solid white;
+  font-weight: normal;
+  font-size: 20px;
+  text-decoration: none;
 }
 
 footer {
@@ -155,13 +202,47 @@ footer {
   background-color: #00aced;
 }
 
-@media screen and (max-width: 1232px) {
+.skills-cards-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 200px);
+  grid-gap: 20px;
+  justify-content: center;
+  padding: 20px 0;
+}
+
+.skill-card {
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 0;
+}
+
+.individual-experience {
+  margin: 20px 30px;
+  box-shadow: 0 2px 5px 0 #c3cc46;
+}
+
+.individual-experience p {
+  font-size: 24px;
+  text-align: end;
+  padding: 0 10px;
+}
+
+.individual-experience h6 {
+  font-size: 20px;
+  text-align: start;
+  padding: 0 10px;
+}
+
+@media screen and (max-width: 1024px) {
   .container {
-    width: 80%;
+    width: 100%;
   }
 
-  .project-card {
-    width: 30%;
+  article.profile-intro p {
+    font-size: 28px;
   }
 }
 
@@ -172,14 +253,6 @@ footer {
 
   main {
     padding: 0 10px;
-  }
-
-  main div p {
-    text-align: start;
-  }
-
-  main div h3 {
-    text-align: start;
   }
 }
 
@@ -193,27 +266,21 @@ footer {
     font-size: 48px;
   }
 
-  div.profile-intro {
+  article.profile-intro {
     flex-direction: column-reverse;
   }
 
-  div.profile-intro img {
+  article.profile-intro p {
+    text-align: center;
+  }
+
+  article.profile-intro img {
     width: 90%;
-  }
-
-  .projects-cards {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .project-card {
-    width: 60%;
-    margin: 10px 0;
   }
 }
 
 @media screen and (max-width: 400px) {
-  .project-card {
-    width: 80%;
+  header h1 {
+    font-size: 40px;
   }
 }

@@ -30,63 +30,121 @@
       </header>
       <main>
         <p>Full-Stack Web Developer</p>
-        <div class="profile-intro">
+        <article class="profile-intro">
           <p>
             <span>I</span> am A Passionate Web Developer who Aims at Excellency
             and Believe in Web Accessibility for All.
           </p>
           <img width="365" src="./assets/myprofile.png" alt="profile image" />
-        </div>
-        <div>
+        </article>
+        <section>
           <h3>
             Skills:
           </h3>
-          <p>HTML, CSS, JavaScript, Node js, Version Control (Git)</p>
-        </div>
-        <div>
+          <section class="skills-cards-container">
+            <div class="skill-card">
+              <img src="./assets/skill-logos/html5.png" alt="HTML5 logo" />
+              <p>
+                HTML
+              </p>
+            </div>
+            <div class="skill-card">
+              <img src="./assets/skill-logos/css3.png" alt="css3 logo" />
+              <p>
+                CSS
+              </p>
+            </div>
+            <div class="skill-card">
+              <img
+                src="./assets/skill-logos/javascript.png"
+                alt="javascript logo"
+              />
+              <p>
+                JavaScript
+              </p>
+            </div>
+            <div class="skill-card">
+              <img src="./assets/skill-logos/nodejs.png" alt="nodejs logo" />
+              <p>
+                Node js
+              </p>
+            </div>
+          </section>
+        </section>
+        <section>
           <h3>Experience:</h3>
-          <p>
-            I have been coding for more than a year, and I have worked on
-            hands-on projects. Techologies I have used during these projects
-            includes: HTML5 & CSS3, JavaScript, React & Redux, Node.js,
-            Express.js. I have also worked within differrent teams in which I
-            gained professional workflow experience such as: Git & GitHub, Test
-            Driven Development, Continious Integration, Teamworking skills.
-          </p>
-        </div>
-        <div>
+          <section class="individual-experience">
+            <h6>Andela Technical Leadership Program</h6>
+            <p>
+              Guided by experinced engineers, I have built and hosted a full
+              stack personal website.
+            </p>
+          </section>
+          <section class="individual-experience">
+            <h6>Freelancing</h6>
+            <p>
+              I have worked on several tech solutions as a freelancer which
+              includes both front-end and back-end stack.
+            </p>
+          </section>
+        </section>
+        <section>
           <h3>
             Projects:
           </h3>
-          <div class="projects-cards">
-            <div class="project-card">
+          <section class="projects-cards-container">
+            <div class="project-card teamwork">
+              <img
+                src="./assets//projects-bg/teamwork.jpg"
+                alt="teamwork logo"
+              />
               <h5>Teamwork</h5>
               <p>A tool for communication within organizations</p>
+              <a
+                href="https://elvisiraguha.github.io/Teamwork/UI/html"
+                class="btn visit-project"
+                >Visit</a
+              >
             </div>
-            <div class="project-card">
+            <div class="project-card auth">
+              <img src="./assets/projects-bg/auth.jpg" alt="auth logo" />
               <h5>Auth</h5>
               <p>
-                A Signup and Signin form built using React with Node js server
+                A Signup and Signin form built using React js
               </p>
+              <a
+                href="https://my-auth-ui.herokuapp.com"
+                class="btn visit-project"
+                >Visit</a
+              >
             </div>
-            <div class="project-card">
+            <div class="project-card searchit">
+              <img
+                src="./assets/projects-bg/searchit.png"
+                alt="searchit logo"
+              />
               <h5>SearchIt</h5>
               <p>An easy search and filter app for US cities</p>
+              <a
+                href="https://elvisiraguha.github.io/searchit"
+                class="btn visit-project"
+                >Visit</a
+              >
             </div>
-          </div>
-        </div>
-        <div>
+          </section>
+        </section>
+        <section>
           <h3>Address:</h3>
           <p>Kigali, Rwanda</p>
-        </div>
+        </section>
       </main>
       <footer>
-        <div class="socials">
+        <section class="socials">
           <a class="github" href="#">
             <img
               width="39px"
               height="32px"
-              src="./assets/GitHub-Mark-Light-32px.png"
+              src="./assets/social-logos/GitHub-Mark-Light-32px.png"
               alt="github logo"
             />
           </a>
@@ -94,7 +152,7 @@
             <img
               width="41px"
               width="32"
-              src="./assets/facebook_logos_PNG19751.png"
+              src="./assets/social-logos/facebook_logos_PNG19751.png"
               alt="facebook logo"
             />
           </a>
@@ -102,11 +160,11 @@
             <img
               width="33px"
               height="33"
-              src="./assets/Twitterbird.webp"
+              src="./assets/social-logos/Twitterbird.webp"
               alt="twitter logo"
             />
           </a>
-        </div>
+        </section>
       </footer>
     </div>
   </body>
