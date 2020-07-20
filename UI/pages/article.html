@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="../../favicon.png" type="image/png" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Raleway:wght@200;400;500;800;900&family=Sanchez&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../styles/article.css" />
+    <title></title>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <nav>
+          <a href="../../index.html"
+            ><img src="../assets/logo.png" alt="elvis iraguha logo"
+          /></a>
+          <ul>
+            <li>
+              <a href="../../index.html#contacts-section">Contacts</a>
+            </li>
+            <li>
+              <a href="../../index.html">Home</a>
+            </li>
+            <li>
+              <a href="#">Signin</a>
+            </li>
+          </ul>
+          <div class="burger">
+            <div class="line1"></div>
+            <div class="line2"></div>
+            <div class="line3"></div>
+          </div>
+        </nav>
+      </header>
+      <main>
+        <section class="modal hide">
+          <div class="modal-content">
+            <input class="modal-title" />
+            <textarea cols="30" rows="10" class="modal-body"> </textarea>
+            <div class="controls">
+              <button class="btn modal-save">Save</button>
+              <button class="btn modal-cancel">Cancel</button>
+            </div>
+          </div>
+        </section>
+        <section class="main-header">
+          <a class="btn" href="/UI/pages/blogs.html"
+            >&larr; Back to Latest blogs</a
+          >
+          <div class="edits">
+            <button class="edit">Edit Article</button>
+            <button class="delete">Delete Article</button>
+          </div>
+        </section>
+        <section class="article"></section>
+        <section class="comments">
+          <h4>Comments:</h4>
+          <div class="comment-input">
+            <textarea cols="30" rows="3"></textarea>
+            <button>Comment</button>
+          </div>
+          <div class="previous-comments"></div>
+        </section>
+      </main>
+      <footer>
+        &copy; Elvis Iraguha 2020
+      </footer>
+    </div>
+    <script src="../scripts/comments.js" type="module"></script>
+    <script src="../scripts/blogsList.js" type="module"></script>
+    <script src="/UI/scripts/article.js" type="module"></script>
+  </body>
+</html>
