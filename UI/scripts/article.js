@@ -128,7 +128,7 @@ const displayComments = () => {
 
 window.addEventListener("load", () => {
   responsive();
-  isAuthor(true);
+  isAuthor(false);
   displayArticle();
   displayComments();
 });
