@@ -10,12 +10,16 @@ const responsive = () => {
   });
 };
 
-const isAuthor = (authenticated) => {
+const isAuthor = (authorized) => {
+  // display edits when user is authorized
   const writeArticle = document.querySelector("section.main-header");
+  authorized
+    ? writeArticle.classList.add("authorized")
+    : writeArticle.classList.remove("authorized");
 
-  authenticated
-    ? writeArticle.classList.add("authenticated")
-    : writeArticle.classList.remove("authenticated");
+  // display either signout or signin nav link if use is singned in
+  const signInOut = document.querySelector(".sign-in-out-link");
+  signInOut.textContent = authorized ? "Sign Out" : "Sign In";
 };
 
 const setCurrentArticle = (id) => {

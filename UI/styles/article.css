@@ -130,7 +130,7 @@ section.main-header a {
 section.main-header button,
 .btn {
   border: none;
-  padding: 10px 30px;
+  padding: 10px 20px;
   background-color: #c3cc46;
   cursor: pointer;
   font-size: 20px;
@@ -275,10 +275,6 @@ section.comments {
     width: 100%;
   }
 
-  section.main-header a {
-    margin: 0 20px;
-  }
-
   .comment-input {
     width: 100%;
   }
@@ -287,5 +283,15 @@ section.comments {
     padding: 30px;
     background-color: #e7ebb5;
     width: 90%;
+  }
+
+  section.main-header a {
+    margin-bottom: 20px;
+  }
+
+  section.main-header {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0 20px;
   }
 }

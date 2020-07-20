@@ -12,10 +12,15 @@ const responsive = () => {
 };
 
 const isAuthor = (authorized) => {
+  // display edits when user is authorized
   const authorEdits = document.querySelector(".edits");
   authorized
     ? authorEdits.classList.add("authorized")
     : authorEdits.classList.remove("authorized");
+
+  // display either signout or signin nav link if use is singned in
+  const signInOut = document.querySelector(".sign-in-out-link");
+  signInOut.textContent = authorized ? "Sign Out" : "Sign In";
 };
 
 // get current article id from browser storage

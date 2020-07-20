@@ -115,7 +115,7 @@ section.main-header {
   justify-content: center;
 }
 
-section.authenticated {
+section.authorized {
   display: flex;
 }
 
