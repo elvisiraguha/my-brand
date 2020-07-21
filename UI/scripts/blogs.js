@@ -7,6 +7,9 @@ const latestBlogs = blogs.sort(
 const articlesSection = document.querySelector("section.articles");
 const paginationSection = document.querySelector(".pagination");
 
+// check for signed in user
+const isSignedIn = localStorage.getItem("signedIn");
+
 // handle responsiveness
 const responsive = () => {
   const burger = document.querySelector(".burger");
@@ -140,12 +143,7 @@ const paginationButton = (page, items) => {
   return button;
 };
 
-window.addEventListener("load", () => {
-  // check for signed in user
-  const isSignedIn = localStorage.getItem("signedIn");
-
-  responsive();
-  isAuthor(isSignedIn === "true" ? true : false);
-  displayArticles(latestBlogs, articlesSection, rows, currentPage);
-  setUpPagination(latestBlogs, paginationSection, rows);
-});
+responsive();
+isAuthor(isSignedIn === "true" ? true : false);
+displayArticles(latestBlogs, articlesSection, rows, currentPage);
+setUpPagination(latestBlogs, paginationSection, rows);
