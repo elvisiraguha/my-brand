@@ -3,39 +3,55 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="./favicon.png" type="image/png" />
     <link
       href="https://fonts.googleapis.com/css2?family=Raleway:wght@200;400;500;800;900&family=Sanchez&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="./UI/styles/main.css" />
+    <link rel="stylesheet" href="./UI/styles/landing.css" />
     <title>Elvis Iraguha - A Full Stack Web Developer</title>
   </head>
   <body>
     <div class="container">
       <header>
         <nav>
+          <a href="./index.html"
+            ><img src="./UI/assets/logo.png" alt="elvis iraguha logo"
+          /></a>
           <ul>
             <li>
-              <a href="#">Blog</a>
+              <a href="#projects-section">Projects</a>
             </li>
             <li>
-              <a href="#">Contact</a>
+              <a href="#contacts-section">Contacts</a>
+            </li>
+            <li>
+              <a href="./UI/pages/blogs.html">Blogs</a>
             </li>
             <li>
               <a href="#">Signin</a>
             </li>
           </ul>
+          <div class="burger">
+            <div class="line1"></div>
+            <div class="line2"></div>
+            <div class="line3"></div>
+          </div>
         </nav>
-        <h1>ELVIS IRAGUHA</h1>
       </header>
       <main>
+        <h1>ELVIS IRAGUHA</h1>
         <p>Full-Stack Web Developer</p>
         <article class="profile-intro">
           <p>
             <span>I</span> am A Passionate Web Developer who Aims at Excellency
             and Believe in Web Accessibility for All.
           </p>
-          <img width="365" src="./UI/assets/myprofile.png" alt="profile image" />
+          <img
+            width="365"
+            src="./UI/assets/myprofile.png"
+            alt="profile image"
+          />
         </article>
         <section>
           <h3>
@@ -88,7 +104,7 @@
             </p>
           </section>
         </section>
-        <section>
+        <section id="projects-section">
           <h3>
             Projects:
           </h3>
@@ -103,7 +119,8 @@
               <a
                 href="https://elvisiraguha.github.io/Teamwork/UI/html"
                 class="btn visit-project"
-                >Visit</a
+                target="_blank"
+                ><button>Visit</button></a
               >
             </div>
             <div class="project-card auth">
@@ -115,7 +132,8 @@
               <a
                 href="https://my-auth-ui.herokuapp.com"
                 class="btn visit-project"
-                >Visit</a
+                target="_blank"
+                ><button>Visit</button></a
               >
             </div>
             <div class="project-card searchit">
@@ -128,10 +146,75 @@
               <a
                 href="https://elvisiraguha.github.io/searchit"
                 class="btn visit-project"
-                >Visit</a
+                target="_blank"
+                ><button>Visit</button></a
               >
             </div>
           </section>
+        </section>
+        <section id="contacts-section">
+          <h3>Contacts:</h3>
+          <div>
+            <div class="card contacts">
+              <h6>Email:</h6>
+              <a href="mailto://iraguhaelvis@gmail.com"
+                >iraguhaelvis@gmail.com</a
+              >
+              <h6>Telephone:</h6>
+              <p>+250783984662</p>
+              <h6>Find me on:</h6>
+              <section class="socials">
+                <a class="github" href="https://github.com/elvisiraguha">
+                  <img
+                    width="30px"
+                    height="28px"
+                    src="./UI/assets/social-logos/GitHub-Mark-32px.png"
+                    alt="github logo"
+                  />
+                </a>
+                <a
+                  class="linkedin"
+                  href="https://www.linkedin.com/in/iraguha-elvis-14789515b/"
+                >
+                  <img
+                    width="32px"
+                    height="28px"
+                    src="./UI/assets/social-logos/LI-In-Bug.png"
+                    alt="linkedin logo"
+                  />
+                </a>
+                <a class="facebook" href="https://web.facebook.com/mun.jin.52">
+                  <img
+                    width="32px"
+                    width="28"
+                    src="./UI/assets/social-logos/f_logo_RGB-Blue_58.png"
+                    alt="facebook logo"
+                  />
+                </a>
+                <a class="twitter" href="https://twitter.com/elvisiraguha">
+                  <img
+                    width="30px"
+                    height="28"
+                    src="./UI/assets/social-logos/Twitter_Social_Icon_Rounded_Square_Color.png"
+                    alt="twitter logo"
+                  />
+                </a>
+              </section>
+            </div>
+            <div class="card leave-message">
+              <h6>Leave me a message:</h6>
+              <form>
+                <input placeholder="Full Name" type="text" />
+                <input placeholder="Email" type="email" />
+                <textarea
+                  placeholder="Leave a message"
+                  cols="30"
+                  rows="2"
+                ></textarea>
+                <button class="send-btn" type="submit">Send</button>
+              </form>
+            </div>
+          </div>
         </section>
         <section>
           <h3>Address:</h3>
@@ -139,33 +222,9 @@
         </section>
       </main>
       <footer>
-        <section class="socials">
-          <a class="github" href="#">
-            <img
-              width="39px"
-              height="32px"
-              src="./UI/assets/social-logos/GitHub-Mark-Light-32px.png"
-              alt="github logo"
-            />
-          </a>
-          <a class="facebook" href="#">
-            <img
-              width="41px"
-              width="32"
-              src="./UI/assets/social-logos/facebook_logos_PNG19751.png"
-              alt="facebook logo"
-            />
-          </a>
-          <a class="twitter" href="#">
-            <img
-              width="33px"
-              height="33"
-              src="./UI/assets/social-logos/Twitterbird.webp"
-              alt="twitter logo"
-            />
-          </a>
-        </section>
+        &copy; Elvis Iraguha 2020
       </footer>
     </div>
+    <script src="./UI/scripts/landing.js"></script>
   </body>
 </html>
