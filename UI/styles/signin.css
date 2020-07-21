@@ -37,25 +37,20 @@ nav ul {
   list-style: none;
   display: flex;
   justify-content: space-between;
-  align-items: center;
 }
 
-nav ul a,
-nav ul button {
+nav ul a {
   color: black;
   font-size: 20px;
   font-weight: normal;
-  font-family: inherit;
   text-decoration: none;
   padding: 5px 10px;
   margin: 5px;
-  background-color: transparent;
   border: 1px solid #e7ebb5;
   box-shadow: 0 2px 5px 0 #e7ebb5;
 }
 
-nav ul a:hover,
-nav ul button:hover {
+nav ul a:hover {
   text-decoration: underline;
 }
 
@@ -80,6 +75,7 @@ footer {
 }
 
 main {
+  width: 100%;
   min-height: 86vh;
   display: flex;
   flex-direction: column;
@@ -88,92 +84,46 @@ main {
 
 main section {
   width: 90%;
+  height: 500px;
+  display: flex;
+  align-items: center;
 }
 
-article {
+section.signin-container form {
+  font-size: 20px;
+  margin: auto;
+  width: 70%;
+  padding: 30px;
   display: flex;
   flex-direction: column;
-  padding: 20px;
+  align-items: center;
   box-shadow: 0 2px 5px 0 #c3cc46;
 }
 
-article h3.article-title {
-  margin: 10px 0;
-  font-size: 30px;
-}
-
-article p.article-body {
-  margin: 10px auto;
-  font-size: 20px;
-}
-
-.article-date {
-  text-align: end;
-  font-weight: lighter;
-  margin-top: 30px;
-}
-
-section.main-header {
+form div.input-group {
+  width: 100%;
+  margin: 30px auto;
   display: flex;
   justify-content: space-between;
-  margin: 30px auto;
+  align-items: center;
 }
 
-section.main-header a {
-  color: black;
-  text-decoration: none;
-}
-
-.edits {
-  display: none;
-}
-
-.authorized {
-  display: initial;
-}
-
-section.main-header button,
-.btn {
-  border: none;
-  padding: 10px 20px;
-  background-color: #c3cc46;
-  cursor: pointer;
-  font-size: 20px;
-  font-weight: normal;
-  font-family: inherit;
-}
-
-section.main-header button.delete:hover,
-.modal-content button.modal-cancel:hover {
-  background-color: rgb(206, 141, 141);
-}
-
-section.comments {
-  margin: 30px 0;
-}
-
-.comment-input {
-  width: 50%;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  margin: 30px 10px;
-}
-
-.comment-input textarea,
-.modal-content textarea.modal-body,
-.modal-content input.modal-title {
+.input-group input {
   font-size: 18px;
   font-weight: normal;
   font-family: inherit;
-  width: 90%;
   padding: 10px 5px;
   background-color: #c3cc4622;
   margin: 10px 0;
   border: 1px solid black;
 }
 
-.comment-input button {
+form div.error-message {
+  margin: 20px 0;
+  color: red;
+}
+
+form button {
   border: none;
   padding: 10px 40px;
   background-color: #c3cc46;
@@ -181,50 +131,6 @@ section.comments {
   font-size: 20px;
   font-weight: normal;
   font-family: inherit;
-}
-
-.previous-comments .comment {
-  margin: 20px 0;
-  padding: 10px;
-  box-shadow: 0 2px 5px 0 #c3cc46;
-}
-
-.comment h6 {
-  font-size: 20px;
-  margin-bottom: 10px;
-}
-.comment p {
-  font-size: 20px;
-  margin-bottom: 10px;
-}
-.comment .comment-date {
-  font-size: 18px;
-  font-weight: lighter;
-}
-
-.modal {
-  position: absolute;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.747);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.hide {
-  display: none;
-}
-
-.modal-content {
-  padding: 30px;
-  background-color: #e7ebb5;
-  width: 60%;
-}
-
-.modal-content .controls {
-  display: flex;
-  justify-content: space-between;
 }
 
 @media screen and (max-width: 1024px) {
@@ -280,27 +186,14 @@ section.comments {
     width: 100%;
   }
 
-  .comment-input {
-    width: 100%;
-  }
-
-  .modal-content {
-    padding: 30px;
-    background-color: #e7ebb5;
+  section.signin-container form {
     width: 90%;
+    padding: 30px;
   }
 
-  section.main-header a {
-    margin-bottom: 20px;
-  }
-
-  section.main-header {
+  form div.input-group {
+    margin: 10px 0;
     flex-direction: column;
     align-items: flex-start;
-    padding: 0 20px;
-  }
-
-  section.comments {
-    width: 90%;
   }
 }

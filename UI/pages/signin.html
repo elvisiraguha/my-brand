@@ -8,8 +8,8 @@
       href="https://fonts.googleapis.com/css2?family=Raleway:wght@200;400;500;800;900&family=Sanchez&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="../styles/blogs.css" />
-    <title>Latest Blogs</title>
+    <link rel="stylesheet" href="../styles/signin.css" />
+    <title>Sign In</title>
   </head>
   <body>
     <div class="container">
@@ -25,7 +25,10 @@
             <li>
               <a href="../../index.html">Home</a>
             </li>
-            <li class="sign-in-out-link"></li>
+
+            <li>
+              <a href="blogs.html">Blogs</a>
+            </li>
           </ul>
           <div class="burger">
             <div class="line1"></div>
@@ -35,19 +38,35 @@
         </nav>
       </header>
       <main>
-        <section class="main-header">
-          <h2>
-            <a href="#">Write Article</a>
-          </h2>
+        <section class="signin-container">
+          <form>
+            <div class="input-group">
+              <label>Email:</label>
+              <input
+                class="email-input"
+                required
+                type="email"
+                placeholder="Enter email"
+              />
+            </div>
+            <div class="input-group">
+              <label>Password:</label>
+              <input
+                class="password-input"
+                required
+                type="password"
+                placeholder="Enter password"
+              />
+            </div>
+            <div class="error-message"></div>
+            <button class="submit-btn" type="submit">Sign In</button>
+          </form>
         </section>
-        <section class="articles"></section>
-        <section class="pagination"></section>
       </main>
       <footer>
         &copy; Elvis Iraguha 2020
       </footer>
-      <script src="../scripts/blogsList.js" type="module"></script>
-      <script src="../scripts/blogs.js" type="module"></script>
     </div>
+    <script src="../scripts/signin.js" type="module"></script>
   </body>
 </html>
