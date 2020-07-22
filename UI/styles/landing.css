@@ -41,20 +41,25 @@ nav ul {
   list-style: none;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
-nav ul a {
+nav ul a,
+nav ul button {
   color: black;
   font-size: 20px;
   font-weight: normal;
+  font-family: inherit;
   text-decoration: none;
   padding: 5px 10px;
   margin: 5px;
+  background-color: transparent;
   border: 1px solid #e7ebb5;
   box-shadow: 0 2px 5px 0 #e7ebb5;
 }
 
-nav ul a:hover {
+nav ul a:hover,
+nav ul button:hover {
   text-decoration: underline;
 }
 
