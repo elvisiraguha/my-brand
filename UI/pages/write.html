@@ -8,8 +8,8 @@
       href="https://fonts.googleapis.com/css2?family=Raleway:wght@200;400;500;800;900&family=Sanchez&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="../styles/blogs.css" />
-    <title>Latest Blogs</title>
+    <link rel="stylesheet" href="../styles/write.css" />
+    <title></title>
   </head>
   <body>
     <div class="container">
@@ -35,19 +35,28 @@
         </nav>
       </header>
       <main>
-        <section class="main-header">
-          <h2>
-            <a href="./write.html">Write Article</a>
-          </h2>
+        <section>
+          <div class="write-article">
+              <h2>Write article</h2>
+            <h4>Add Title</h5>
+            <input />
+            <h4>Add Contents</h5>
+            <textarea cols="30" rows="10"> </textarea>
+            <div class="controls">
+              <button class="btn">Publish Now</button>
+              <button class="btn btn-cancel">Cancel</button>
+            </div>
+          </div>
+          <div class="unauthorized-author hide">
+            <h3>You are not authorized to create article</h3>
+            <p>Click here to <a class="btn" href="./signin.html">Sign In</a></p>
+          </div>
         </section>
-        <section class="articles"></section>
-        <section class="pagination"></section>
       </main>
       <footer>
         &copy; Elvis Iraguha 2020
       </footer>
-      <script src="../scripts/blogsList.js" type="module"></script>
-      <script src="../scripts/blogs.js" type="module"></script>
     </div>
+    <script src="../scripts/write.js"></script>
   </body>
 </html>
