@@ -215,6 +215,14 @@ div.unauthorized-author .btn {
   main section {
     width: 100%;
   }
+
+  section .write-article div.controls {
+    flex-direction: column;
+  }
+
+  section .write-article div.controls button {
+    margin: 20px 0;
+  }
 }
 
 section div.hide {
