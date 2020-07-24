@@ -89,6 +89,12 @@ const displayArticles = (latestBlogs, wrapper, rowsPerPage, page) => {
     const titleNode = document.createTextNode(blog.title);
     blogTitle.appendChild(titleNode);
 
+    // blog image
+    const blogImage = document.createElement("img");
+    blogImage.setAttribute("class", "article-image");
+    blogImage.setAttribute("alt", "a random picture from picsum");
+    blogImage.src = blog.imageUrl;
+
     // set the clickedon article
     blogTitle.addEventListener("click", setCurrentArticle(blog.id));
     readMore.addEventListener("click", setCurrentArticle(blog.id));
@@ -105,6 +111,7 @@ const displayArticles = (latestBlogs, wrapper, rowsPerPage, page) => {
 
     article.appendChild(articleDate);
     article.appendChild(blogTitle);
+    article.appendChild(blogImage);
     article.appendChild(blogPreview);
 
     wrapper.appendChild(article);

@@ -10,11 +10,18 @@ const currentArticle = blogs.find(
 
 // edit article button
 const editArticle = document.querySelector("button.edit");
+// delete article button
+const deleteArticle = document.querySelector(".edits button.delete");
 // edit modal
 const editModal = document.querySelector(".modal");
+// delete modal
+const deleteModal = document.querySelector(".delete-modal");
 // save and cancel buttons in the modal
 const saveModal = document.querySelector(".modal-save");
 const cancelModal = document.querySelector(".modal-cancel");
+
+const confirmDelete = document.querySelector(".btn-delete");
+const returnToArticle = document.querySelector(".btn-back");
 
 const handleLogout = () => {
   localStorage.setItem("signedIn", false);
@@ -70,9 +77,21 @@ editArticle.addEventListener("click", () => {
   toggleModal();
 });
 
+deleteArticle.addEventListener("click", (e) => {
+  deleteModal.classList.remove("hide");
+});
+
 // close the modal when either cancel or save is clicked
 saveModal.addEventListener("click", () => {
   toggleModal();
+});
+
+confirmDelete.addEventListener("click", () => {
+  deleteModal.classList.toggle("hide");
+});
+
+returnToArticle.addEventListener("click", () => {
+  deleteModal.classList.toggle("hide");
 });
 
 cancelModal.addEventListener("click", () => {
@@ -94,6 +113,11 @@ const displayArticle = () => {
   const titleNode = document.createTextNode(currentArticle.title);
   blogTitle.appendChild(titleNode);
 
+  const blogImage = document.createElement("img");
+  blogImage.setAttribute("class", "article-image");
+  blogImage.setAttribute("alt", "a random picture from picsum");
+  blogImage.src = currentArticle.imageUrl;
+
   const blogBody = document.createElement("p");
   blogBody.setAttribute("class", "article-body");
   const bodyNode = document.createTextNode(currentArticle.body);
@@ -106,6 +130,7 @@ const displayArticle = () => {
   articleDate.appendChild(dateNode);
 
   article.appendChild(blogTitle);
+  article.appendChild(blogImage);
   article.appendChild(blogBody);
   article.appendChild(articleDate);
 

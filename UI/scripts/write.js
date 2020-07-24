@@ -1,3 +1,5 @@
+const isSignedIn = localStorage.getItem("signedIn");
+
 const handleLogout = () => {
   localStorage.setItem("signedIn", false);
   window.location.reload();
@@ -43,10 +45,50 @@ const isAuthor = (authorized) => {
   }
 };
 
-window.addEventListener("load", () => {
-  // check for signed in user
-  const isSignedIn = localStorage.getItem("signedIn");
+const cancelEditBtn = document.querySelector(".btn-cancel");
+const publishBtn = document.querySelector(".btn-publish");
+const onLeaveModal = document.querySelector(".leave-modal");
+const onPublishModal = document.querySelector(".publish-modal");
+const confirmPublish = document.querySelectorAll(".btn-confirm");
+const returnToEdit = document.querySelectorAll(".btn-back");
 
-  responsive();
-  isAuthor(isSignedIn === "true" ? true : false);
+const handleOnCancelEdit = () => {
+  onLeaveModal.classList.remove("hide");
+};
+
+const handleOnLeave = (e) => {
+  e.preventDefault();
+  e.returnValue = "are you sure you want to leave";
+};
+
+const handleOnPublish = () => {
+  onPublishModal.classList.remove("hide");
+};
+
+const confirmModal = () => {
+  onLeaveModal.classList.add("hide");
+  onPublishModal.classList.add("hide");
+};
+
+const handleOnReturn = () => {
+  onLeaveModal.classList.add("hide");
+  onPublishModal.classList.add("hide");
+};
+
+cancelEditBtn.addEventListener("click", handleOnCancelEdit);
+publishBtn.addEventListener("click", handleOnPublish);
+
+confirmPublish.forEach((btn) => {
+  btn.addEventListener("click", confirmModal);
 });
+
+returnToEdit.forEach((btn) => {
+  btn.addEventListener("click", handleOnReturn);
+});
+
+if (isSignedIn === "true") {
+  window.addEventListener("beforeunload", handleOnLeave);
+}
+
+responsive();
+isAuthor(isSignedIn === "true" ? true : false);

@@ -22,11 +22,13 @@ body {
 }
 
 header {
+  position: fixed;
   display: flex;
   align-items: center;
-  width: 100%;
+  width: inherit;
   height: 8vh;
-  background-color: #c3cc46e3;
+  background-color: #c3cc46;
+  z-index: 3;
 }
 
 header nav {
@@ -63,6 +65,10 @@ nav ul button:hover {
   text-decoration: underline;
 }
 
+nav ul .active-nav {
+  background-color: #90c53f;
+}
+
 main h1 {
   text-decoration: none;
   font-size: 60px;
@@ -70,12 +76,15 @@ main h1 {
 }
 
 main {
+  position: sticky;
+  top: 8vh;
   min-height: 86vh;
   width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin: 20px auto;
 }
 
 main > p {
@@ -230,6 +239,7 @@ footer {
 #contacts-section div {
   display: flex;
   justify-content: space-between;
+  width: 100%;
 }
 
 #contacts-section .card {
@@ -379,6 +389,13 @@ footer {
     background-color: #c3cc46;
     transform: translateX(100%);
     transition: transform 0.5s ease-in;
+  }
+
+  nav ul a,
+  nav ul button {
+    display: inline-block;
+    width: 120px;
+    text-align: center;
   }
 
   nav ul li {

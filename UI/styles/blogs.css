@@ -176,6 +176,13 @@ section.pagination button.active {
     transition: transform 0.5s ease-in;
   }
 
+  nav ul a,
+  nav ul button {
+    display: inline-block;
+    width: 120px;
+    text-align: center;
+  }
+
   nav ul li {
     margin: 20px 0;
   }

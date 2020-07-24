@@ -34,16 +34,33 @@
           </div>
         </nav>
       </header>
+      <div class="hide leave-modal">
+        <p>Do you understands that you will loose all the changes you have made?</p>
+        <div class="controls">
+          <button class="btn btn-confirm">Confirm</button>
+          <button class="btn btn-back">Return to Editing</button>
+        </div>
+      </div>
+      <div class="hide publish-modal">
+        <p>Publish Article Now?</p>
+        <div class="controls">
+          <button class="btn btn-confirm">Confirm</button>
+          <button class="btn btn-back">Return to Editing</button>
+        </div> 
+      </div>
       <main>
         <section>
           <div class="write-article">
               <h2>Write article</h2>
-            <h4>Add Title</h5>
+            <h4>Article Title</h5>
             <input />
-            <h4>Add Contents</h5>
+            <h4>Article Background Image</h5>
+              <p>Upload the article background image</p>
+            <input type="file"/>
+            <h4>Article Contents</h5>
             <textarea cols="30" rows="10"> </textarea>
             <div class="controls">
-              <button class="btn">Publish Now</button>
+              <button class="btn btn-publish">Publish Now</button>
               <button class="btn btn-cancel">Cancel</button>
             </div>
           </div>

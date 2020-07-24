@@ -163,6 +163,36 @@ div.unauthorized-author .btn {
   text-decoration: none;
 }
 
+.leave-modal,
+.publish-modal {
+  font-size: 20px;
+  position: fixed;
+  width: inherit;
+  top: 0;
+  padding-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(206, 84, 84);
+}
+
+.leave-modal p,
+.publish-modal p {
+  margin: 30px 0;
+}
+
+.leave-modal div,
+.publish-modal div {
+  display: flex;
+  justify-content: space-around;
+  width: 90%;
+}
+
+.hide {
+  display: none;
+}
+
 @media screen and (max-width: 1024px) {
   .container {
     width: 100%;
@@ -190,6 +220,13 @@ div.unauthorized-author .btn {
     background-color: #c3cc46;
     transform: translateX(100%);
     transition: transform 0.5s ease-in;
+  }
+
+  nav ul a,
+  nav ul button {
+    display: inline-block;
+    width: 120px;
+    text-align: center;
   }
 
   nav ul li {
