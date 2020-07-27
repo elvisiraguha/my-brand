@@ -88,6 +88,7 @@ main {
   align-items: center;
   position: relative;
   top: 8vh;
+  padding-bottom: 20px;
 }
 
 main section {
