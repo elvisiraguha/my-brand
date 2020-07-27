@@ -20,7 +20,7 @@ body {
 header {
   display: flex;
   align-items: center;
-  width: 100%;
+  width: inherit;
   height: 8vh;
   background-color: #c6cf52;
   position: fixed;

@@ -315,6 +315,8 @@ footer {
   font-family: inherit;
   margin: 10px 0;
   align-self: center;
+  text-decoration: none;
+  color: black;
 }
 
 .individual-experience {
