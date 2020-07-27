@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="../../favicon.png" type="image/png" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Raleway:wght@200;400;500;800;900&family=Sanchez&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../styles/write.css" />
+    <title></title>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <nav>
+          <a href="../../index.html"
+            ><img src="../assets/logo.png" alt="elvis iraguha logo"
+          /></a>
+          <ul>
+            <li>
+              <a href="../../index.html#contacts-section">Contacts</a>
+            </li>
+            <li>
+              <a href="../../index.html">Home</a>
+            </li>
+            <li class="sign-in-out-link"></li>
+          </ul>
+          <div class="burger">
+            <div class="line1"></div>
+            <div class="line2"></div>
+            <div class="line3"></div>
+          </div>
+        </nav>
+      </header>
+      <div class="hide leave-modal">
+        <p>Do you understands that you will loose all the changes you have made?</p>
+        <div class="controls">
+          <button class="btn btn-confirm">Confirm</button>
+          <button class="btn btn-back">Return to Editing</button>
+        </div>
+      </div>
+      <div class="hide publish-modal">
+        <p>Publish Article Now?</p>
+        <div class="controls">
+          <button class="btn btn-confirm">Confirm</button>
+          <button class="btn btn-back">Return to Editing</button>
+        </div> 
+      </div>
+      <main>
+        <section>
+          <div class="write-article">
+              <h2>Write article</h2>
+            <h4>Article Title</h5>
+            <input />
+            <h4>Article Background Image</h5>
+              <p>Upload the article background image</p>
+            <input type="file"/>
+            <h4>Article Contents</h5>
+            <textarea cols="30" rows="10"> </textarea>
+            <div class="controls">
+              <button class="btn btn-publish">Publish Now</button>
+              <button class="btn btn-cancel">Cancel</button>
+            </div>
+          </div>
+          <div class="unauthorized-author hide">
+            <h3>You are not authorized to create article</h3>
+            <p>Click here to <a class="btn" href="./signin.html">Sign In</a></p>
+          </div>
+        </section>
+      </main>
+      <footer>
+        &copy; Elvis Iraguha 2020
+      </footer>
+    </div>
+    <script src="../scripts/write.js"></script>
+  </body>
+</html>

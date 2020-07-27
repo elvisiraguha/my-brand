@@ -80,6 +80,7 @@ footer {
 }
 
 main {
+  width: 100%;
   min-height: 86vh;
   display: flex;
   flex-direction: column;
@@ -88,63 +89,108 @@ main {
 
 main section {
   width: 90%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
 }
 
-article {
-  margin: 30px auto;
+section .write-article {
+  width: 100%;
   display: flex;
   flex-direction: column;
-  padding: 20px;
-  box-shadow: 0 2px 5px 0 #c3cc46;
+  align-items: flex-start;
 }
 
-article a.article-title {
+section .write-article h4 {
+  font-size: 20px;
+  margin: 30px 0;
+}
+
+section .write-article input,
+section .write-article textarea {
+  font-size: 18px;
+  font-weight: normal;
+  font-family: inherit;
+  width: 100%;
+  padding: 10px 5px;
+  background-color: #c3cc4622;
   margin: 10px 0;
-  font-size: 20px;
-  font-weight: bold;
+  border: 1px solid black;
 }
 
-article a.article-title,
-article p.article-preview a {
-  color: black;
+section .write-article textarea {
+  height: 80vh;
+  margin-bottom: 30px;
 }
 
-article p.article-preview {
-  margin: 10px auto;
-  font-size: 20px;
-}
-
-section.main-header {
-  margin: 30px auto;
-  display: none;
-  justify-content: center;
-}
-
-section.authorized {
+section .write-article div.controls {
+  width: 100%;
   display: flex;
+  justify-content: space-between;
 }
 
-section.main-header a {
-  text-decoration: none;
-  padding: 10px 20px;
-  color: black;
-  font-size: 28px;
-  box-shadow: 0 2px 5px 0 #c3cc46;
+.btn-cancel:hover {
+  background-color: rgb(206, 141, 141);
 }
 
-section.pagination {
-  text-align: center;
-}
-
-section.pagination button {
-  font-size: 20px;
-  padding: 5px 10px;
-  background-color: #e7ebb5;
-  border: 1px solid #c3cc46;
-}
-
-section.pagination button.active {
+.btn {
+  border: none;
+  padding: 10px 40px;
   background-color: #c3cc46;
+  cursor: pointer;
+  font-size: 20px;
+  font-weight: normal;
+  font-family: inherit;
+}
+
+div.unauthorized-author {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+}
+
+div.unauthorized-author h3 {
+  font-size: 28px;
+  margin: 30px;
+}
+
+div.unauthorized-author .btn {
+  color: black;
+  text-decoration: none;
+}
+
+.leave-modal,
+.publish-modal {
+  font-size: 20px;
+  position: fixed;
+  width: inherit;
+  top: 0;
+  padding-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(206, 84, 84);
+}
+
+.leave-modal p,
+.publish-modal p {
+  margin: 30px 0;
+}
+
+.leave-modal div,
+.publish-modal div {
+  display: flex;
+  justify-content: space-around;
+  width: 90%;
+}
+
+.hide {
+  display: none;
 }
 
 @media screen and (max-width: 1024px) {
@@ -202,4 +248,20 @@ section.pagination button.active {
     transition: transform 0.2s ease-in-out;
     transform: rotate(45deg) translate(-5px, -6px);
   }
+
+  main section {
+    width: 100%;
+  }
+
+  section .write-article div.controls {
+    flex-direction: column;
+  }
+
+  section .write-article div.controls button {
+    margin: 20px 0;
+  }
+}
+
+section div.hide {
+  display: none;
 }

@@ -35,5 +35,59 @@ const isAuthor = (authorized) => {
   }
 };
 
+const highlightNav = () => {
+  // highlighting the current nav
+  const inPageLinks = document.querySelectorAll(".inpage-links");
+
+  const experience = document.querySelector("#experience-section");
+  const experienceOffsetTop = experience.offsetTop;
+  const experienceHeight = experience.scrollHeight;
+
+  const projects = document.querySelector("#projects-section");
+  const projectsOffsetTop = projects.offsetTop;
+  const projectsHeight = projects.scrollHeight;
+
+  const contacts = document.querySelector("#contacts-section");
+  const contactsOffsetTop = contacts.offsetTop;
+  const contactsHeight = contacts.scrollHeight;
+
+  const changeActiveLink = (selector) => {
+    inPageLinks.forEach((inPagelink) =>
+      inPagelink.classList.remove("active-nav")
+    );
+    if (selector) {
+      const link = document.querySelector(selector);
+      link.classList.add("active-nav");
+    }
+  };
+
+  document.addEventListener("scroll", ({ target }) => {
+    const scrollTop = window.pageYOffset;
+
+    if (
+      scrollTop > experienceOffsetTop &&
+      scrollTop < experienceOffsetTop + experienceHeight
+    ) {
+      changeActiveLink(".link-to-experience");
+    } else if (
+      scrollTop > projectsOffsetTop &&
+      scrollTop < projectsOffsetTop + projectsHeight
+    ) {
+      changeActiveLink(".link-to-projects");
+    } else if (
+      scrollTop > contactsOffsetTop &&
+      scrollTop < contactsOffsetTop + contactsHeight
+    ) {
+      changeActiveLink(".link-to-contacts");
+    } else {
+      changeActiveLink(null);
+    }
+  });
+};
+
 responsive();
 isAuthor(isSignedIn === "true" ? true : false);
+
+window.addEventListener("load", () => {
+  highlightNav();
+});
