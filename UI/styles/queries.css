@@ -22,7 +22,9 @@ header {
   align-items: center;
   width: 100%;
   height: 8vh;
-  background-color: #c3cc46e3;
+  background-color: #c6cf52;
+  position: fixed;
+  z-index: 2;
 }
 
 header nav {
@@ -80,64 +82,50 @@ footer {
 }
 
 main {
-  width: 100%;
   min-height: 86vh;
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
+  top: 8vh;
 }
 
 main section {
   width: 90%;
   height: 100%;
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
   justify-content: center;
   padding: 20px;
 }
 
-section .write-article {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+section h3 {
+  font-size: 28px;
 }
 
-section .write-article h4 {
+section .message h4 {
   font-size: 20px;
   margin: 30px 0;
 }
 
-section .write-article input,
-section .write-article textarea {
-  font-size: 18px;
-  font-weight: normal;
-  font-family: inherit;
-  width: 100%;
-  padding: 10px 5px;
-  background-color: #c3cc4622;
-  margin: 10px 0;
-  border: 1px solid black;
+section .message p {
+  font-size: 20px;
 }
 
-section .write-article textarea {
-  height: 80vh;
-  margin-bottom: 30px;
-}
-
-section .write-article div.controls {
+section div.controls {
   width: 100%;
   display: flex;
   justify-content: space-between;
 }
 
-.btn-cancel:hover {
-  background-color: rgb(206, 141, 141);
+section div.controls button {
+  margin: 20px 0;
 }
 
 .btn {
   border: none;
-  padding: 10px 40px;
+  padding: 10px 30px;
   background-color: #c3cc46;
   cursor: pointer;
   font-size: 20px;
@@ -163,34 +151,50 @@ div.unauthorized-author .btn {
   text-decoration: none;
 }
 
-.leave-modal,
-.publish-modal {
-  font-size: 20px;
+.reply-modal {
   position: fixed;
+  top: 8%;
   width: inherit;
-  top: 0;
-  padding-bottom: 30px;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.747);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+}
+
+.modal-content {
+  padding: 20px 30px;
+  background-color: #e7ebb5;
+  width: 80%;
+  height: 80%;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background-color: rgb(206, 84, 84);
+  justify-content: space-between;
 }
 
-.leave-modal p,
-.publish-modal p {
-  margin: 30px 0;
+.modal-content h5 {
+  font-size: 18px;
 }
 
-.leave-modal div,
-.publish-modal div {
+.modal-content .controls {
   display: flex;
-  justify-content: space-around;
-  width: 90%;
+  justify-content: space-between;
 }
 
-.hide {
-  display: none;
+.modal-content textarea.modal-message,
+.modal-content input.modal-email {
+  font-size: 18px;
+  font-weight: normal;
+  font-family: inherit;
+  width: 100%;
+  padding: 10px 5px;
+  background-color: #c3cc4622;
+  border: 1px solid black;
+}
+
+.read-on {
+  background-color: #81827769;
 }
 
 @media screen and (max-width: 1024px) {
@@ -255,15 +259,13 @@ div.unauthorized-author .btn {
     width: 100%;
   }
 
-  section .write-article div.controls {
-    flex-direction: column;
-  }
-
-  section .write-article div.controls button {
-    margin: 20px 0;
+  .modal-content {
+    padding: 30px;
+    background-color: #e7ebb5;
+    width: 90%;
   }
 }
 
-section div.hide {
+.container .hide {
   display: none;
 }

@@ -114,6 +114,10 @@ article p.article-preview {
   font-size: 20px;
 }
 
+.article-image {
+  width: 100%;
+}
+
 section.main-header {
   margin: 30px auto;
   display: none;
@@ -164,6 +168,7 @@ section.pagination button.active {
   }
 
   nav ul {
+    display: none;
     flex-direction: column;
     justify-content: flex-start;
     padding: 30px 0;
@@ -188,6 +193,7 @@ section.pagination button.active {
   }
 
   .nav-active {
+    display: flex;
     transform: translateX(0%);
   }
 
