@@ -13,6 +13,7 @@ const responsive = () => {
 const handleLogout = () => {
   localStorage.setItem("signedIn", false);
   window.location.reload();
+  displayNotification("Signed out successfully");
 };
 
 const isAuthor = (authorized) => {
@@ -92,23 +93,41 @@ const subjectInput = document.querySelector("#subject-input");
 const messageInput = document.querySelector("#message-input");
 const errorMessage = document.querySelector(".error-message");
 
-const checkContents = () => {
-  if (
-    nameInput.value.length >= 4 &&
-    emailInput.value.length >= 6 &&
-    subjectInput.value.length >= 4 &&
-    messageInput.value.length >= 10
-  ) {
-    return true;
-  } else {
+const displayNotification = (message) => {
+  const notification = document.querySelector(".notification");
+  notification.textContent = message;
+  notification.classList.remove("hide");
+
+  setTimeout(() => {
+    notification.classList.add("hide");
+  }, 3000);
+};
+
+const validate = () => {
+  const emailRex = /\S+@\S+\.\S+/;
+
+  if (nameInput.value.length < 4) {
+    errorMessage.textContent = "The name must be at least 4 charcters long";
     return false;
+  } else if (!emailRex.test(emailInput.value)) {
+    errorMessage.textContent = "The email is not a valid email address";
+    return false;
+  } else if (subjectInput.value.length < 4) {
+    errorMessage.textContent = "The subject must be at least 4 charcters long";
+    return false;
+  } else if (messageInput.value.length < 10) {
+    errorMessage.textContent = "The message must be at least 10 charcters long";
+    return false;
+  } else {
+    displayNotification("Message is sent successfully!");
+    return true;
   }
 };
 
 const handleSubmit = (e) => {
   e.preventDefault();
 
-  if (checkContents()) {
+  if (validate()) {
     errorMessage.classList.add("hide");
     nameInput.value = "";
     emailInput.value = "";

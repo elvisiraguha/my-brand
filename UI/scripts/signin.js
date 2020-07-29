@@ -3,18 +3,26 @@ const email = document.querySelector("form .email-input");
 const password = document.querySelector("form .password-input");
 const errorMessage = document.querySelector(".error-message");
 
-const validatePassword = () => {
-  if (password.value.length >= 4) {
-    return true;
-  } else {
+const validate = () => {
+  const passwordRex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+  const emailRex = /\S+@\S+\.\S+/;
+
+  if (!emailRex.test(email.value)) {
+    errorMessage.textContent = "The email is not a valid email address";
     return false;
+  } else if (!passwordRex.test(password.value)) {
+    errorMessage.textContent =
+      "Password must be atleast 8 characters long, contain atleast 1 uppercase letter, and atleast 1 digit";
+    return false;
+  } else {
+    return true;
   }
 };
 
 const handleSubmit = (e) => {
   e.preventDefault();
 
-  if (validatePassword()) {
+  if (validate()) {
     localStorage.setItem("signedIn", true);
     window.location.replace("blogs.html");
     errorMessage.classList.add("hide");

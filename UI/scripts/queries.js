@@ -2,6 +2,16 @@ import { queries } from "./queriesList.js";
 
 const isSignedIn = localStorage.getItem("signedIn");
 
+const displayNotification = (message) => {
+  const notification = document.querySelector(".notification");
+  notification.textContent = message;
+  notification.classList.remove("hide");
+
+  setTimeout(() => {
+    notification.classList.add("hide");
+  }, 3000);
+};
+
 const sortedQueries = (function () {
   const sortedByDate = queries.sort(
     (latest, old) => new Date(latest.date) - new Date(old.date)
@@ -14,7 +24,78 @@ const sortedQueries = (function () {
 
 const paginationSection = document.querySelector(".pagination");
 const queriesSection = document.querySelector("section.messages");
-console.log(queriesSection);
+
+const handleActions = () => {
+  const emailInput = document.querySelector("#email-input");
+  const replyInput = document.querySelector("#reply-input");
+  const errorMessage = document.querySelector(".error-message");
+
+  const replyBtns = document.querySelectorAll("button.reply");
+  const readBtns = document.querySelectorAll("button.read");
+  const cancelBtn = document.querySelector("button.modal-cancel");
+  const replyForm = document.querySelector("#reply-form");
+  const replyModal = document.querySelector(".reply-modal");
+
+  replyBtns.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      toggleModal();
+      replyInput.value = "";
+    });
+  });
+
+  readBtns.forEach((btn) => {
+    btn.addEventListener("click", ({ target }) => {
+      target.classList.toggle("read-on");
+      if (target.textContent === "Read") {
+        displayNotification("Marked read");
+        target.innerHTML = "&#10004;";
+      } else {
+        displayNotification("Marked unread");
+        target.textContent = "Read";
+      }
+    });
+  });
+
+  const validate = () => {
+    const emailRex = /\S+@\S+\.\S+/;
+
+    if (!emailRex.test(emailInput.value)) {
+      errorMessage.textContent = "The email is not a valid email address";
+      return false;
+    } else if (replyInput.value.length < 4) {
+      errorMessage.textContent = "The reply must be at least 10 charcters long";
+      return false;
+    } else {
+      displayNotification("The reply is sent successfully!");
+      return true;
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (validate()) {
+      errorMessage.classList.add("hide");
+      emailInput.value = "";
+      replyInput.value = "";
+      toggleModal();
+    } else {
+      errorMessage.classList.remove("hide");
+    }
+  };
+
+  replyForm.addEventListener("submit", handleSubmit);
+
+  cancelBtn.addEventListener("click", () => {
+    emailInput.value = "";
+    replyInput.value = "";
+    toggleModal();
+  });
+
+  const toggleModal = () => {
+    replyModal.classList.toggle("hide");
+  };
+};
 
 const displayQueries = (sortedQueries, wrapper, rowsPerPage, page) => {
   wrapper.innerHTML = "";
@@ -46,6 +127,7 @@ const displayQueries = (sortedQueries, wrapper, rowsPerPage, page) => {
     `;
     wrapper.innerHTML += displayedQuerie;
   });
+  handleActions();
 };
 
 const setUpPagination = (queries, wrapper, rowsPerPage) => {
@@ -76,13 +158,13 @@ const paginationButton = (page, items) => {
 
     button.classList.add("active");
   });
-
   return button;
 };
 
 const handleLogout = () => {
   localStorage.setItem("signedIn", false);
   window.location.reload();
+  displayNotification("Signed out successfully");
 };
 
 // handle responsiveness
@@ -133,66 +215,3 @@ responsive();
 isAuthor(isSignedIn === "true" ? true : false);
 displayQueries(sortedQueries, queriesSection, rows, currentPage);
 setUpPagination(sortedQueries, paginationSection, rows);
-
-window.addEventListener("load", () => {
-  const emailInput = document.querySelector("#email-input");
-  const replyInput = document.querySelector("#reply-input");
-  const errorMessage = document.querySelector(".error-message");
-
-  const replyBtns = document.querySelectorAll("button.reply");
-  const readBtns = document.querySelectorAll("button.read");
-  const cancelBtn = document.querySelector("button.modal-cancel");
-  const replyForm = document.querySelector("#reply-form");
-  const replyModal = document.querySelector(".reply-modal");
-
-  replyBtns.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      toggleModal();
-      replyInput.value = "";
-    });
-  });
-
-  readBtns.forEach((btn) => {
-    btn.addEventListener("click", ({ target }) => {
-      target.classList.toggle("read-on");
-      if (target.textContent === "Read") {
-        target.innerHTML = "&#10004;";
-      } else {
-        target.textContent = "Read";
-      }
-    });
-  });
-
-  const checkContents = () => {
-    if (emailInput.value.length >= 6 && replyInput.value.length >= 4) {
-      return true;
-    } else {
-      return false;
-    }
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    if (checkContents()) {
-      errorMessage.classList.add("hide");
-      emailInput.value = "";
-      replyInput.value = "";
-      toggleModal();
-    } else {
-      errorMessage.classList.remove("hide");
-    }
-  };
-
-  replyForm.addEventListener("submit", handleSubmit);
-
-  cancelBtn.addEventListener("click", () => {
-    emailInput.value = "";
-    replyInput.value = "";
-    toggleModal();
-  });
-
-  const toggleModal = () => {
-    replyModal.classList.toggle("hide");
-  };
-});

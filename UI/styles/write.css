@@ -203,6 +203,17 @@ div.unauthorized-author .btn {
   font-weight: normal;
 }
 
+.notification {
+  position: fixed;
+  bottom: 10px;
+  right: 2%;
+  background-color: #90c53f;
+  color: white;
+  padding: 10px;
+  font-size: 20px;
+  font-weight: normal;
+}
+
 .hide {
   display: none;
 }

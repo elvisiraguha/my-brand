@@ -229,10 +229,26 @@ section.pagination button {
   padding: 5px 10px;
   background-color: #e7ebb5;
   border: 1px solid #c3cc46;
+  cursor: pointer;
+}
+
+section.pagination button:hover {
+  background-color: #c3cc46;
 }
 
 section.pagination button.active {
   background-color: #c3cc46;
+}
+
+.notification {
+  position: fixed;
+  bottom: 10px;
+  right: 2%;
+  background-color: #90c53f;
+  color: white;
+  padding: 10px;
+  font-size: 20px;
+  font-weight: normal;
 }
 
 @media screen and (max-width: 1024px) {
