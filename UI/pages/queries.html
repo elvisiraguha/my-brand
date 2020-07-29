@@ -9,7 +9,7 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="../styles/queries.css" />
-    <title>Messages</title>
+    <title>Queries & Messages</title>
   </head>
   <body>
     <div class="container">
@@ -28,6 +28,9 @@
             <li>
               <a href="blogs.html">Blogs</a>
             </li>
+            <li class="admin-link">
+              <a href="./UI/pages/admin.html">Admin</a>
+            </li>
             <li class="sign-in-out-link"></li>
           </ul>
           <div class="burger">
@@ -39,14 +42,31 @@
       </header>
       <section class="reply-modal hide">
         <div class="modal-content">
-          <h5>Email:</h5>
-          <input class="modal-email" value="test@email.com" />
-          <h5>Message:</h5>
-          <textarea cols="30" rows="10" class="modal-message"> </textarea>
-          <div class="controls">
-            <button class="btn modal-send">Send</button>
-            <button class="btn modal-cancel">Cancel</button>
-          </div>
+          <form id="reply-form">
+            <h5>Email:</h5>
+            <input
+              id="email-input"
+              type="email"
+              class="modal-email"
+              value="test@email.com"
+            />
+            <h5>Message:</h5>
+            <textarea
+              id="reply-input"
+              cols="30"
+              rows="10"
+              class="modal-message"
+            >
+            </textarea>
+            <p class="error-message hide">
+              Fill out the whole form with appropriate information in order to
+              send a reply.
+            </p>
+            <div class="controls">
+              <button class="btn modal-send">Send</button>
+              <button class="btn modal-cancel">Cancel</button>
+            </div>
+          </form>
         </div>
       </section>
       <main>
@@ -88,8 +108,9 @@
             </div>
           </div>
         </section>
+        <section class="pagination"></section>
         <div class="unauthorized-author hide">
-          <h3>You are not authorized to see queries</h3>
+          <h3>You are not authorized to view queries</h3>
           <p>Click here to <a class="btn" href="./signin.html">Sign In</a></p>
         </div>
       </main>
@@ -97,6 +118,7 @@
         &copy; Elvis Iraguha 2020
       </footer>
     </div>
-    <script src="../scripts/queries.js"></script>
+    <script src="../scripts/queriesList.js" type="module"></script>
+    <script src="../scripts/queries.js" type="module"></script>
   </body>
 </html>

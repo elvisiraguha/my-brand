@@ -89,6 +89,7 @@ main {
   position: relative;
   top: 8vh;
   padding-bottom: 20px;
+  width: 100%;
 }
 
 main section {
@@ -105,6 +106,13 @@ section h3 {
   font-size: 28px;
 }
 
+section .message {
+  width: 100%;
+  box-shadow: 0 2px 5px 0 #c6cf52;
+  margin: 10px 0;
+  padding: 20px;
+}
+
 section .message h4 {
   font-size: 20px;
   margin: 30px 0;
@@ -112,6 +120,12 @@ section .message h4 {
 
 section .message p {
   font-size: 20px;
+}
+
+section .message .sent-date {
+  font-size: 18px;
+  font-weight: lighter;
+  margin-top: 10px;
 }
 
 section div.controls {
@@ -196,6 +210,29 @@ div.unauthorized-author .btn {
 
 .read-on {
   background-color: #81827769;
+}
+
+.error-message {
+  margin-top: 20px;
+  color: red;
+  font-weight: normal;
+  font-size: 18px;
+}
+
+section.pagination {
+  text-align: center;
+  flex-direction: row;
+}
+
+section.pagination button {
+  font-size: 20px;
+  padding: 5px 10px;
+  background-color: #e7ebb5;
+  border: 1px solid #c3cc46;
+}
+
+section.pagination button.active {
+  background-color: #c3cc46;
 }
 
 @media screen and (max-width: 1024px) {

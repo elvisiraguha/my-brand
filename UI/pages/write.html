@@ -56,12 +56,13 @@
           <div class="write-article">
               <h2>Write article</h2>
             <h4>Article Title</h5>
-            <input />
+            <input type="text" id="title-input"/>
             <h4>Article Background Image</h5>
               <p>Upload the article background image</p>
-            <input type="file"/>
+            <input type="file" id="image-input"/>
             <h4>Article Contents</h5>
-            <textarea cols="30" rows="10"> </textarea>
+            <textarea cols="30" rows="10" id="body-input"> </textarea>
+            <p class="error-message hide">There is no content created, or it is too short to be published</p>
             <div class="controls">
               <button class="btn btn-publish">Publish Now</button>
               <button class="btn btn-cancel">Cancel</button>

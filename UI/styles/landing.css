@@ -347,6 +347,13 @@ footer {
   height: 3px;
 }
 
+.error-message {
+  margin-bottom: 30px;
+  color: red;
+  font-weight: normal;
+  font-size: 18px;
+}
+
 @media screen and (max-width: 1024px) {
   .container {
     width: 100%;

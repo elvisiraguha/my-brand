@@ -34,13 +34,13 @@ const isAuthor = (authorized) => {
   if (authorized) {
     const button = document.createElement("button");
     button.setAttribute("class", "signout-btn");
-    button.textContent = "Sign Out";
+    button.textContent = "Signout";
     button.addEventListener("click", handleLogout);
     signInOut.appendChild(button);
   } else {
     const a = document.createElement("a");
     a.setAttribute("href", "./signin.html");
-    a.textContent = "Sign In";
+    a.textContent = "Signin";
     signInOut.appendChild(a);
   }
 };
@@ -52,6 +52,23 @@ const onPublishModal = document.querySelector(".publish-modal");
 const confirmPublish = document.querySelectorAll(".btn-confirm");
 const returnToEdit = document.querySelectorAll(".btn-back");
 
+const titleInput = document.querySelector("#title-input");
+const imageInput = document.querySelector("#image-input");
+const bodyInput = document.querySelector("#body-input");
+const errorMessage = document.querySelector(".error-message");
+
+const checkContents = () => {
+  if (
+    titleInput.value.length >= 10 &&
+    bodyInput.value.length >= 20 &&
+    imageInput.value
+  ) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
 const handleOnCancelEdit = () => {
   onLeaveModal.classList.remove("hide");
 };
@@ -62,10 +79,18 @@ const handleOnLeave = (e) => {
 };
 
 const handleOnPublish = () => {
-  onPublishModal.classList.remove("hide");
+  if (checkContents()) {
+    errorMessage.classList.add("hide");
+    onPublishModal.classList.remove("hide");
+  } else {
+    errorMessage.classList.remove("hide");
+  }
 };
 
 const confirmModal = () => {
+  titleInput.value = "";
+  bodyInput.value = "";
+  imageInput.value = "";
   onLeaveModal.classList.add("hide");
   onPublishModal.classList.add("hide");
 };

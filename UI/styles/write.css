@@ -189,6 +189,20 @@ div.unauthorized-author .btn {
   width: 90%;
 }
 
+.publish-modal {
+  background-color: #c3cc46;
+}
+
+.publish-modal .btn {
+  background-color: #e7ebb5;
+}
+
+.error-message {
+  margin-bottom: 30px;
+  color: red;
+  font-weight: normal;
+}
+
 .hide {
   display: none;
 }

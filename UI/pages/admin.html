@@ -8,8 +8,8 @@
       href="https://fonts.googleapis.com/css2?family=Raleway:wght@200;400;500;800;900&family=Sanchez&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="../styles/blogs.css" />
-    <title>Latest Blogs</title>
+    <link rel="stylesheet" href="../styles/admin.css" />
+    <title>Admin Portal</title>
   </head>
   <body>
     <div class="container">
@@ -25,8 +25,8 @@
             <li>
               <a href="../../index.html">Home</a>
             </li>
-            <li class="admin-link">
-              <a href="./admin.html">Admin</a>
+            <li>
+              <a href="blogs.html">Blogs</a>
             </li>
             <li class="sign-in-out-link"></li>
           </ul>
@@ -38,14 +38,27 @@
         </nav>
       </header>
       <main>
-        <section class="articles"></section>
-        <section class="pagination"></section>
+        <section class="admin-contents">
+          <h3>Admin Portar</h3>
+          <div class="write-article-container">
+            <a href="./write.html">Write Article &#187;</a>
+          </div>
+          <div class="view-queries-container">
+            <a href="./queries.html">View Queries & Messages &#187;</a>
+          </div>
+          <div class="update-profile-container">
+            <a href="./edit-profile.html">Edit Profile &#187;</a>
+          </div>
+        </section>
+        <div class="unauthorized-author">
+          <h3>You are not authorized to view queries</h3>
+          <p>Click here to <a class="btn" href="./signin.html">Sign In</a></p>
+        </div>
       </main>
       <footer>
         &copy; Elvis Iraguha 2020
       </footer>
-      <script src="../scripts/blogsList.js" type="module"></script>
-      <script src="../scripts/blogs.js" type="module"></script>
+      <script src="../scripts/admin.js"></script>
     </div>
   </body>
 </html>

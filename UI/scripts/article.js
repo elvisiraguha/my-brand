@@ -51,13 +51,13 @@ const isAuthor = (authorized) => {
   if (authorized) {
     const button = document.createElement("button");
     button.setAttribute("class", "signout-btn");
-    button.textContent = "Sign Out";
+    button.textContent = "Signout";
     button.addEventListener("click", handleLogout);
     signInOut.appendChild(button);
   } else {
     const a = document.createElement("a");
     a.setAttribute("href", "./signin.html");
-    a.textContent = "Sign In";
+    a.textContent = "Signin";
     signInOut.appendChild(a);
   }
 };
@@ -167,6 +167,39 @@ const displayComments = () => {
     commentsSection.appendChild(commentElement);
   });
 };
+
+const commentForm = document.querySelector(".comment-form");
+const nameInput = document.querySelector("#name-input");
+const emailInput = document.querySelector("#email-input");
+const commentInput = document.querySelector("#comment-input");
+const errorMessage = document.querySelector(".error-message");
+
+const checkContents = () => {
+  if (
+    nameInput.value.length >= 4 &&
+    emailInput.value.length >= 6 &&
+    commentInput.value.length >= 10
+  ) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+const handleSubmit = (e) => {
+  e.preventDefault();
+
+  if (checkContents()) {
+    errorMessage.classList.add("hide");
+    nameInput.value = "";
+    emailInput.value = "";
+    commentInput.value = "";
+  } else {
+    errorMessage.classList.remove("hide");
+  }
+};
+
+commentForm.addEventListener("submit", handleSubmit);
 
 window.addEventListener("load", () => {
   // check for signed in user

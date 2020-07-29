@@ -37,20 +37,25 @@ nav ul {
   list-style: none;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
-nav ul a {
+nav ul a,
+nav ul button {
   color: black;
   font-size: 20px;
   font-weight: normal;
+  font-family: inherit;
   text-decoration: none;
   padding: 5px 10px;
   margin: 5px;
+  background-color: transparent;
   border: 1px solid #e7ebb5;
   box-shadow: 0 2px 5px 0 #e7ebb5;
 }
 
-nav ul a:hover {
+nav ul a:hover,
+nav ul button:hover {
   text-decoration: underline;
 }
 
@@ -80,68 +85,32 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin: 30px 0;
 }
 
 main section {
   width: 90%;
-  height: 500px;
-  display: flex;
-  align-items: center;
-}
-
-section.signin-container form {
-  font-size: 20px;
-  margin: auto;
-  width: 70%;
-  padding: 30px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  box-shadow: 0 2px 5px 0 #c3cc46;
+  align-items: flex-start;
+  padding: 20px;
 }
 
-form div.input-group {
-  width: 100%;
-  margin: 30px auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.input-group input {
-  font-size: 18px;
-  font-weight: normal;
-  font-family: inherit;
-  padding: 10px 5px;
-  background-color: #c3cc4622;
+section h3 {
+  font-size: 28px;
   margin: 10px 0;
-  border: 1px solid black;
 }
 
-form div.error-message {
-  margin: 20px 0;
-  color: red;
+section div {
+  padding: 30px 0;
 }
 
-form button {
-  border: none;
-  padding: 10px 40px;
-  background-color: #c3cc46;
-  cursor: pointer;
+section div a {
+  color: black;
   font-size: 20px;
-  font-weight: normal;
-  font-family: inherit;
-}
-
-.error-message {
-  margin-bottom: 20px;
-  color: red;
-  font-weight: normal;
-  font-size: 18px;
-}
-
-.hide {
-  display: none;
+  text-decoration: none;
+  padding: 10px 5px;
+  box-shadow: 0 2px 5px 0 #c3cc46;
 }
 
 @media screen and (max-width: 1024px) {
@@ -205,15 +174,8 @@ form button {
   main section {
     width: 100%;
   }
+}
 
-  section.signin-container form {
-    width: 90%;
-    padding: 30px;
-  }
-
-  form div.input-group {
-    margin: 10px 0;
-    flex-direction: column;
-    align-items: flex-start;
-  }
+.hide {
+  display: none;
 }

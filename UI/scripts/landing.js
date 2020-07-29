@@ -1,7 +1,5 @@
-// check for signed in user
 const isSignedIn = localStorage.getItem("signedIn");
 
-// handle responsiveness
 const responsive = () => {
   const burger = document.querySelector(".burger");
   const nav = document.querySelector("nav ul");
@@ -17,26 +15,23 @@ const handleLogout = () => {
   window.location.reload();
 };
 
-// display edits and write when user is signed in
 const isAuthor = (authorized) => {
-  // display either signout or signin nav link if use is singned in
   const signInOut = document.querySelector(".sign-in-out-link");
-  const viewMessages = document.querySelector(".btn-view-messages");
+  const adminLink = document.querySelector(".admin-link");
+
   if (authorized) {
     const button = document.createElement("button");
     button.setAttribute("class", "signout-btn");
-    button.textContent = "Sign Out";
+    button.textContent = "Signout";
     button.addEventListener("click", handleLogout);
     signInOut.appendChild(button);
-
-    viewMessages.classList.remove("hide");
+    adminLink.classList.remove("hide");
   } else {
     const a = document.createElement("a");
     a.setAttribute("href", "./UI/pages/signin.html");
-    a.textContent = "Sign In";
+    a.textContent = "Signin";
     signInOut.appendChild(a);
-
-    viewMessages.classList.add("hide");
+    adminLink.classList.add("hide");
   }
 };
 
@@ -89,6 +84,42 @@ const highlightNav = () => {
     }
   });
 };
+
+const messageForm = document.querySelector("#leave-message-form");
+const nameInput = document.querySelector("#name-input");
+const emailInput = document.querySelector("#email-input");
+const subjectInput = document.querySelector("#subject-input");
+const messageInput = document.querySelector("#message-input");
+const errorMessage = document.querySelector(".error-message");
+
+const checkContents = () => {
+  if (
+    nameInput.value.length >= 4 &&
+    emailInput.value.length >= 6 &&
+    subjectInput.value.length >= 4 &&
+    messageInput.value.length >= 10
+  ) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+const handleSubmit = (e) => {
+  e.preventDefault();
+
+  if (checkContents()) {
+    errorMessage.classList.add("hide");
+    nameInput.value = "";
+    emailInput.value = "";
+    subjectInput.value = "";
+    messageInput.value = "";
+  } else {
+    errorMessage.classList.remove("hide");
+  }
+};
+
+messageForm.addEventListener("submit", handleSubmit);
 
 responsive();
 isAuthor(isSignedIn === "true" ? true : false);

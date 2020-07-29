@@ -1,11 +1,26 @@
 const form = document.querySelector(".signin-container form");
 const email = document.querySelector("form .email-input");
 const password = document.querySelector("form .password-input");
+const errorMessage = document.querySelector(".error-message");
+
+const validatePassword = () => {
+  if (password.value.length >= 4) {
+    return true;
+  } else {
+    return false;
+  }
+};
 
 const handleSubmit = (e) => {
   e.preventDefault();
-  localStorage.setItem("signedIn", true);
-  window.location.replace("blogs.html");
+
+  if (validatePassword()) {
+    localStorage.setItem("signedIn", true);
+    window.location.replace("blogs.html");
+    errorMessage.classList.add("hide");
+  } else {
+    errorMessage.classList.remove("hide");
+  }
 };
 
 form.addEventListener("submit", handleSubmit);

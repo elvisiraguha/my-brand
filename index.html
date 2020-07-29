@@ -39,6 +39,9 @@
             <li>
               <a href="./UI/pages/blogs.html">Blogs</a>
             </li>
+            <li class="admin-link">
+              <a href="./UI/pages/admin.html">Admin</a>
+            </li>
             <li class="sign-in-out-link"></li>
           </ul>
           <div class="burger">
@@ -212,16 +215,38 @@
             </div>
             <div class="card leave-message">
               <h6>Leave me a message:</h6>
-              <form>
-                <input placeholder="Full Name" type="text" />
-                <input placeholder="Email" type="email" />
-                <input placeholder="Subject" type="text" />
-                <textarea placeholder="Message" cols="30" rows="4"></textarea>
+              <form id="leave-message-form">
+                <input
+                  required="true"
+                  id="name-input"
+                  placeholder="Full Name"
+                  type="text"
+                />
+                <input
+                  required="true"
+                  id="email-input"
+                  placeholder="Email"
+                  type="email"
+                />
+                <input
+                  required="true"
+                  id="subject-input"
+                  placeholder="Subject"
+                  type="text"
+                />
+                <textarea
+                  required="true"
+                  id="message-input"
+                  placeholder="Message"
+                  cols="30"
+                  rows="4"
+                ></textarea>
+                <p class="error-message hide">
+                  Fill out the whole form with appropriate information in order
+                  to send a message.
+                </p>
                 <button class="btn send-btn" type="submit">Send</button>
               </form>
-              <a class="btn btn-view-messages" href="./UI/pages/queries.html"
-                >View messages</a
-              >
             </div>
           </div>
         </section>

@@ -26,27 +26,23 @@ const handleLogout = () => {
   window.location.reload();
 };
 
-// display edits and write when user is signed in
 const isAuthor = (authorized) => {
-  // display edits when user is authorized
-  const writeArticle = document.querySelector("section.main-header");
-  authorized
-    ? writeArticle.classList.add("authorized")
-    : writeArticle.classList.remove("authorized");
-
-  // display either signout or signin nav link if use is singned in
+  const adminLink = document.querySelector(".admin-link");
   const signInOut = document.querySelector(".sign-in-out-link");
+
   if (authorized) {
     const button = document.createElement("button");
     button.setAttribute("class", "signout-btn");
-    button.textContent = "Sign Out";
+    button.textContent = "Signout";
     button.addEventListener("click", handleLogout);
     signInOut.appendChild(button);
+    adminLink.classList.remove("hide");
   } else {
     const a = document.createElement("a");
     a.setAttribute("href", "./signin.html");
-    a.textContent = "Sign In";
+    a.textContent = "Signin";
     signInOut.appendChild(a);
+    adminLink.classList.add("hide");
   }
 };
 
