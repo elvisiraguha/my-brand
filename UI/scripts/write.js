@@ -1,8 +1,19 @@
 const isSignedIn = localStorage.getItem("signedIn");
 
+const displayNotification = (message) => {
+  const notification = document.querySelector(".notification");
+  notification.textContent = message;
+  notification.classList.remove("hide");
+
+  setTimeout(() => {
+    notification.classList.add("hide");
+  }, 3000);
+};
+
 const handleLogout = () => {
   localStorage.setItem("signedIn", false);
   window.location.reload();
+  displayNotification("Signed out successfully");
 };
 
 // handle responsiveness
@@ -20,6 +31,7 @@ const isAuthor = (authorized) => {
   // display edits when user is authorized
   const writeArticle = document.querySelector(".write-article");
   const unauthorized = document.querySelector(".unauthorized-author");
+  const adminLink = document.querySelector(".admin-link");
 
   if (authorized) {
     writeArticle.classList.remove("hide");
@@ -34,14 +46,16 @@ const isAuthor = (authorized) => {
   if (authorized) {
     const button = document.createElement("button");
     button.setAttribute("class", "signout-btn");
-    button.textContent = "Sign Out";
+    button.textContent = "Signout";
     button.addEventListener("click", handleLogout);
     signInOut.appendChild(button);
+    adminLink.classList.remove("hide");
   } else {
     const a = document.createElement("a");
     a.setAttribute("href", "./signin.html");
-    a.textContent = "Sign In";
+    a.textContent = "Signin";
     signInOut.appendChild(a);
+    adminLink.classList.add("hide");
   }
 };
 
@@ -51,6 +65,26 @@ const onLeaveModal = document.querySelector(".leave-modal");
 const onPublishModal = document.querySelector(".publish-modal");
 const confirmPublish = document.querySelectorAll(".btn-confirm");
 const returnToEdit = document.querySelectorAll(".btn-back");
+
+const titleInput = document.querySelector("#title-input");
+const imageInput = document.querySelector("#image-input");
+const bodyInput = document.querySelector("#body-input");
+const errorMessage = document.querySelector(".error-message");
+
+const validate = () => {
+  if (titleInput.value.length < 10) {
+    errorMessage.textContent = "The article title is short to be published";
+    return false;
+  } else if (bodyInput.value.length < 20) {
+    errorMessage.textContent = "The article content is short to be published";
+    return false;
+  } else if (!imageInput.value) {
+    errorMessage.textContent = "There is no image selected";
+    return false;
+  } else {
+    return true;
+  }
+};
 
 const handleOnCancelEdit = () => {
   onLeaveModal.classList.remove("hide");
@@ -62,12 +96,21 @@ const handleOnLeave = (e) => {
 };
 
 const handleOnPublish = () => {
-  onPublishModal.classList.remove("hide");
+  if (validate()) {
+    errorMessage.classList.add("hide");
+    onPublishModal.classList.remove("hide");
+  } else {
+    errorMessage.classList.remove("hide");
+  }
 };
 
 const confirmModal = () => {
+  titleInput.value = "";
+  bodyInput.value = "";
+  imageInput.value = "";
   onLeaveModal.classList.add("hide");
   onPublishModal.classList.add("hide");
+  displayNotification("The article is published successfully!");
 };
 
 const handleOnReturn = () => {

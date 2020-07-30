@@ -1,7 +1,5 @@
-// check for signed in user
 const isSignedIn = localStorage.getItem("signedIn");
 
-// handle responsiveness
 const responsive = () => {
   const burger = document.querySelector(".burger");
   const nav = document.querySelector("nav ul");
@@ -15,23 +13,26 @@ const responsive = () => {
 const handleLogout = () => {
   localStorage.setItem("signedIn", false);
   window.location.reload();
+  displayNotification("Signed out successfully");
 };
 
-// display edits and write when user is signed in
 const isAuthor = (authorized) => {
-  // display either signout or signin nav link if use is singned in
   const signInOut = document.querySelector(".sign-in-out-link");
+  const adminLink = document.querySelector(".admin-link");
+
   if (authorized) {
     const button = document.createElement("button");
     button.setAttribute("class", "signout-btn");
-    button.textContent = "Sign Out";
+    button.textContent = "Signout";
     button.addEventListener("click", handleLogout);
     signInOut.appendChild(button);
+    adminLink.classList.remove("hide");
   } else {
     const a = document.createElement("a");
     a.setAttribute("href", "./UI/pages/signin.html");
-    a.textContent = "Sign In";
+    a.textContent = "Signin";
     signInOut.appendChild(a);
+    adminLink.classList.add("hide");
   }
 };
 
@@ -84,6 +85,60 @@ const highlightNav = () => {
     }
   });
 };
+
+const messageForm = document.querySelector("#leave-message-form");
+const nameInput = document.querySelector("#name-input");
+const emailInput = document.querySelector("#email-input");
+const subjectInput = document.querySelector("#subject-input");
+const messageInput = document.querySelector("#message-input");
+const errorMessage = document.querySelector(".error-message");
+
+const displayNotification = (message) => {
+  const notification = document.querySelector(".notification");
+  notification.textContent = message;
+  notification.classList.remove("hide");
+
+  setTimeout(() => {
+    notification.classList.add("hide");
+  }, 3000);
+};
+
+const validate = () => {
+  const emailRex = /\S+@\S+\.\S+/;
+
+  if (nameInput.value.length < 4) {
+    errorMessage.textContent = "The name must be at least 4 charcters long";
+    return false;
+  } else if (!emailRex.test(emailInput.value)) {
+    errorMessage.textContent = "The email is not a valid email address";
+    return false;
+  } else if (subjectInput.value.length < 4) {
+    errorMessage.textContent = "The subject must be at least 4 charcters long";
+    return false;
+  } else if (messageInput.value.length < 10) {
+    errorMessage.textContent = "The message must be at least 10 charcters long";
+    return false;
+  } else {
+    displayNotification("Message is sent successfully!");
+    return true;
+  }
+};
+
+const handleSubmit = (e) => {
+  e.preventDefault();
+
+  if (validate()) {
+    errorMessage.classList.add("hide");
+    nameInput.value = "";
+    emailInput.value = "";
+    subjectInput.value = "";
+    messageInput.value = "";
+  } else {
+    errorMessage.classList.remove("hide");
+  }
+};
+
+messageForm.addEventListener("submit", handleSubmit);
 
 responsive();
 isAuthor(isSignedIn === "true" ? true : false);

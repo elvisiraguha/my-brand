@@ -114,6 +114,10 @@ article p.article-preview {
   font-size: 20px;
 }
 
+.article-image {
+  width: 100%;
+}
+
 section.main-header {
   margin: 30px auto;
   display: none;
@@ -141,10 +145,19 @@ section.pagination button {
   padding: 5px 10px;
   background-color: #e7ebb5;
   border: 1px solid #c3cc46;
+  cursor: pointer;
+}
+
+section.pagination button:hover {
+  background-color: #c3cc46;
 }
 
 section.pagination button.active {
   background-color: #c3cc46;
+}
+
+.hide {
+  display: none;
 }
 
 @media screen and (max-width: 1024px) {
@@ -164,6 +177,7 @@ section.pagination button.active {
   }
 
   nav ul {
+    display: none;
     flex-direction: column;
     justify-content: flex-start;
     padding: 30px 0;
@@ -188,6 +202,7 @@ section.pagination button.active {
   }
 
   .nav-active {
+    display: flex;
     transform: translateX(0%);
   }
 
@@ -195,9 +210,11 @@ section.pagination button.active {
     transform: rotate(-45deg) translate(-5px, 6px);
     transition: transform 0.2s ease-in-out;
   }
+
   .toggle .line2 {
     opacity: 0;
   }
+
   .toggle .line3 {
     transition: transform 0.2s ease-in-out;
     transform: rotate(45deg) translate(-5px, -6px);

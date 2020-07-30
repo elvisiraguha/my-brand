@@ -23,9 +23,20 @@ const cancelModal = document.querySelector(".modal-cancel");
 const confirmDelete = document.querySelector(".btn-delete");
 const returnToArticle = document.querySelector(".btn-back");
 
+const displayNotification = (message) => {
+  const notification = document.querySelector(".notification");
+  notification.textContent = message;
+  notification.classList.remove("hide");
+
+  setTimeout(() => {
+    notification.classList.add("hide");
+  }, 3000);
+};
+
 const handleLogout = () => {
   localStorage.setItem("signedIn", false);
   window.location.reload();
+  displayNotification("Signed out successfully");
 };
 
 // handle responsiveness
@@ -40,6 +51,8 @@ const responsive = () => {
 };
 
 const isAuthor = (authorized) => {
+  const adminLink = document.querySelector(".admin-link");
+
   // display edits when user is authorized
   const authorEdits = document.querySelector(".edits");
   authorized
@@ -51,14 +64,16 @@ const isAuthor = (authorized) => {
   if (authorized) {
     const button = document.createElement("button");
     button.setAttribute("class", "signout-btn");
-    button.textContent = "Sign Out";
+    button.textContent = "Signout";
     button.addEventListener("click", handleLogout);
     signInOut.appendChild(button);
+    adminLink.classList.remove("hide");
   } else {
     const a = document.createElement("a");
     a.setAttribute("href", "./signin.html");
-    a.textContent = "Sign In";
+    a.textContent = "Signin";
     signInOut.appendChild(a);
+    adminLink.classList.add("hide");
   }
 };
 
@@ -83,10 +98,12 @@ deleteArticle.addEventListener("click", (e) => {
 
 // close the modal when either cancel or save is clicked
 saveModal.addEventListener("click", () => {
+  displayNotification("Article saved successfully");
   toggleModal();
 });
 
 confirmDelete.addEventListener("click", () => {
+  displayNotification("Article deleted successfully!");
   deleteModal.classList.toggle("hide");
 });
 
@@ -167,6 +184,45 @@ const displayComments = () => {
     commentsSection.appendChild(commentElement);
   });
 };
+
+const commentForm = document.querySelector(".comment-form");
+const nameInput = document.querySelector("#name-input");
+const emailInput = document.querySelector("#email-input");
+const commentInput = document.querySelector("#comment-input");
+const errorMessage = document.querySelector(".error-message");
+
+const validate = () => {
+  const emailRex = /\S+@\S+\.\S+/;
+
+  if (nameInput.value.length < 4) {
+    errorMessage.textContent = "The name must be at least 4 charcters long";
+    return false;
+  } else if (!emailRex.test(emailInput.value)) {
+    errorMessage.textContent = "The email is not a valid email address";
+    return false;
+  } else if (commentInput.value.length < 10) {
+    errorMessage.textContent = "The comment must be at least 10 charcters long";
+    return false;
+  } else {
+    displayNotification("Comment published successfully!");
+    return true;
+  }
+};
+
+const handleSubmit = (e) => {
+  e.preventDefault();
+
+  if (validate()) {
+    errorMessage.classList.add("hide");
+    nameInput.value = "";
+    emailInput.value = "";
+    commentInput.value = "";
+  } else {
+    errorMessage.classList.remove("hide");
+  }
+};
+
+commentForm.addEventListener("submit", handleSubmit);
 
 window.addEventListener("load", () => {
   // check for signed in user

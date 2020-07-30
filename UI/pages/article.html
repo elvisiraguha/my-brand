@@ -25,6 +25,12 @@
             <li>
               <a href="../../index.html">Home</a>
             </li>
+            <li>
+              <a href="blogs.html">Blogs</a>
+            </li>
+            <li class="admin-link">
+              <a href="./admin.html">Admin</a>
+            </li>
             <li class="sign-in-out-link"></li>
           </ul>
           <div class="burger">
@@ -66,10 +72,31 @@
         <section class="article"></section>
         <section class="comments">
           <h4>Comments:</h4>
-          <div class="comment-input">
-            <textarea cols="30" rows="3"></textarea>
-            <button>Comment</button>
-          </div>
+          <form class="comment-form">
+            <input
+              required="true"
+              id="name-input"
+              placeholder="Full Name"
+              type="text"
+            />
+            <input
+              required="true"
+              id="email-input"
+              placeholder="Email"
+              type="email"
+            />
+            <textarea
+              required="true"
+              id="comment-input"
+              cols="30"
+              rows="3"
+            ></textarea>
+            <p class="error-message hide">
+              Fill out the whole form with appropriate information in order to
+              post a comment.
+            </p>
+            <button type="submit">Comment</button>
+          </form>
           <div class="previous-comments">
             <div class="comment">
               <h6>Bryan Jones</h6>
@@ -79,6 +106,7 @@
           </div>
         </section>
       </main>
+      <section class="notification hide"></section>
       <footer>
         &copy; Elvis Iraguha 2020
       </footer>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="../../favicon.png" type="image/png" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Raleway:wght@200;400;500;800;900&family=Sanchez&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../styles/queries.css" />
+    <title>Queries & Messages</title>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <nav>
+          <a href="../../index.html"
+            ><img src="../assets/logo.png" alt="elvis iraguha logo"
+          /></a>
+          <ul>
+            <li>
+              <a href="../../index.html#contacts-section">Contacts</a>
+            </li>
+            <li>
+              <a href="../../index.html">Home</a>
+            </li>
+            <li>
+              <a href="blogs.html">Blogs</a>
+            </li>
+            <li class="admin-link">
+              <a href="./admin.html">Admin</a>
+            </li>
+            <li class="sign-in-out-link"></li>
+          </ul>
+          <div class="burger">
+            <div class="line1"></div>
+            <div class="line2"></div>
+            <div class="line3"></div>
+          </div>
+        </nav>
+      </header>
+      <section class="reply-modal hide">
+        <div class="modal-content">
+          <form id="reply-form">
+            <h5>Email:</h5>
+            <input
+              id="email-input"
+              type="email"
+              class="modal-email"
+              value="test@email.com"
+            />
+            <h5>Message:</h5>
+            <textarea
+              id="reply-input"
+              cols="30"
+              rows="10"
+              class="modal-message"
+            >
+            </textarea>
+            <p class="error-message hide">
+              Fill out the whole form with appropriate information in order to
+              send a reply.
+            </p>
+            <div class="controls">
+              <button class="btn modal-send">Send</button>
+              <button class="btn modal-cancel">Cancel</button>
+            </div>
+          </form>
+        </div>
+      </section>
+      <main>
+        <section class="messages">
+          <h3>All messages</h3>
+          <div class="message">
+            <h4><i>Sender Name:</i> John Doe</h4>
+            <h4><i>Subject:</i> I would like to see articles about node js</h4>
+            <h4>
+              <i>Email:</i> <a href="mail://test@email.com">test@email.com</a>
+            </h4>
+            <p>
+              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Id
+              consequatur natus saepe cupiditate iste voluptatum doloribus
+              accusantium. Ea sit modi iste quam vero maxime, velit expedita
+              quae corrupti. Eum, odit?
+            </p>
+            <div class="controls">
+              <button class="btn reply">Reply</button>
+              <button class="btn read">Read</button>
+            </div>
+          </div>
+          <div class="message">
+            <h4><i>Sender Name:</i> John Doe</h4>
+            <h4><i>Subject:</i> I would like to see articles about node js</h4>
+            <h4>
+              <i>Email:</i> <a href="mail://test@email.com">test@email.com</a>
+            </h4>
+
+            <p>
+              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Id
+              consequatur natus saepe cupiditate iste voluptatum doloribus
+              accusantium. Ea sit modi iste quam vero maxime, velit expedita
+              quae corrupti. Eum, odit?
+            </p>
+            <div class="controls">
+              <button class="btn reply">Reply</button>
+              <button class="btn read">Read</button>
+            </div>
+          </div>
+        </section>
+        <section class="pagination"></section>
+        <div class="unauthorized-author hide">
+          <h3>You are not authorized to view queries</h3>
+          <p>Click here to <a class="btn" href="./signin.html">Sign In</a></p>
+        </div>
+      </main>
+      <section class="notification hide"></section>
+      <footer>
+        &copy; Elvis Iraguha 2020
+      </footer>
+    </div>
+    <script src="../scripts/queriesList.js" type="module"></script>
+    <script src="../scripts/queries.js" type="module"></script>
+  </body>
+</html>
