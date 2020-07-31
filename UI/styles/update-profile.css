@@ -85,6 +85,7 @@ main {
   justify-content: center;
   align-items: center;
   margin: 20px auto;
+  padding: 20px;
 }
 
 main > p {
@@ -119,14 +120,42 @@ article.profile-intro {
   width: 90%;
   margin: 30px auto;
   display: flex;
-  flex-direction: row;
+  flex-direction: column-reverse;
   justify-content: space-between;
   align-items: center;
 }
 
-article.profile-intro p {
-  font-size: 36px;
-  text-align: start;
+article.profile-intro div.profile-picture {
+  border: 1px solid white;
+  display: grid;
+  grid-template-rows: 4fr 1fr;
+  grid-template-columns: 1fr;
+  cursor: pointer;
+}
+
+article.profile-intro div.profile-picture .cover {
+  grid-row: 1 / span 2;
+  grid-column: 1 / span 1;
+  z-index: 1;
+}
+
+article.profile-intro div.profile-picture .cover:hover {
+  background-color: rgba(255, 255, 255, 0.555);
+}
+
+article.profile-intro div.profile-picture img {
+  grid-row: 1 / span 2;
+  grid-column: 1 / span 1;
+}
+
+article.profile-intro div.profile-picture p {
+  grid-row: 2 / span 2;
+  grid-column: 1 / span 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.534);
 }
 
 main section h3 {
@@ -151,6 +180,7 @@ main section h3 {
   background-color: #c3cc46;
   width: 250px;
   height: 300px;
+  border: 1px solid white;
 }
 
 .project-card img {
@@ -179,6 +209,14 @@ main section h3 {
   font-weight: normal;
   z-index: 2;
   background-color: #c3cc46e3;
+}
+
+.project-card span.edit {
+  grid-column: 1 / span 1;
+  grid-row: 1 / span 1;
+  z-index: 3;
+  justify-self: flex-end;
+  align-self: flex-start;
 }
 
 .btn.visit-project button {
@@ -220,19 +258,61 @@ footer {
 
 .skills-cards-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, 200px);
+  grid-template-columns: repeat(auto-fit, 100px);
   grid-gap: 20px;
   justify-content: center;
   padding: 20px 0;
 }
 
+.skill-card img {
+  height: 40px;
+}
+
+section .skill-card p {
+  font-size: 18px;
+}
+
 .skill-card {
-  width: 200px;
+  width: 100px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding-bottom: 20px;
+  border: 1px solid white;
+}
+
+span.edit {
+  align-self: flex-end;
+  justify-self: flex-start;
+  cursor: pointer;
+  color: white;
+  padding: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  background-color: #90c53f;
+}
+
+span.edit:hover {
+  background-color: #8fc53fb2;
+  border-radius: 3px;
+}
+
+.add {
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   padding: 20px 0;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  border: 1px solid white;
+  align-items: center;
+}
+
+.add:hover {
+  background-color: rgba(0, 0, 0, 0.253);
 }
 
 #contacts-section div {
@@ -245,7 +325,6 @@ footer {
   margin: 20px;
   padding: 20px;
   min-width: 260px;
-  box-shadow: 0 2px 5px 0 #c3cc46;
 }
 
 #contacts-section .card h6 {
@@ -279,29 +358,40 @@ footer {
   margin: unset;
 }
 
-.card.leave-message {
+.input-group {
+  width: 90%;
   display: flex;
-  flex-direction: column;
   justify-content: space-between;
+  box-shadow: 0 2px 5px 0 #c3cc46;
+  padding: 10px;
+  margin: 20px 0;
 }
 
-.card.leave-message form {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  padding: 0 10px;
+.input-group.address {
+  align-self: center;
 }
 
-.card.leave-message form input,
-.card.leave-message form textarea {
+textarea,
+input {
   font-size: 18px;
   font-weight: normal;
   font-family: inherit;
-  width: 100%;
-  padding: 10px 5px;
+  padding: 5px;
   background-color: #c3cc4622;
-  margin: 10px 0;
+  margin: 5px 0;
   border: 1px solid black;
+}
+
+.textarea-lg {
+  width: 100%;
+}
+
+input.input-lg {
+  font-size: 36px;
+}
+
+input.input-md {
+  font-size: 28px;
 }
 
 .btn {
@@ -320,7 +410,24 @@ footer {
 
 .individual-experience {
   margin: 20px 30px;
+  padding: 10px;
   box-shadow: 0 2px 5px 0 #c3cc46;
+  display: flex;
+  flex-direction: column;
+}
+
+.add img {
+  width: 50px;
+  height: 50px;
+}
+
+.individual-experience.add {
+  width: 200px;
+  align-self: center;
+  align-items: center;
+}
+.individual-experience.add p {
+  font-size: 18px;
 }
 
 .individual-experience p {
@@ -346,11 +453,22 @@ footer {
   height: 3px;
 }
 
-.error-message {
-  margin-bottom: 30px;
+p.error-message {
+  margin-bottom: 10px;
   color: red;
   font-weight: normal;
-  font-size: 18px;
+  font-size: 14px;
+  align-self: center;
+}
+
+#contacts-section .add-social {
+  width: 150px;
+  margin: 20px 0;
+}
+
+.add-social img {
+  width: 30px;
+  height: 30px;
 }
 
 .notification {
@@ -364,13 +482,123 @@ footer {
   font-weight: normal;
 }
 
+.container .add-modal,
+.container .edit-modal,
+.change-picture-modal {
+  position: fixed;
+  top: 8vh;
+  width: inherit;
+  height: 92vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.603);
+}
+
+.modal-content {
+  background-color: #e7ebb5;
+  padding: 30px;
+}
+
+.modal-content p {
+  font-size: 18px;
+}
+
+.controls {
+  display: flex;
+  justify-content: space-between;
+}
+
+.leave-modal,
+.delete-modal {
+  font-size: 20px;
+  position: fixed;
+  width: inherit;
+  top: 0;
+  padding-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(206, 84, 84);
+  z-index: 3;
+}
+
+.leave-modal p,
+.delete-modal p {
+  margin: 30px 0;
+}
+
+.leave-modal div,
+.delete-modal div {
+  display: flex;
+  justify-content: space-around;
+  width: 90%;
+}
+
+.btn.btn-delete-item {
+  background-color: rgb(206, 84, 84);
+  padding: 8px 16px;
+  color: white;
+}
+
+.file-input {
+  color: transparent;
+}
+
+.file-input::-webkit-file-upload-button {
+  visibility: hidden;
+}
+
+.file-input::before {
+  content: "Change image";
+  display: inline-block;
+  background: #eee;
+  border: 1px solid #999;
+  padding: 4px;
+  cursor: pointer;
+  color: black;
+}
+
+img.logo-preview,
+img.profile-preview {
+  margin-top: 10px;
+  width: 80px;
+  height: 90px;
+  display: block;
+}
+
+#contacts-section div.social-card {
+  flex-direction: column;
+  width: 60px;
+  margin-right: 20px;
+  border: 1px solid white;
+}
+
+section.unauthorized-author {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  position: relative;
+  top: 8vh;
+  min-height: 92vh;
+}
+
+section.unauthorized-author h3 {
+  font-size: 28px;
+  margin: 30px;
+}
+
+section.unauthorized-author .btn {
+  color: black;
+  text-decoration: none;
+}
 @media screen and (max-width: 1024px) {
   .container {
     width: 100%;
-  }
-
-  article.profile-intro p {
-    font-size: 28px;
   }
 }
 
@@ -446,14 +674,6 @@ footer {
     flex-direction: column-reverse;
   }
 
-  article.profile-intro p {
-    text-align: center;
-  }
-
-  article.profile-intro img {
-    width: 100%;
-  }
-
   #contacts-section .card {
     align-items: center;
     flex-direction: column;
@@ -463,11 +683,33 @@ footer {
     margin-top: 20px;
   }
 
-  .card.leave-message div {
-    margin-top: 20px;
+  .input-group {
+    flex-direction: column;
   }
 
-  .card.leave-message div textarea {
+  textarea,
+  input {
+    font-size: 14px;
+    font-weight: normal;
+    font-family: inherit;
+    padding: 5px;
+  }
+
+  input.input-lg {
+    font-size: 28px;
+  }
+
+  input.input-md {
+    font-size: 24px;
+  }
+
+  .modal-content {
+    padding: 10px;
+  }
+
+  .leave-modal div {
+    display: flex;
+    flex-direction: column;
     width: 90%;
   }
 }

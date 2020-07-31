@@ -133,7 +133,6 @@ section div a {
     display: none;
     flex-direction: column;
     justify-content: flex-start;
-    padding: 30px 0;
     position: absolute;
     right: 0;
     top: 8vh;
@@ -151,7 +150,7 @@ section div a {
   }
 
   nav ul li {
-    margin: 20px 0;
+    margin: 10px 0;
   }
 
   .nav-active {

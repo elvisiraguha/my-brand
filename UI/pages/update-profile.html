@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="../../favicon.png" type="image/png" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Raleway:wght@200;400;500;800;900&family=Sanchez&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../styles/update-profile.css" />
+    <title>Update Profile</title>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <nav>
+          <a href="../../index.html"
+            ><img src="../assets/logo.png" alt="elvis iraguha logo"
+          /></a>
+          <ul>
+            <li>
+              <a href="../../index.html">Home</a>
+            </li>
+            <li>
+              <a href="blogs.html">Blogs</a>
+            </li>
+            <li class="admin-link">
+              <a href="./admin.html">Admin</a>
+            </li>
+            <li class="sign-in-out-link"></li>
+          </ul>
+          <div class="burger">
+            <div class="line1"></div>
+            <div class="line2"></div>
+            <div class="line3"></div>
+          </div>
+        </nav>
+      </header>
+      <main>
+        <div class="input-group">
+          <input class="input-lg input" type="text" value="ELVIS IRAGUHA" />
+          <p class="error-message hide"></p>
+          <button class="btn save save-title">Save</button>
+        </div>
+        <div class="input-group">
+          <input
+            class="input-md input"
+            type="text"
+            value="Full-Stack Web Developer"
+          />
+          <p class="error-message hide"></p>
+          <button class="btn save save-minititle">Save</button>
+        </div>
+        <article class="profile-intro">
+          <div class="input-group">
+            <textarea class="input" cols="30" rows="3">I am A Passionate Web Developer who Aims at Excellency and Believe in Web Accessibility for All.</textarea>
+            <p class="error-message hide"></p>
+            <button class="btn save save-intro">Save</button>
+          </div>
+          <div class="profile-picture">
+            <div class="cover"></div>
+            <img
+              width="300"
+              src="../assets/myprofile.png"
+              alt="profile image"
+            />
+            <p>Change Picture</p>
+          </div>
+        </article>
+        <section>
+          <h3>
+            Skills:
+          </h3>
+          <section class="skills-cards-container">
+            <div class="skill-card add">
+              <img src="../assets/skill-logos/plus.png" alt="plus image" />
+              <p>
+                Add Skill
+              </p>
+            </div>
+          </section>
+        </section>
+        <section id="experience-section">
+          <h3>Experience:</h3>
+          <section class="individual-experience add">
+            <img src="../assets/skill-logos/plus.png" alt="plus image" />
+            <p>Add Experience</p>
+          </section>
+        </section>
+        <section id="projects-section">
+          <h3>
+            Projects:
+          </h3>
+          <section class="projects-cards-container">
+            <div class="add add-project">
+              <img src="../assets/skill-logos/plus.png" alt="plus image" />
+              <p>Add Project</p>
+            </div>
+          </section>
+        </section>
+        <section id="contacts-section">
+          <h3>Contacts:</h3>
+          <div>
+            <div class="card contacts">
+              <h6>Email:</h6>
+              <div class="input-group">
+                <input class="input" type="email" value="iraguhaelvis@gmail.com" />
+                <p class="error-message hide"></p>
+                <button class="btn save save-email">Save</button>
+              </div>
+              <h6>Telephone:</h6>
+              <div class="input-group">
+                <input class="input" type="tel" value="+250783984662" />
+            <p class="error-message hide"></p>
+                <button class="btn save save-telephone">Save</button>
+              </div>
+              <h6>Find me on:</h6>
+              <section class="socials">
+              </section>
+              <div class="add-social add">
+                <img src="../assets/skill-logos/plus.png" alt="plus image" />
+                <p>Add Profile</p>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section>
+          <h3>Address:</h3>
+          <div class="input-group address">
+            <input class="input" type="text" value="Kigali, Rwanda" />
+            <p class="error-message hide"></p>
+            <button class="btn save save-location">Save</button>
+          </div>
+        </section>
+      </main>
+      <section class="notification hide"></section>
+      <section class="add-modal hide">
+        <div class="modal-content">
+          <form>
+            <h2 class="title"></h3>
+            <p class="item-name hide"></p>
+            <input class="item-name hide" type="text" placeholder="Enter name" />
+            <p class="item-description hide"></p>
+            <textarea
+            class="item-description hide"
+              cols="30"
+              rows="2"
+              placeholder="project description"
+            ></textarea>
+            <p class="item-link hide"></p>
+            <input class="item-link hide" type="text" placeholder="Enter url" />
+            <p class="item-logo hide"></p>
+            <input class="item-logo hide" type="file" />
+            <p class="error-message hide"></p>
+            <div class="controls">
+              <button type="submit" class="btn add-item">Save</button>
+              <button type="reset" class="btn cancel">Cancel</button>
+            </div>
+          </form>
+        </div>
+      </section>
+      <section class="edit-modal hide">
+        <div class="modal-content">
+          <form>
+            <h2 class="title"></h3>
+            <p class="item-name"></p>
+            <input class="item-name" type="text" placeholder="Enter name" />
+            <p class="item-description"></p>
+            <textarea
+            class="item-description"
+              cols="30"
+              rows="2"
+              placeholder="project description"
+            ></textarea>
+            <p class="item-link"></p>
+            <input class="item-link" type="text" placeholder="Enter url" />
+            <p class="item-logo"></p>
+            <img class="logo-preview" alt="project logo preview">
+            <input class="item-logo file-input" type="file" />
+            <p class="error-message hide"></p>
+            <div class="controls">
+              <button type="submit" class="btn add-item">Save</button>
+              <button type="reset" class="btn cancel">Cancel</button>
+            </div>
+          </form>
+          <button class="btn btn-delete-item">Delete</button>
+        </div>
+      </section>
+      <section class="change-picture-modal hide">
+        <div class="modal-content">
+          <h3>Change Profile Picture</h3>
+          <img alt="profile image preview" class="profile-preview">
+          <input class="profile-picture-input file-input" type="file">
+          <div class="controls">
+            <button type="submit" class="btn save">Save</button>
+            <button type="reset" class="btn cancel">Cancel</button>
+          </div>
+        </div>
+      </section>
+      <section class="hide leave-modal">
+        <p>Do you understands that you will loose all the changes you have made?</p>
+        <div class="controls">
+          <button class="btn confirm-leave">Confirm</button>
+          <button class="btn cancel-leave">Return to Editing</button>
+        </div>
+      </section>
+      <section class="hide delete-modal">
+        <p>Do you want to delete this item? This action can't be undone</p>
+        <div class="controls">
+          <button class="btn btn-delete">Delete</button>
+          <button class="btn btn-back">Return</button>
+        </div>
+      </section>
+      <section class="unauthorized-author hide">
+        <h3>You are not authorized to edit profile information</h3>
+        <p>Click here to <a class="btn" href="./signin.html">Sign In</a></p>
+      </section>
+      <footer>
+        &copy; Elvis Iraguha 2020
+      </footer>
+    </div>
+    <script src="../scripts/profileData.js" type="module"></script>
+    <script src="../scripts/update-profile.js" type="module"></script>
+  </body>
+</html>
