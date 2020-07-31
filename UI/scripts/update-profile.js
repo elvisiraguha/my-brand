@@ -496,6 +496,10 @@ const handleLogout = () => {
 const isAuthor = (authorized) => {
   const signInOut = document.querySelector(".sign-in-out-link");
   const adminLink = document.querySelector(".admin-link");
+  const authorizedContents = document.querySelector("main");
+  const unauthorizedContents = document.querySelector(
+    "section.unauthorized-author"
+  );
 
   if (authorized) {
     const button = document.createElement("button");
@@ -504,11 +508,15 @@ const isAuthor = (authorized) => {
     button.addEventListener("click", handleLogout);
     signInOut.appendChild(button);
     adminLink.classList.remove("hide");
+    authorizedContents.classList.remove("hide");
+    unauthorizedContents.classList.add("hide");
   } else {
     const a = document.createElement("a");
     a.setAttribute("href", "./UI/pages/signin.html");
     a.textContent = "Signin";
     signInOut.appendChild(a);
+    authorizedContents.classList.add("hide");
+    unauthorizedContents.classList.remove("hide");
     adminLink.classList.add("hide");
   }
 };
@@ -1066,11 +1074,11 @@ const changePictureBtn = document.querySelector(".profile-intro div.cover");
 changePictureBtn.addEventListener("click", changePicture);
 
 responsive();
+isAuthor(isSignedIn === "true" ? true : false);
 displaySkills();
 displaySocials();
 displayExperiences();
 displayProjects();
-isAuthor(isSignedIn === "true" ? true : false);
 addItems();
 editItems();
 editPageContents();
