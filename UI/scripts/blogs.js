@@ -1,9 +1,3 @@
-import { blogs } from "./blogsList.js";
-
-const latestBlogs = blogs.sort(
-  (latest, old) => new Date(old.publishedOn) - new Date(latest.publishedOn)
-);
-
 const articlesSection = document.querySelector("section.articles");
 const paginationSection = document.querySelector(".pagination");
 
@@ -48,6 +42,7 @@ const isAuthor = (authorized) => {
 
 const setCurrentArticle = (id) => {
   localStorage.setItem("current-article-id", id);
+  window.location.replace("article.html");
 };
 
 let currentPage = 1;
@@ -61,29 +56,23 @@ const displayArticles = (latestBlogs, wrapper, rowsPerPage, page) => {
   let end = start + rowsPerPage;
   let paginatedItems = latestBlogs.slice(start, end);
 
-  paginatedItems.map((blog) => {
+  paginatedItems.map((blogRaw) => {
+    const blog = blogRaw.data();
     const article = document.createElement("article");
 
     // read more link
-    const readMore = document.createElement("a");
-    readMore.setAttribute("href", "../pages/article.html");
-    const readMoreNode = document.createTextNode("Read More");
-    readMore.appendChild(readMoreNode);
+    const readMore = document.createElement("h5");
+    readMore.textContent = "Read More";
 
     // blog date
     const articleDate = document.createElement("p");
     articleDate.setAttribute("class", "article-date");
-
-    const dateNode = document.createTextNode(blog.publishedOn);
-    articleDate.appendChild(dateNode);
+    articleDate.textContent = blog.publishedOn;
 
     // blog title
-    const blogTitle = document.createElement("a");
+    const blogTitle = document.createElement("h3");
     blogTitle.setAttribute("class", "article-title");
-    blogTitle.setAttribute("href", "../pages/article.html");
-
-    const titleNode = document.createTextNode(blog.title);
-    blogTitle.appendChild(titleNode);
+    blogTitle.textContent = blog.title;
 
     // blog image
     const blogImage = document.createElement("img");
@@ -92,8 +81,8 @@ const displayArticles = (latestBlogs, wrapper, rowsPerPage, page) => {
     blogImage.src = blog.imageUrl;
 
     // set the clickedon article
-    blogTitle.addEventListener("click", setCurrentArticle(blog.id));
-    readMore.addEventListener("click", setCurrentArticle(blog.id));
+    blogTitle.addEventListener("click", () => setCurrentArticle(blogRaw.id));
+    readMore.addEventListener("click", () => setCurrentArticle(blogRaw.id));
 
     // blog preview
     const blogPreview = document.createElement("p");
@@ -135,7 +124,7 @@ const paginationButton = (page, items) => {
   button.addEventListener("click", () => {
     currentPage = page;
 
-    displayArticles(latestBlogs, articlesSection, rows, currentPage);
+    displayArticles(items, articlesSection, rows, currentPage);
 
     let currentBtn = document.querySelector(".pagination button.active");
     currentBtn.classList.remove("active");
@@ -148,5 +137,13 @@ const paginationButton = (page, items) => {
 
 responsive();
 isAuthor(isSignedIn === "true" ? true : false);
-displayArticles(latestBlogs, articlesSection, rows, currentPage);
-setUpPagination(latestBlogs, paginationSection, rows);
+
+db.collection("articles")
+  .get()
+  .then((snapshot) => {
+    displayArticles(snapshot.docs, articlesSection, rows, currentPage);
+    setUpPagination(snapshot.docs, paginationSection, rows);
+  })
+  .catch((err) => {
+    console.log(err);
+  });

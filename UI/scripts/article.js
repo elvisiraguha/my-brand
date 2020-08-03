@@ -1,12 +1,4 @@
-import { blogs } from "./blogsList.js";
-import { comments } from "./comments.js";
-
-// get current article id from browser storage
-// and find that article in the articles array
 const currentArticleId = localStorage.getItem("current-article-id");
-const currentArticle = blogs.find(
-  (blog) => blog.id === parseInt(currentArticleId, 10)
-);
 
 // edit article button
 const editArticle = document.querySelector("button.edit");
@@ -119,7 +111,7 @@ const toggleModal = () => {
   editModal.classList.toggle("hide");
 };
 
-const displayArticle = () => {
+const displayArticle = (currentArticle) => {
   document.title = currentArticle.title;
 
   const articlesSection = document.querySelector("section.article");
@@ -127,8 +119,7 @@ const displayArticle = () => {
 
   const blogTitle = document.createElement("h3");
   blogTitle.setAttribute("class", "article-title");
-  const titleNode = document.createTextNode(currentArticle.title);
-  blogTitle.appendChild(titleNode);
+  blogTitle.textContent = currentArticle.title;
 
   const blogImage = document.createElement("img");
   blogImage.setAttribute("class", "article-image");
@@ -137,14 +128,12 @@ const displayArticle = () => {
 
   const blogBody = document.createElement("p");
   blogBody.setAttribute("class", "article-body");
-  const bodyNode = document.createTextNode(currentArticle.body);
-  blogBody.appendChild(bodyNode);
+  blogBody.textContent = currentArticle.body;
 
   const articleDate = document.createElement("p");
   articleDate.setAttribute("class", "article-date");
 
-  const dateNode = document.createTextNode(currentArticle.publishedOn);
-  articleDate.appendChild(dateNode);
+  articleDate.textContent = currentArticle.publishedOn;
 
   article.appendChild(blogTitle);
   article.appendChild(blogImage);
@@ -154,28 +143,23 @@ const displayArticle = () => {
   articlesSection.appendChild(article);
 };
 
-const displayComments = () => {
-  const currentArticleComments = comments.filter(
-    (comment) => comment.articleId === parseInt(currentArticleId, 10)
-  );
+const displayComments = (comments) => {
+  comments.map((comment) => {
+    comment = comment.doc.data();
 
-  currentArticleComments.map((comment) => {
     const commentsSection = document.querySelector(".previous-comments");
     const commentElement = document.createElement("div");
     commentElement.classList.add("comment");
 
     const commentAuthor = document.createElement("h6");
-    const authorText = document.createTextNode(comment.author);
-    commentAuthor.appendChild(authorText);
+    commentAuthor.textContent = comment.author;
 
     const commentBody = document.createElement("p");
-    const bodyText = document.createTextNode(comment.body);
-    commentBody.appendChild(bodyText);
+    commentBody.textContent = comment.body;
 
     const commentDate = document.createElement("p");
     commentDate.classList.add("comment-date");
-    const dateText = document.createTextNode(`Commented on ${comment.date}`);
-    commentDate.appendChild(dateText);
+    commentDate.textContent = `Commented on ${comment.publishedOn}`;
 
     commentElement.appendChild(commentAuthor);
     commentElement.appendChild(commentBody);
@@ -204,7 +188,6 @@ const validate = () => {
     errorMessage.textContent = "The comment must be at least 10 charcters long";
     return false;
   } else {
-    displayNotification("Comment published successfully!");
     return true;
   }
 };
@@ -213,10 +196,21 @@ const handleSubmit = (e) => {
   e.preventDefault();
 
   if (validate()) {
-    errorMessage.classList.add("hide");
-    nameInput.value = "";
-    emailInput.value = "";
-    commentInput.value = "";
+    db.collection("comments")
+      .add({
+        articleId: currentArticleId,
+        body: commentInput.value,
+        email: emailInput.value,
+        author: nameInput.value,
+        publishedOn: new Date().toDateString(),
+      })
+      .then((res) => {
+        errorMessage.classList.add("hide");
+        nameInput.value = "";
+        emailInput.value = "";
+        commentInput.value = "";
+        displayNotification("Comment published successfully!");
+      });
   } else {
     errorMessage.classList.remove("hide");
   }
@@ -224,12 +218,22 @@ const handleSubmit = (e) => {
 
 commentForm.addEventListener("submit", handleSubmit);
 
-window.addEventListener("load", () => {
-  // check for signed in user
-  const isSignedIn = localStorage.getItem("signedIn");
+const isSignedIn = localStorage.getItem("signedIn");
 
-  responsive();
-  isAuthor(isSignedIn === "true" ? true : false);
-  displayArticle();
-  displayComments();
-});
+responsive();
+isAuthor(isSignedIn === "true" ? true : false);
+
+db.collection("articles")
+  .doc(currentArticleId)
+  .get()
+  .then((doc) => {
+    const data = doc.data();
+    displayArticle(data);
+  });
+
+db.collection("comments")
+  .where("articleId", "==", currentArticleId)
+  .onSnapshot((snap) => {
+    let changes = snap.docChanges();
+    displayComments(changes);
+  });
