@@ -1,3 +1,5 @@
+import { db } from "./firebase.config.js";
+
 const articlesSection = document.querySelector("section.articles");
 const paginationSection = document.querySelector(".pagination");
 
@@ -42,7 +44,7 @@ const isAuthor = (authorized) => {
 
 const setCurrentArticle = (id) => {
   localStorage.setItem("current-article-id", id);
-  window.location.replace("article.html");
+  window.location.assign("article.html");
 };
 
 let currentPage = 1;
@@ -145,5 +147,5 @@ db.collection("articles")
     setUpPagination(snapshot.docs, paginationSection, rows);
   })
   .catch((err) => {
-    console.log(err);
+    displayNotification(err, "error");
   });

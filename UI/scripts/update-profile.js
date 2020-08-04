@@ -59,7 +59,7 @@ const handleDeleteItem = (parentModal, itemName) => {
     deleteModal.classList.add("hide");
     unhideModalContents();
     parentModal.classList.add("hide");
-    displayNotification(`${itemName} deleted successfully!`);
+    displayNotification(`${itemName} deleted successfully!`, "success");
   });
 
   confirmReturn.addEventListener("click", () => {
@@ -145,7 +145,7 @@ const displaySkills = () => {
             "The skill name must be at least 2 charcters long";
           return false;
         } else {
-          displayNotification("Skill is updated successfully!");
+          displayNotification("Skill is updated successfully!", "success");
           return true;
         }
       };
@@ -241,7 +241,10 @@ const displaySocials = () => {
           errorMessage.textContent = "Invalid project link";
           return false;
         } else {
-          displayNotification("Social Profile is updated successfully!");
+          displayNotification(
+            "Social Profile is updated successfully!",
+            "success"
+          );
           return true;
         }
       };
@@ -318,7 +321,7 @@ const displayExperiences = () => {
             "The project description must be at least 10 charcters long";
           return false;
         } else {
-          displayNotification("Experience is updated successfully!");
+          displayNotification("Experience is updated successfully!", "success");
           return true;
         }
       };
@@ -421,7 +424,7 @@ const displayProjects = () => {
           errorMessage.textContent = "Invalid project link";
           return false;
         } else {
-          displayNotification("Project is updated successfully!");
+          displayNotification("Project is updated successfully!", "success");
           return true;
         }
       };
@@ -481,7 +484,7 @@ const changePicture = () => {
   savePictureBtn.addEventListener("click", () => {
     changePictureModal.classList.add("hide");
     initialPicture.src = picturePreview.src;
-    displayNotification("Picture updated successfully");
+    displayNotification("Picture updated successfully", "success");
   });
 
   cancelBtn.addEventListener("click", () => handleCancel(changePictureModal));
@@ -490,7 +493,7 @@ const changePicture = () => {
 const handleLogout = () => {
   localStorage.setItem("signedIn", false);
   window.location.reload();
-  displayNotification("Signed out successfully");
+  displayNotification("Signed out successfully", "success");
 };
 
 const isAuthor = (authorized) => {
@@ -563,7 +566,7 @@ const addItems = () => {
           errorMessage.textContent = "There is no logo image selected";
           return false;
         } else {
-          displayNotification("New Skill is added successfully!");
+          displayNotification("New Skill is added successfully!", "success");
           return true;
         }
       };
@@ -612,7 +615,10 @@ const addItems = () => {
             "The experience description must be at least 20 charcters long";
           return false;
         } else {
-          displayNotification("New Experience is added successfully!");
+          displayNotification(
+            "New Experience is added successfully!",
+            "success"
+          );
           return true;
         }
       };
@@ -663,7 +669,7 @@ const addItems = () => {
           errorMessage.textContent = "There is no logo image selected";
           return false;
         } else {
-          displayNotification("New Project is added successfully!");
+          displayNotification("New Project is added successfully!", "success");
           return true;
         }
       };
@@ -704,7 +710,7 @@ const addItems = () => {
           errorMessage.textContent = "There is no logo image selected";
           return false;
         } else {
-          displayNotification("New Profile is added successfully!");
+          displayNotification("New Profile is added successfully!", "success");
           return true;
         }
       };
@@ -831,7 +837,7 @@ const editItems = () => {
           return false;
         } else {
           errorMessage.textContent = "";
-          displayNotification("New Skill is added successfully!");
+          displayNotification("New Skill is added successfully!", "success");
           return true;
         }
       };
@@ -875,7 +881,10 @@ const editItems = () => {
           return false;
         } else {
           errorMessage.textContent = "";
-          displayNotification("New Experience is added successfully!");
+          displayNotification(
+            "New Experience is added successfully!",
+            "success"
+          );
           return true;
         }
       };
@@ -932,7 +941,7 @@ const editItems = () => {
           return false;
         } else {
           errorMessage.textContent = "";
-          displayNotification("New Project is added successfully!");
+          displayNotification("New Project is added successfully!", "success");
           return true;
         }
       };
@@ -980,7 +989,7 @@ const editItems = () => {
           return false;
         } else {
           errorMessage.textContent = "";
-          displayNotification("New Profile is added successfully!");
+          displayNotification("New Profile is added successfully!", "success");
           return true;
         }
       };
@@ -1044,7 +1053,7 @@ const editPageContents = () => {
         errorMessage.textContent = "Must be at least 8 charcters long";
         return false;
       } else {
-        displayNotification("Info updated successfully!");
+        displayNotification("Info updated successfully!", "success");
         return true;
       }
     };
@@ -1060,12 +1069,14 @@ const editPageContents = () => {
   });
 };
 
-const displayNotification = (message) => {
+const displayNotification = (message, status) => {
   const notification = document.querySelector(".notification");
   notification.textContent = message;
+  notification.classList.add(`notification-${status}`);
   notification.classList.remove("hide");
 
   setTimeout(() => {
+    notification.classList.remove(`notification-${status}`);
     notification.classList.add("hide");
   }, 3000);
 };

@@ -1,3 +1,5 @@
+import { db } from "./firebase.config.js";
+
 const currentArticleId = localStorage.getItem("current-article-id");
 
 // edit article button
@@ -15,12 +17,14 @@ const cancelModal = document.querySelector(".modal-cancel");
 const confirmDelete = document.querySelector(".btn-delete");
 const returnToArticle = document.querySelector(".btn-back");
 
-const displayNotification = (message) => {
+const displayNotification = (message, status) => {
   const notification = document.querySelector(".notification");
   notification.textContent = message;
+  notification.classList.add(`notification-${status}`);
   notification.classList.remove("hide");
 
   setTimeout(() => {
+    notification.classList.remove(`notification-${status}`);
     notification.classList.add("hide");
   }, 3000);
 };
@@ -28,7 +32,7 @@ const displayNotification = (message) => {
 const handleLogout = () => {
   localStorage.setItem("signedIn", false);
   window.location.reload();
-  displayNotification("Signed out successfully");
+  displayNotification("Signed out successfully", "success");
 };
 
 // handle responsiveness
@@ -90,12 +94,12 @@ deleteArticle.addEventListener("click", (e) => {
 
 // close the modal when either cancel or save is clicked
 saveModal.addEventListener("click", () => {
-  displayNotification("Article saved successfully");
+  displayNotification("Article saved successfully", "success");
   toggleModal();
 });
 
 confirmDelete.addEventListener("click", () => {
-  displayNotification("Article deleted successfully!");
+  displayNotification("Article deleted successfully!", "success");
   deleteModal.classList.toggle("hide");
 });
 
@@ -209,7 +213,10 @@ const handleSubmit = (e) => {
         nameInput.value = "";
         emailInput.value = "";
         commentInput.value = "";
-        displayNotification("Comment published successfully!");
+        displayNotification("Comment published successfully!", "success");
+      })
+      .catch((err) => {
+        displayNotification(err, "error");
       });
   } else {
     errorMessage.classList.remove("hide");
@@ -228,12 +235,25 @@ db.collection("articles")
   .get()
   .then((doc) => {
     const data = doc.data();
-    displayArticle(data);
+
+    if (data) {
+      displayArticle(data);
+    } else {
+      displayNotification("Article can't be found now", "error");
+    }
+  })
+  .catch((err) => {
+    displayNotification(err, "error");
   });
 
 db.collection("comments")
   .where("articleId", "==", currentArticleId)
-  .onSnapshot((snap) => {
-    let changes = snap.docChanges();
-    displayComments(changes);
-  });
+  .onSnapshot(
+    (snap) => {
+      let changes = snap.docChanges();
+      displayComments(changes);
+    },
+    (err) => {
+      displayNotification(err, "error");
+    }
+  );

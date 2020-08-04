@@ -53,24 +53,7 @@
      https://firebase.google.com/docs/web/setup#available-libraries -->
     <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-analytics.js"></script>
 
-    <script>
-      // Your web app's Firebase configuration
-      var firebaseConfig = {
-        apiKey: "AIzaSyBQ22sZzrgvlyPfnMcGa4hXsAym3LlYf6A",
-        authDomain: "my-brand-96113.firebaseapp.com",
-        databaseURL: "https://my-brand-96113.firebaseio.com",
-        projectId: "my-brand-96113",
-        storageBucket: "my-brand-96113.appspot.com",
-        messagingSenderId: "337382078243",
-        appId: "1:337382078243:web:d809db393f0d3c697c3e96",
-        measurementId: "G-TMBHXYB6C3",
-      };
-      // Initialize Firebase
-      firebase.initializeApp(firebaseConfig);
-      firebase.analytics();
-
-      const db = firebase.firestore();
-    </script>
-    <script src="../scripts/blogs.js"></script>
+    <script src="../scripts/firebase.config.js" type="module"></script>
+    <script src="../scripts/blogs.js" type="module"></script>
   </body>
 </html>

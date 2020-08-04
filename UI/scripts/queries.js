@@ -2,12 +2,14 @@ import { queries } from "./queriesList.js";
 
 const isSignedIn = localStorage.getItem("signedIn");
 
-const displayNotification = (message) => {
+const displayNotification = (message, status) => {
   const notification = document.querySelector(".notification");
   notification.textContent = message;
+  notification.classList.add(`notification-${status}`);
   notification.classList.remove("hide");
 
   setTimeout(() => {
+    notification.classList.remove(`notification-${status}`);
     notification.classList.add("hide");
   }, 3000);
 };
@@ -47,10 +49,10 @@ const handleActions = () => {
     btn.addEventListener("click", ({ target }) => {
       target.classList.toggle("read-on");
       if (target.textContent === "Read") {
-        displayNotification("Marked read");
+        displayNotification("Marked read", "error");
         target.innerHTML = "&#10004;";
       } else {
-        displayNotification("Marked unread");
+        displayNotification("Marked unread", "success");
         target.textContent = "Read";
       }
     });
@@ -66,7 +68,7 @@ const handleActions = () => {
       errorMessage.textContent = "The reply must be at least 10 charcters long";
       return false;
     } else {
-      displayNotification("The reply is sent successfully!");
+      displayNotification("The reply is sent successfully!", "success");
       return true;
     }
   };
@@ -164,7 +166,7 @@ const paginationButton = (page, items) => {
 const handleLogout = () => {
   localStorage.setItem("signedIn", false);
   window.location.reload();
-  displayNotification("Signed out successfully");
+  displayNotification("Signed out successfully", "success");
 };
 
 // handle responsiveness

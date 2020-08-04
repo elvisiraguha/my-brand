@@ -475,13 +475,19 @@ p.error-message {
   position: fixed;
   bottom: 10px;
   right: 2%;
-  background-color: #90c53f;
   color: white;
   padding: 10px;
   font-size: 20px;
   font-weight: normal;
 }
 
+.notification-success {
+  background-color: #90c53f;
+}
+
+.notification-error {
+  background-color: rgb(206, 84, 84);
+}
 .container .add-modal,
 .container .edit-modal,
 .change-picture-modal {

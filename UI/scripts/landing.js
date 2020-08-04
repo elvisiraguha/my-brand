@@ -13,7 +13,7 @@ const responsive = () => {
 const handleLogout = () => {
   localStorage.setItem("signedIn", false);
   window.location.reload();
-  displayNotification("Signed out successfully");
+  displayNotification("Signed out successfully", 'success');
 };
 
 const isAuthor = (authorized) => {
@@ -93,9 +93,11 @@ const subjectInput = document.querySelector("#subject-input");
 const messageInput = document.querySelector("#message-input");
 const errorMessage = document.querySelector(".error-message");
 
-const displayNotification = (message) => {
+const displayNotification = (message, status) => {
   const notification = document.querySelector(".notification");
   notification.textContent = message;
+  notification.classList.add(`notification-${status}`);
+  notification.classList.remove("hide");
   notification.classList.remove("hide");
 
   setTimeout(() => {
@@ -119,7 +121,7 @@ const validate = () => {
     errorMessage.textContent = "The message must be at least 10 charcters long";
     return false;
   } else {
-    displayNotification("Message is sent successfully!");
+    displayNotification("Message is sent successfully!", 'success');
     return true;
   }
 };
