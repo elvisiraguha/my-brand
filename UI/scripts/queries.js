@@ -1,18 +1,7 @@
 import { queries } from "./queriesList.js";
+import { displayNotification } from "./helperFunctions.js";
 
 const isSignedIn = localStorage.getItem("signedIn");
-
-const displayNotification = (message, status) => {
-  const notification = document.querySelector(".notification");
-  notification.textContent = message;
-  notification.classList.add(`notification-${status}`);
-  notification.classList.remove("hide");
-
-  setTimeout(() => {
-    notification.classList.remove(`notification-${status}`);
-    notification.classList.add("hide");
-  }, 3000);
-};
 
 const sortedQueries = (function () {
   const sortedByDate = queries.sort(
@@ -49,7 +38,7 @@ const handleActions = () => {
     btn.addEventListener("click", ({ target }) => {
       target.classList.toggle("read-on");
       if (target.textContent === "Read") {
-        displayNotification("Marked read", "error");
+        displayNotification("Marked read", "success");
         target.innerHTML = "&#10004;";
       } else {
         displayNotification("Marked unread", "success");

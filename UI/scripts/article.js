@@ -1,4 +1,5 @@
 import { db } from "./firebase.config.js";
+import {displayNotification} from './helperFunctions.js'
 
 const currentArticleId = localStorage.getItem("current-article-id");
 
@@ -16,18 +17,6 @@ const cancelModal = document.querySelector(".modal-cancel");
 
 const confirmDelete = document.querySelector(".btn-delete");
 const returnToArticle = document.querySelector(".btn-back");
-
-const displayNotification = (message, status) => {
-  const notification = document.querySelector(".notification");
-  notification.textContent = message;
-  notification.classList.add(`notification-${status}`);
-  notification.classList.remove("hide");
-
-  setTimeout(() => {
-    notification.classList.remove(`notification-${status}`);
-    notification.classList.add("hide");
-  }, 3000);
-};
 
 const handleLogout = () => {
   localStorage.setItem("signedIn", false);

@@ -1,4 +1,5 @@
 import profileData from "./profileData.js";
+import { displayNotification } from "./helperFunctions.js";
 
 const isSignedIn = localStorage.getItem("signedIn");
 
@@ -1067,18 +1068,6 @@ const editPageContents = () => {
 
     save.addEventListener("click", handleSave);
   });
-};
-
-const displayNotification = (message, status) => {
-  const notification = document.querySelector(".notification");
-  notification.textContent = message;
-  notification.classList.add(`notification-${status}`);
-  notification.classList.remove("hide");
-
-  setTimeout(() => {
-    notification.classList.remove(`notification-${status}`);
-    notification.classList.add("hide");
-  }, 3000);
 };
 
 const changePictureBtn = document.querySelector(".profile-intro div.cover");

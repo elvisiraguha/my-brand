@@ -1,3 +1,5 @@
+import {displayNotification} from './helperFunctions.js'
+
 const isSignedIn = localStorage.getItem("signedIn");
 
 const responsive = () => {
@@ -92,18 +94,6 @@ const emailInput = document.querySelector("#email-input");
 const subjectInput = document.querySelector("#subject-input");
 const messageInput = document.querySelector("#message-input");
 const errorMessage = document.querySelector(".error-message");
-
-const displayNotification = (message, status) => {
-  const notification = document.querySelector(".notification");
-  notification.textContent = message;
-  notification.classList.add(`notification-${status}`);
-  notification.classList.remove("hide");
-  notification.classList.remove("hide");
-
-  setTimeout(() => {
-    notification.classList.add("hide");
-  }, 3000);
-};
 
 const validate = () => {
   const emailRex = /\S+@\S+\.\S+/;
