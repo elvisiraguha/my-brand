@@ -1,14 +1,5 @@
 const isSignedIn = localStorage.getItem("signedIn");
-
-const displayNotification = (message) => {
-  const notification = document.querySelector(".notification");
-  notification.textContent = message;
-  notification.classList.remove("hide");
-
-  setTimeout(() => {
-    notification.classList.add("hide");
-  }, 3000);
-};
+import { displayNotification } from "./helperFunctions.js";
 
 const handleLogout = () => {
   localStorage.setItem("signedIn", false);

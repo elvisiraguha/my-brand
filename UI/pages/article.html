@@ -97,13 +97,7 @@
             </p>
             <button type="submit">Comment</button>
           </form>
-          <div class="previous-comments">
-            <div class="comment">
-              <h6>Bryan Jones</h6>
-              <p>I like this article, please do more of these in the future</p>
-              <p class="comment-date">Commented on 21 Jun 2020</p>
-            </div>
-          </div>
+          <div class="previous-comments"></div>
         </section>
       </main>
       <section class="notification hide"></section>
@@ -111,8 +105,15 @@
         &copy; Elvis Iraguha 2020
       </footer>
     </div>
-    <script src="../scripts/comments.js" type="module"></script>
-    <script src="../scripts/blogsList.js" type="module"></script>
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-firestore.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-analytics.js"></script>
+    <script src="../scripts/firebase.config.js" type="module"></script>
+    <script src="../scripts/helperFunctions.js" type="module"></script>
     <script src="../scripts/article.js" type="module"></script>
   </body>
 </html>

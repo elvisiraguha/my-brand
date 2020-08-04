@@ -1,3 +1,5 @@
+import {displayNotification} from './helperFunctions.js'
+
 const isSignedIn = localStorage.getItem("signedIn");
 
 const responsive = () => {
@@ -13,7 +15,7 @@ const responsive = () => {
 const handleLogout = () => {
   localStorage.setItem("signedIn", false);
   window.location.reload();
-  displayNotification("Signed out successfully");
+  displayNotification("Signed out successfully", 'success');
 };
 
 const isAuthor = (authorized) => {
@@ -93,16 +95,6 @@ const subjectInput = document.querySelector("#subject-input");
 const messageInput = document.querySelector("#message-input");
 const errorMessage = document.querySelector(".error-message");
 
-const displayNotification = (message) => {
-  const notification = document.querySelector(".notification");
-  notification.textContent = message;
-  notification.classList.remove("hide");
-
-  setTimeout(() => {
-    notification.classList.add("hide");
-  }, 3000);
-};
-
 const validate = () => {
   const emailRex = /\S+@\S+\.\S+/;
 
@@ -119,7 +111,7 @@ const validate = () => {
     errorMessage.textContent = "The message must be at least 10 charcters long";
     return false;
   } else {
-    displayNotification("Message is sent successfully!");
+    displayNotification("Message is sent successfully!", 'success');
     return true;
   }
 };

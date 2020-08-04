@@ -98,15 +98,20 @@ article {
   box-shadow: 0 2px 5px 0 #c3cc46;
 }
 
-article a.article-title {
+article h3.article-title {
   margin: 10px 0;
   font-size: 20px;
   font-weight: bold;
 }
 
-article a.article-title,
-article p.article-preview a {
+article h3.article-title,
+article p.article-preview h5 {
   color: black;
+  cursor: pointer;
+}
+
+article p.article-preview h5 {
+  display: inline;
 }
 
 article p.article-preview {
