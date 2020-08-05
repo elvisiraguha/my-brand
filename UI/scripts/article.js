@@ -123,7 +123,7 @@ const fillModalContents = () => {
               .then(() => {
                 loader.classList.add("hide");
                 displayNotification("Article saved successfully", "success");
-                toggleModal();
+                window.location.reload();
               })
               .catch((err) => {
                 displayNotification(err, "error");
@@ -142,7 +142,7 @@ const fillModalContents = () => {
           .then(() => {
             loader.classList.add("hide");
             displayNotification("Article saved successfully", "success");
-            toggleModal();
+            window.location.reload();
           })
           .catch((err) => {
             displayNotification(err, "error");
@@ -315,21 +315,20 @@ isAuthor(isSignedIn === "true" ? true : false);
 
 db.collection("articles")
   .doc(currentArticleId)
-  .onSnapshot(
-    (doc) => {
-      const data = doc.data();
+  .get()
+  .then((doc) => {
+    const data = doc.data();
 
-      if (data) {
-        currentArticle = data;
-        displayArticle(data);
-      } else {
-        displayNotification("Article can't be found now", "error");
-      }
-    },
-    (err) => {
-      displayNotification(err, "error");
+    if (data) {
+      currentArticle = data;
+      displayArticle(data);
+    } else {
+      displayNotification("Article can't be found now", "error");
     }
-  );
+  })
+  .catch((err) => {
+    displayNotification(err, "error");
+  });
 
 db.collection("comments")
   .where("articleId", "==", currentArticleId)
