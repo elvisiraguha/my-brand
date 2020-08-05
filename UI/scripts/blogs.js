@@ -80,6 +80,7 @@ const displayArticles = (latestBlogs, wrapper, rowsPerPage, page) => {
     const blogImage = document.createElement("img");
     blogImage.setAttribute("class", "article-image");
     blogImage.setAttribute("alt", "a random picture from picsum");
+    blogImage.setAttribute("height", "350px");
     blogImage.src = blog.imageUrl;
 
     // set the clickedon article

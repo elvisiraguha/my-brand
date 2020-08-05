@@ -247,6 +247,17 @@ section.comments {
   justify-content: space-between;
 }
 
+.modal-image-input {
+  margin-bottom: 10px;
+}
+
+.modal-image-preview {
+  margin: 10px 0;
+  width: 80px;
+  height: 90px;
+  display: block;
+}
+
 .delete-modal {
   font-size: 20px;
   position: fixed;
@@ -296,8 +307,34 @@ section.comments {
   background-color: rgb(206, 84, 84);
 }
 
-.hide {
-  display: none;
+.loader-modal {
+  position: fixed;
+  top: 0;
+  width: inherit;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.747);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+}
+
+.loader {
+  border: 16px solid #f3f3f3;
+  border-top: 16px solid #c3cc46;
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 @media screen and (max-width: 1024px) {
@@ -388,4 +425,8 @@ section.comments {
   section.comments {
     width: 90%;
   }
+}
+
+.hide {
+  display: none;
 }

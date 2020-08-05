@@ -1,5 +1,7 @@
-const isSignedIn = localStorage.getItem("signedIn");
+import { db, storageRef } from "./firebase.config.js";
 import { displayNotification } from "./helperFunctions.js";
+
+const isSignedIn = localStorage.getItem("signedIn");
 
 const handleLogout = () => {
   localStorage.setItem("signedIn", false);
@@ -54,13 +56,15 @@ const cancelEditBtn = document.querySelector(".btn-cancel");
 const publishBtn = document.querySelector(".btn-publish");
 const onLeaveModal = document.querySelector(".leave-modal");
 const onPublishModal = document.querySelector(".publish-modal");
-const confirmPublish = document.querySelectorAll(".btn-confirm");
+const confirmPublish = document.querySelector(".btn-confirm-publish");
+const confirmCancel = document.querySelector(".btn-confirm-cancel");
 const returnToEdit = document.querySelectorAll(".btn-back");
 
 const titleInput = document.querySelector("#title-input");
 const imageInput = document.querySelector("#image-input");
 const bodyInput = document.querySelector("#body-input");
 const errorMessage = document.querySelector(".error-message");
+const loader = document.querySelector(".loader-modal");
 
 const validate = () => {
   if (titleInput.value.length < 10) {
@@ -82,8 +86,10 @@ const handleOnCancelEdit = () => {
 };
 
 const handleOnLeave = (e) => {
-  e.preventDefault();
-  e.returnValue = "are you sure you want to leave";
+  if (titleInput.value || bodyInput.value || imageInput.value) {
+    e.preventDefault();
+    e.returnValue = "are you sure you want to leave";
+  }
 };
 
 const handleOnPublish = () => {
@@ -96,12 +102,36 @@ const handleOnPublish = () => {
 };
 
 const confirmModal = () => {
-  titleInput.value = "";
-  bodyInput.value = "";
-  imageInput.value = "";
-  onLeaveModal.classList.add("hide");
-  onPublishModal.classList.add("hide");
-  displayNotification("The article is published successfully!");
+  loader.classList.remove("hide");
+  const file = imageInput.files[0];
+  const fileName = `${new Date().toLocaleString()}-${file.name}`;
+
+  storageRef
+    .child(fileName)
+    .put(file)
+    .then((snapshot) => snapshot.ref.getDownloadURL())
+    .then((url) => {
+      db.collection("articles")
+        .add({
+          title: titleInput.value,
+          body: bodyInput.value,
+          imageUrl: url,
+          publishedOn: new Date().toLocaleString(),
+        })
+        .then((res) => {
+          loader.classList.add("hide");
+          titleInput.value = "";
+          bodyInput.value = "";
+          imageInput.value = "";
+          onLeaveModal.classList.add("hide");
+          onPublishModal.classList.add("hide");
+          displayNotification(
+            "The article is published successfully!",
+            "success"
+          );
+        });
+    })
+    .catch((err) => displayNotification(err, "error"));
 };
 
 const handleOnReturn = () => {
@@ -109,12 +139,19 @@ const handleOnReturn = () => {
   onPublishModal.classList.add("hide");
 };
 
+const handleOnCancel = () => {
+  onLeaveModal.classList.add("hide");
+  onPublishModal.classList.add("hide");
+  titleInput.value = "";
+  bodyInput.value = "";
+  imageInput.value = "";
+};
+
 cancelEditBtn.addEventListener("click", handleOnCancelEdit);
 publishBtn.addEventListener("click", handleOnPublish);
 
-confirmPublish.forEach((btn) => {
-  btn.addEventListener("click", confirmModal);
-});
+confirmPublish.addEventListener("click", confirmModal);
+confirmCancel.addEventListener("click", handleOnCancel);
 
 returnToEdit.forEach((btn) => {
   btn.addEventListener("click", handleOnReturn);

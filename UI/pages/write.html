@@ -43,14 +43,17 @@
       <div class="hide leave-modal">
         <p>Do you understands that you will loose all the changes you have made?</p>
         <div class="controls">
-          <button class="btn btn-confirm">Confirm</button>
+          <button class="btn btn-confirm-cancel">Confirm</button>
           <button class="btn btn-back">Return to Editing</button>
         </div>
+      </div>
+      <div class="hide loader-modal">
+       <div class="loader"></div>
       </div>
       <div class="hide publish-modal">
         <p>Publish Article Now?</p>
         <div class="controls">
-          <button class="btn btn-confirm">Confirm</button>
+          <button class="btn btn-confirm-publish">Confirm</button>
           <button class="btn btn-back">Return to Editing</button>
         </div> 
       </div>
@@ -64,7 +67,7 @@
               <p>Upload the article background image</p>
             <input type="file" id="image-input"/>
             <h4>Article Contents</h5>
-            <textarea cols="30" rows="10" id="body-input"> </textarea>
+            <textarea cols="30" rows="10" id="body-input"></textarea>
             <p class="error-message hide"></p>
             <div class="controls">
               <button class="btn btn-publish">Publish Now</button>
@@ -82,6 +85,16 @@
         &copy; Elvis Iraguha 2020
       </footer>
     </div>
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-storage.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-analytics.js"></script>
+   
+    <script src="../scripts/firebase.config.js" type="module"></script>
     <script src="../scripts/helperFunctions.js" type="module"></script>
     <script src="../scripts/write.js" type="module"></script>
   </body>

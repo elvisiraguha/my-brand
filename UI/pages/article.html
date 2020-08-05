@@ -44,14 +44,21 @@
         <div class="modal-content">
           <h5>Edit Title</h5>
           <input class="modal-title" />
+          <h5>Edit background image</h5>
+          <img alt="background image" class="modal-image-preview" />
+          <input type="file" accept="image/*" class="modal-image-input" />
           <h5>Edit Contents</h5>
           <textarea cols="30" rows="10" class="modal-body"> </textarea>
+          <p class="error-message hide"></p>
           <div class="controls">
             <button class="btn modal-save">Save</button>
             <button class="btn modal-cancel">Cancel</button>
           </div>
         </div>
       </section>
+      <div class="hide loader-modal">
+        <div class="loader"></div>
+      </div>
       <section class="hide delete-modal">
         <p>Do you want to delete article? This action can't be undone</p>
         <div class="controls">
@@ -107,6 +114,7 @@
     </div>
     <!-- The core Firebase JS SDK is always required and must be listed first -->
     <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-storage.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-firestore.js"></script>
 
     <!-- TODO: Add SDKs for Firebase products that you want to use

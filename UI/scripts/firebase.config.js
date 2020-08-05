@@ -13,3 +13,4 @@ firebase.initializeApp(firebaseConfig);
 firebase.analytics();
 
 export const db = firebase.firestore();
+export const storageRef = firebase.storage().ref();
