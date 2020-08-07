@@ -1,5 +1,53 @@
-import { db, storageRef } from "./firebase.config.js";
-import { displayNotification } from "./helperFunctions.js";
+import {
+  displayNotification,
+  showLoader,
+  hideLoader,
+} from "./helperFunctions.js";
+
+const db = firebase.firestore();
+const auth = firebase.auth();
+const storageRef = firebase.storage().ref();
+
+showLoader();
+auth.onAuthStateChanged((user) => {
+  hideLoader();
+  isAuthor(user);
+});
+
+const handleLogout = () => {
+  showLoader();
+  auth
+    .signOut()
+    .then(() => {
+      hideLoader();
+    })
+    .catch((err) => {
+      hideLoader();
+      displayNotification(err, "error");
+    });
+};
+
+const handleLogin = () => {
+  window.location.assign("./signin.html");
+};
+
+const isAuthor = (user) => {
+  const adminLink = document.querySelector(".admin-link");
+  const signInOutBtn = document.querySelector(".sign-in-out-link button");
+  const authorEdits = document.querySelector(".edits");
+
+  if (user) {
+    signInOutBtn.textContent = "SignOut";
+    signInOutBtn.addEventListener("click", handleLogout);
+    adminLink.classList.remove("hide");
+    authorEdits.classList.add("authorized");
+  } else {
+    signInOutBtn.textContent = "SignIn";
+    signInOutBtn.addEventListener("click", handleLogin);
+    adminLink.classList.add("hide");
+    authorEdits.classList.remove("authorized");
+  }
+};
 
 const currentArticleId = localStorage.getItem("current-article-id");
 let currentArticle;
@@ -20,12 +68,6 @@ const confirmDelete = document.querySelector(".btn-delete");
 const returnToArticle = document.querySelector(".btn-back");
 const loader = document.querySelector(".loader-modal");
 
-const handleLogout = () => {
-  localStorage.setItem("signedIn", false);
-  window.location.reload();
-  displayNotification("Signed out successfully", "success");
-};
-
 // handle responsiveness
 const responsive = () => {
   const burger = document.querySelector(".burger");
@@ -35,33 +77,6 @@ const responsive = () => {
     nav.classList.toggle("nav-active");
     burger.classList.toggle("toggle");
   });
-};
-
-const isAuthor = (authorized) => {
-  const adminLink = document.querySelector(".admin-link");
-
-  // display edits when user is authorized
-  const authorEdits = document.querySelector(".edits");
-  authorized
-    ? authorEdits.classList.add("authorized")
-    : authorEdits.classList.remove("authorized");
-
-  // display either signout or signin nav link if use is singned in
-  const signInOut = document.querySelector(".sign-in-out-link");
-  if (authorized) {
-    const button = document.createElement("button");
-    button.setAttribute("class", "signout-btn");
-    button.textContent = "Signout";
-    button.addEventListener("click", handleLogout);
-    signInOut.appendChild(button);
-    adminLink.classList.remove("hide");
-  } else {
-    const a = document.createElement("a");
-    a.setAttribute("href", "./signin.html");
-    a.textContent = "Signin";
-    signInOut.appendChild(a);
-    adminLink.classList.add("hide");
-  }
 };
 
 // fill the modal with current article
@@ -101,7 +116,7 @@ const fillModalContents = () => {
 
   const handleSave = (e) => {
     if (validateArticle()) {
-      loader.classList.remove("hide");
+      showLoader();
       articleErrorMessage.classList.add("hide");
 
       if (imageInput.value) {
@@ -121,16 +136,19 @@ const fillModalContents = () => {
                 imageUrl: url,
               })
               .then(() => {
-                loader.classList.add("hide");
+                hideLoader();
+                toggleModal();
                 displayNotification("Article saved successfully", "success");
                 window.location.reload();
               })
               .catch((err) => {
                 displayNotification(err, "error");
+                toggleModal();
               });
           })
           .catch((err) => {
             displayNotification(err, "error");
+            toggleModal();
           });
       } else {
         db.collection("articles")
@@ -140,12 +158,14 @@ const fillModalContents = () => {
             body: editBody.value,
           })
           .then(() => {
-            loader.classList.add("hide");
+            hideLoader();
             displayNotification("Article saved successfully", "success");
             window.location.reload();
+            toggleModal();
           })
           .catch((err) => {
             displayNotification(err, "error");
+            toggleModal();
           });
       }
     } else {
@@ -166,12 +186,12 @@ deleteArticle.addEventListener("click", (e) => {
 });
 
 confirmDelete.addEventListener("click", () => {
-  loader.classList.remove("hide");
+  showLoader();
   db.collection("articles")
     .doc(currentArticleId)
     .delete()
     .then(() => {
-      loader.classList.add("hide");
+      hideLoader();
       displayNotification("Article deleted successfully!", "success");
       deleteModal.classList.toggle("hide");
       window.location.assign("blogs.html");
@@ -278,7 +298,7 @@ const validateComment = () => {
 };
 
 const handleSubmit = (e) => {
-  loader.classList.remove("hide");
+  showLoader();
   e.preventDefault();
 
   if (validateComment()) {
@@ -295,7 +315,7 @@ const handleSubmit = (e) => {
         nameInput.value = "";
         emailInput.value = "";
         commentInput.value = "";
-        loader.classList.add("hide");
+        hideLoader();
         displayNotification("Comment published successfully!", "success");
       })
       .catch((err) => {
@@ -308,10 +328,7 @@ const handleSubmit = (e) => {
 
 commentForm.addEventListener("submit", handleSubmit);
 
-const isSignedIn = localStorage.getItem("signedIn");
-
 responsive();
-isAuthor(isSignedIn === "true" ? true : false);
 
 db.collection("articles")
   .doc(currentArticleId)

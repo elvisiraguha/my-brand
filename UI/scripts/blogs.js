@@ -1,10 +1,37 @@
-import { db } from "./firebase.config.js";
+import { showLoader, hideLoader } from "../scripts/helperFunctions.js";
+
+const db = firebase.firestore();
+const auth = firebase.auth();
+
+auth.onAuthStateChanged((user) => {
+  isAuthor(user);
+});
+
+const handleLogout = () => {
+  auth.signOut();
+};
+
+const handleLogin = () => {
+  window.location.assign("./signin.html");
+};
+
+const isAuthor = (user) => {
+  const adminLink = document.querySelector(".admin-link");
+  const signInOutBtn = document.querySelector(".sign-in-out-link button");
+
+  if (user) {
+    signInOutBtn.textContent = "SignOut";
+    signInOutBtn.addEventListener("click", handleLogout);
+    adminLink.classList.remove("hide");
+  } else {
+    signInOutBtn.textContent = "SignIn";
+    signInOutBtn.addEventListener("click", handleLogin);
+    adminLink.classList.add("hide");
+  }
+};
 
 const articlesSection = document.querySelector("section.articles");
 const paginationSection = document.querySelector(".pagination");
-
-// check for signed in user
-const isSignedIn = localStorage.getItem("signedIn");
 
 // handle responsiveness
 const responsive = () => {
@@ -15,31 +42,6 @@ const responsive = () => {
     nav.classList.toggle("nav-active");
     burger.classList.toggle("toggle");
   });
-};
-
-const handleLogout = () => {
-  localStorage.setItem("signedIn", false);
-  window.location.reload();
-};
-
-const isAuthor = (authorized) => {
-  const adminLink = document.querySelector(".admin-link");
-  const signInOut = document.querySelector(".sign-in-out-link");
-
-  if (authorized) {
-    const button = document.createElement("button");
-    button.setAttribute("class", "signout-btn");
-    button.textContent = "Signout";
-    button.addEventListener("click", handleLogout);
-    signInOut.appendChild(button);
-    adminLink.classList.remove("hide");
-  } else {
-    const a = document.createElement("a");
-    a.setAttribute("href", "./signin.html");
-    a.textContent = "Signin";
-    signInOut.appendChild(a);
-    adminLink.classList.add("hide");
-  }
 };
 
 const setCurrentArticle = (id) => {
@@ -139,11 +141,12 @@ const paginationButton = (page, items) => {
 };
 
 responsive();
-isAuthor(isSignedIn === "true" ? true : false);
 
+showLoader();
 db.collection("articles")
   .get()
   .then((snapshot) => {
+    hideLoader();
     displayArticles(snapshot.docs, articlesSection, rows, currentPage);
     setUpPagination(snapshot.docs, paginationSection, rows);
   })

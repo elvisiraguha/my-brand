@@ -9,6 +9,7 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="../styles/update-profile.css" />
+    <link rel="stylesheet" href="../styles/helper.styles.css" />
     <title>Update Profile</title>
   </head>
   <body>
@@ -25,10 +26,12 @@
             <li>
               <a href="blogs.html">Blogs</a>
             </li>
-            <li class="admin-link">
+            <li class="admin-link hide">
               <a href="./admin.html">Admin</a>
             </li>
-            <li class="sign-in-out-link"></li>
+            <li class="sign-in-out-link">
+              <button></button>
+            </li>
           </ul>
           <div class="burger">
             <div class="line1"></div>
@@ -134,7 +137,6 @@
           </div>
         </section>
       </main>
-      <section class="notification hide"></section>
       <section class="add-modal hide">
         <div class="modal-content">
           <form>
@@ -220,6 +222,16 @@
         &copy; Elvis Iraguha 2020
       </footer>
     </div>
+      <!-- The core Firebase JS SDK is always required and must be listed first -->
+      <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-app.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-firestore.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-auth.js"></script>
+
+      <!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+      <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-analytics.js"></script>
+
+      <script src="../scripts/firebase.config.js" type="module"></script>
     <script src="../scripts/helperFunctions.js" type="module"></script>
     <script src="../scripts/profileData.js" type="module"></script>
     <script src="../scripts/update-profile.js" type="module"></script>

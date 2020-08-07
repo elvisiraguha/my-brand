@@ -9,6 +9,7 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="../styles/blogs.css" />
+    <link rel="stylesheet" href="../styles/helper.styles.css" />
     <title>Latest Blogs</title>
   </head>
   <body>
@@ -25,10 +26,12 @@
             <li>
               <a href="../../index.html">Home</a>
             </li>
-            <li class="admin-link">
+            <li class="admin-link hide">
               <a href="./admin.html">Admin</a>
             </li>
-            <li class="sign-in-out-link"></li>
+            <li class="sign-in-out-link">
+              <button></button>
+            </li>
           </ul>
           <div class="burger">
             <div class="line1"></div>
@@ -47,8 +50,8 @@
     </div>
     <!-- The core Firebase JS SDK is always required and must be listed first -->
     <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-storage.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-auth.js"></script>
 
     <!-- TODO: Add SDKs for Firebase products that you want to use
      https://firebase.google.com/docs/web/setup#available-libraries -->

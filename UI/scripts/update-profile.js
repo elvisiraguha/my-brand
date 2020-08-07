@@ -1,7 +1,52 @@
 import profileData from "./profileData.js";
 import { displayNotification } from "./helperFunctions.js";
 
-const isSignedIn = localStorage.getItem("signedIn");
+const db = firebase.firestore();
+const auth = firebase.auth();
+
+auth.onAuthStateChanged((user) => {
+  isAuthor(user);
+});
+
+const handleLogout = () => {
+  showLoader();
+  auth
+    .signOut()
+    .then(() => {
+      hideLoader();
+    })
+    .catch((err) => {
+      hideLoader();
+      displayNotification(err, "error");
+    });
+};
+
+const handleLogin = () => {
+  window.location.assign("./signin.html");
+};
+
+const isAuthor = (user) => {
+  const adminLink = document.querySelector(".admin-link");
+  const signInOutBtn = document.querySelector(".sign-in-out-link button");
+  const authorizedContents = document.querySelector("main");
+  const unauthorizedContents = document.querySelector(
+    "section.unauthorized-author"
+  );
+
+  if (user) {
+    signInOutBtn.textContent = "SignOut";
+    signInOutBtn.addEventListener("click", handleLogout);
+    adminLink.classList.remove("hide");
+    authorizedContents.classList.remove("hide");
+    unauthorizedContents.classList.add("hide");
+  } else {
+    signInOutBtn.textContent = "SignIn";
+    signInOutBtn.addEventListener("click", handleLogin);
+    adminLink.classList.add("hide");
+    authorizedContents.classList.add("hide");
+    unauthorizedContents.classList.remove("hide");
+  }
+};
 
 const responsive = () => {
   const burger = document.querySelector(".burger");
@@ -489,40 +534,6 @@ const changePicture = () => {
   });
 
   cancelBtn.addEventListener("click", () => handleCancel(changePictureModal));
-};
-
-const handleLogout = () => {
-  localStorage.setItem("signedIn", false);
-  window.location.reload();
-  displayNotification("Signed out successfully", "success");
-};
-
-const isAuthor = (authorized) => {
-  const signInOut = document.querySelector(".sign-in-out-link");
-  const adminLink = document.querySelector(".admin-link");
-  const authorizedContents = document.querySelector("main");
-  const unauthorizedContents = document.querySelector(
-    "section.unauthorized-author"
-  );
-
-  if (authorized) {
-    const button = document.createElement("button");
-    button.setAttribute("class", "signout-btn");
-    button.textContent = "Signout";
-    button.addEventListener("click", handleLogout);
-    signInOut.appendChild(button);
-    adminLink.classList.remove("hide");
-    authorizedContents.classList.remove("hide");
-    unauthorizedContents.classList.add("hide");
-  } else {
-    const a = document.createElement("a");
-    a.setAttribute("href", "./UI/pages/signin.html");
-    a.textContent = "Signin";
-    signInOut.appendChild(a);
-    authorizedContents.classList.add("hide");
-    unauthorizedContents.classList.remove("hide");
-    adminLink.classList.add("hide");
-  }
 };
 
 const addItems = () => {
@@ -1074,7 +1085,6 @@ const changePictureBtn = document.querySelector(".profile-intro div.cover");
 changePictureBtn.addEventListener("click", changePicture);
 
 responsive();
-isAuthor(isSignedIn === "true" ? true : false);
 displaySkills();
 displaySocials();
 displayExperiences();

@@ -1,12 +1,53 @@
-import { db, storageRef } from "./firebase.config.js";
-import { displayNotification } from "./helperFunctions.js";
+import {
+  displayNotification,
+  showLoader,
+  hideLoader,
+} from "./helperFunctions.js";
 
-const isSignedIn = localStorage.getItem("signedIn");
+const db = firebase.firestore();
+const auth = firebase.auth();
+const storageRef = firebase.storage().ref();
+
+auth.onAuthStateChanged((user) => {
+  isAuthor(user);
+});
 
 const handleLogout = () => {
-  localStorage.setItem("signedIn", false);
-  window.location.reload();
-  displayNotification("Signed out successfully");
+  showLoader();
+  auth
+    .signOut()
+    .then(() => {
+      hideLoader();
+    })
+    .catch((err) => {
+      hideLoader();
+      displayNotification(err, "error");
+    });
+};
+
+const handleLogin = () => {
+  window.location.assign("./signin.html");
+};
+
+const isAuthor = (user) => {
+  const writeArticle = document.querySelector(".write-article");
+  const unauthorized = document.querySelector(".unauthorized-author");
+  const adminLink = document.querySelector(".admin-link");
+  const signInOutBtn = document.querySelector(".sign-in-out-link button");
+
+  if (user) {
+    signInOutBtn.textContent = "SignOut";
+    signInOutBtn.addEventListener("click", handleLogout);
+    adminLink.classList.remove("hide");
+    writeArticle.classList.remove("hide");
+    unauthorized.classList.add("hide");
+  } else {
+    signInOutBtn.textContent = "SignIn";
+    signInOutBtn.addEventListener("click", handleLogin);
+    adminLink.classList.add("hide");
+    writeArticle.classList.add("hide");
+    unauthorized.classList.remove("hide");
+  }
 };
 
 // handle responsiveness
@@ -18,38 +59,6 @@ const responsive = () => {
     nav.classList.toggle("nav-active");
     burger.classList.toggle("toggle");
   });
-};
-
-const isAuthor = (authorized) => {
-  // display edits when user is authorized
-  const writeArticle = document.querySelector(".write-article");
-  const unauthorized = document.querySelector(".unauthorized-author");
-  const adminLink = document.querySelector(".admin-link");
-
-  if (authorized) {
-    writeArticle.classList.remove("hide");
-    unauthorized.classList.add("hide");
-  } else {
-    writeArticle.classList.add("hide");
-    unauthorized.classList.remove("hide");
-  }
-
-  // display either signout or signin nav link if use is singned in
-  const signInOut = document.querySelector(".sign-in-out-link");
-  if (authorized) {
-    const button = document.createElement("button");
-    button.setAttribute("class", "signout-btn");
-    button.textContent = "Signout";
-    button.addEventListener("click", handleLogout);
-    signInOut.appendChild(button);
-    adminLink.classList.remove("hide");
-  } else {
-    const a = document.createElement("a");
-    a.setAttribute("href", "./signin.html");
-    a.textContent = "Signin";
-    signInOut.appendChild(a);
-    adminLink.classList.add("hide");
-  }
 };
 
 const cancelEditBtn = document.querySelector(".btn-cancel");
@@ -102,7 +111,7 @@ const handleOnPublish = () => {
 };
 
 const confirmModal = () => {
-  loader.classList.remove("hide");
+  showLoader();
   const file = imageInput.files[0];
   const fileName = `${new Date().toLocaleString()}-${file.name}`;
 
@@ -119,7 +128,7 @@ const confirmModal = () => {
           publishedOn: new Date().toLocaleString(),
         })
         .then((res) => {
-          loader.classList.add("hide");
+          hideLoader();
           titleInput.value = "";
           bodyInput.value = "";
           imageInput.value = "";
@@ -157,9 +166,6 @@ returnToEdit.forEach((btn) => {
   btn.addEventListener("click", handleOnReturn);
 });
 
-if (isSignedIn === "true") {
-  window.addEventListener("beforeunload", handleOnLeave);
-}
+window.addEventListener("beforeunload", handleOnLeave);
 
 responsive();
-isAuthor(isSignedIn === "true" ? true : false);

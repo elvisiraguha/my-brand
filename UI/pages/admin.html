@@ -28,7 +28,9 @@
             <li>
               <a href="blogs.html">Blogs</a>
             </li>
-            <li class="sign-in-out-link"></li>
+            <li class="sign-in-out-link">
+              <button></button>
+            </li>
           </ul>
           <div class="burger">
             <div class="line1"></div>
@@ -38,7 +40,7 @@
         </nav>
       </header>
       <main>
-        <section class="admin-contents">
+        <section class="admin-contents hide">
           <h3>Admin Portal</h3>
           <div class="write-article-container">
             <a href="./write.html">Write Article &#187;</a>
@@ -50,7 +52,7 @@
             <a href="./update-profile.html">Edit Profile &#187;</a>
           </div>
         </section>
-        <div class="unauthorized-author">
+        <div class="unauthorized-author hide">
           <h3>You are not authorized to view queries</h3>
           <p>Click here to <a class="btn" href="./signin.html">Sign In</a></p>
         </div>
@@ -58,7 +60,16 @@
       <footer>
         &copy; Elvis Iraguha 2020
       </footer>
-      <script src="../scripts/admin.js"></script>
+      <!-- The core Firebase JS SDK is always required and must be listed first -->
+      <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-app.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-auth.js"></script>
+
+      <!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+      <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-analytics.js"></script>
+
+      <script src="../scripts/firebase.config.js" type="module"></script>
+      <script src="../scripts/admin.js" type="module"></script>
     </div>
   </body>
 </html>

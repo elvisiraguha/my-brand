@@ -1,5 +1,34 @@
-// check for signed in user
-const isSignedIn = localStorage.getItem("signedIn");
+const auth = firebase.auth();
+
+auth.onAuthStateChanged((user) => {
+  isAuthor(user);
+});
+
+const handleLogout = () => {
+  auth.signOut();
+};
+
+const handleLogin = () => {
+  window.location.assign("./signin.html");
+};
+
+const isAuthor = (user) => {
+  const unauthorizedAuthor = document.querySelector(".unauthorized-author");
+  const adminContents = document.querySelector(".admin-contents");
+  const signInOutBtn = document.querySelector(".sign-in-out-link button");
+
+  if (user) {
+    signInOutBtn.textContent = "SignOut";
+    signInOutBtn.addEventListener("click", handleLogout);
+    unauthorizedAuthor.classList.add("hide");
+    adminContents.classList.remove("hide");
+  } else {
+    signInOutBtn.textContent = "SignIn";
+    signInOutBtn.addEventListener("click", handleLogin);
+    unauthorizedAuthor.classList.remove("hide");
+    adminContents.classList.add("hide");
+  }
+};
 
 // handle responsiveness
 const responsive = () => {
@@ -12,33 +41,4 @@ const responsive = () => {
   });
 };
 
-const handleLogout = () => {
-  localStorage.setItem("signedIn", false);
-  window.location.reload();
-};
-
-const isAuthor = (authorized) => {
-  const signInOut = document.querySelector(".sign-in-out-link");
-  const unauthorizedAuthor = document.querySelector(".unauthorized-author");
-  const adminContents = document.querySelector(".admin-contents");
-
-  if (authorized) {
-    const button = document.createElement("button");
-    button.setAttribute("class", "signout-btn");
-    button.textContent = "Signout";
-    button.addEventListener("click", handleLogout);
-    signInOut.appendChild(button);
-    unauthorizedAuthor.classList.add("hide");
-    adminContents.classList.remove("hide");
-  } else {
-    const a = document.createElement("a");
-    a.setAttribute("href", "./signin.html");
-    a.textContent = "Signin";
-    signInOut.appendChild(a);
-    unauthorizedAuthor.classList.remove("hide");
-    adminContents.classList.add("hide");
-  }
-};
-
 responsive();
-isAuthor(isSignedIn === "true" ? true : false);

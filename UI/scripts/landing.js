@@ -1,6 +1,39 @@
-import {displayNotification} from './helperFunctions.js'
+import {
+  displayNotification,
+  showLoader,
+  hideLoader,
+} from "./helperFunctions.js";
 
-const isSignedIn = localStorage.getItem("signedIn");
+const auth = firebase.auth();
+
+showLoader();
+auth.onAuthStateChanged((user) => {
+  hideLoader();
+  isAuthor(user);
+});
+
+const handleLogout = () => {
+  auth.signOut();
+};
+
+const handleLogin = () => {
+  window.location.assign("./UI/pages/signin.html");
+};
+
+const isAuthor = (user) => {
+  const adminLink = document.querySelector(".admin-link");
+  const signInOutBtn = document.querySelector(".sign-in-out-link button");
+
+  if (user) {
+    signInOutBtn.textContent = "SignOut";
+    signInOutBtn.addEventListener("click", handleLogout);
+    adminLink.classList.remove("hide");
+  } else {
+    signInOutBtn.textContent = "SignIn";
+    signInOutBtn.addEventListener("click", handleLogin);
+    adminLink.classList.add("hide");
+  }
+};
 
 const responsive = () => {
   const burger = document.querySelector(".burger");
@@ -10,32 +43,6 @@ const responsive = () => {
     nav.classList.toggle("nav-active");
     burger.classList.toggle("toggle");
   });
-};
-
-const handleLogout = () => {
-  localStorage.setItem("signedIn", false);
-  window.location.reload();
-  displayNotification("Signed out successfully", 'success');
-};
-
-const isAuthor = (authorized) => {
-  const signInOut = document.querySelector(".sign-in-out-link");
-  const adminLink = document.querySelector(".admin-link");
-
-  if (authorized) {
-    const button = document.createElement("button");
-    button.setAttribute("class", "signout-btn");
-    button.textContent = "Signout";
-    button.addEventListener("click", handleLogout);
-    signInOut.appendChild(button);
-    adminLink.classList.remove("hide");
-  } else {
-    const a = document.createElement("a");
-    a.setAttribute("href", "./UI/pages/signin.html");
-    a.textContent = "Signin";
-    signInOut.appendChild(a);
-    adminLink.classList.add("hide");
-  }
 };
 
 const highlightNav = () => {
@@ -111,7 +118,7 @@ const validate = () => {
     errorMessage.textContent = "The message must be at least 10 charcters long";
     return false;
   } else {
-    displayNotification("Message is sent successfully!", 'success');
+    displayNotification("Message is sent successfully!", "success");
     return true;
   }
 };
@@ -133,7 +140,6 @@ const handleSubmit = (e) => {
 messageForm.addEventListener("submit", handleSubmit);
 
 responsive();
-isAuthor(isSignedIn === "true" ? true : false);
 
 window.addEventListener("load", () => {
   highlightNav();
