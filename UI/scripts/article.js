@@ -1,7 +1,8 @@
-import { db } from "./firebase.config.js";
-import {displayNotification} from './helperFunctions.js'
+import { db, storageRef } from "./firebase.config.js";
+import { displayNotification } from "./helperFunctions.js";
 
 const currentArticleId = localStorage.getItem("current-article-id");
+let currentArticle;
 
 // edit article button
 const editArticle = document.querySelector("button.edit");
@@ -17,6 +18,7 @@ const cancelModal = document.querySelector(".modal-cancel");
 
 const confirmDelete = document.querySelector(".btn-delete");
 const returnToArticle = document.querySelector(".btn-back");
+const loader = document.querySelector(".loader-modal");
 
 const handleLogout = () => {
   localStorage.setItem("signedIn", false);
@@ -64,14 +66,96 @@ const isAuthor = (authorized) => {
 
 // fill the modal with current article
 const fillModalContents = () => {
+  const articleErrorMessage = document.querySelector(".modal .error-message");
   const editTitle = document.querySelector("input.modal-title");
   editTitle.value = currentArticle.title;
 
   const editBody = document.querySelector("textarea.modal-body");
   editBody.textContent = currentArticle.body;
+
+  const imagePreview = document.querySelector(".modal-image-preview");
+  imagePreview.src = currentArticle.imageUrl;
+  const imageInput = document.querySelector(".modal-image-input");
+  imageInput.addEventListener("change", ({ target }) => {
+    const file = target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.addEventListener("load", () => {
+        imagePreview.src = reader.result;
+      });
+      reader.readAsDataURL(file);
+    }
+  });
+
+  const validateArticle = () => {
+    if (editTitle.value.length < 10) {
+      articleErrorMessage.textContent = "The article title is short.";
+      return false;
+    } else if (editBody.value.length < 20) {
+      articleErrorMessage.textContent = "The article content is short.";
+      return false;
+    } else {
+      return true;
+    }
+  };
+
+  const handleSave = (e) => {
+    if (validateArticle()) {
+      loader.classList.remove("hide");
+      articleErrorMessage.classList.add("hide");
+
+      if (imageInput.value) {
+        const file = imageInput.files[0];
+        const fileName = `${new Date().toLocaleString()}-${file.name}`;
+
+        storageRef
+          .child(fileName)
+          .put(file)
+          .then((snapshot) => snapshot.ref.getDownloadURL())
+          .then((url) => {
+            db.collection("articles")
+              .doc(currentArticleId)
+              .update({
+                title: editTitle.value,
+                body: editBody.value,
+                imageUrl: url,
+              })
+              .then(() => {
+                loader.classList.add("hide");
+                displayNotification("Article saved successfully", "success");
+                window.location.reload();
+              })
+              .catch((err) => {
+                displayNotification(err, "error");
+              });
+          })
+          .catch((err) => {
+            displayNotification(err, "error");
+          });
+      } else {
+        db.collection("articles")
+          .doc(currentArticleId)
+          .update({
+            title: editTitle.value,
+            body: editBody.value,
+          })
+          .then(() => {
+            loader.classList.add("hide");
+            displayNotification("Article saved successfully", "success");
+            window.location.reload();
+          })
+          .catch((err) => {
+            displayNotification(err, "error");
+          });
+      }
+    } else {
+      articleErrorMessage.classList.remove("hide");
+    }
+  };
+
+  saveModal.addEventListener("click", handleSave);
 };
 
-// show modal when edit is clicked
 editArticle.addEventListener("click", () => {
   fillModalContents();
   toggleModal();
@@ -81,15 +165,17 @@ deleteArticle.addEventListener("click", (e) => {
   deleteModal.classList.remove("hide");
 });
 
-// close the modal when either cancel or save is clicked
-saveModal.addEventListener("click", () => {
-  displayNotification("Article saved successfully", "success");
-  toggleModal();
-});
-
 confirmDelete.addEventListener("click", () => {
-  displayNotification("Article deleted successfully!", "success");
-  deleteModal.classList.toggle("hide");
+  loader.classList.remove("hide");
+  db.collection("articles")
+    .doc(currentArticleId)
+    .delete()
+    .then(() => {
+      loader.classList.add("hide");
+      displayNotification("Article deleted successfully!", "success");
+      deleteModal.classList.toggle("hide");
+      window.location.assign("blogs.html");
+    });
 });
 
 returnToArticle.addEventListener("click", () => {
@@ -104,32 +190,34 @@ const toggleModal = () => {
   editModal.classList.toggle("hide");
 };
 
-const displayArticle = (currentArticle) => {
-  document.title = currentArticle.title;
+const displayArticle = (data) => {
+  document.title = data.title;
 
   const articlesSection = document.querySelector("section.article");
   const article = document.createElement("article");
 
   const blogTitle = document.createElement("h3");
   blogTitle.setAttribute("class", "article-title");
-  blogTitle.textContent = currentArticle.title;
+  blogTitle.textContent = data.title;
 
   const blogImage = document.createElement("img");
   blogImage.setAttribute("class", "article-image");
   blogImage.setAttribute("alt", "a random picture from picsum");
-  blogImage.src = currentArticle.imageUrl;
+  blogImage.src = data.imageUrl;
 
+  const bodyBreak = document.createElement("br");
   const blogBody = document.createElement("p");
   blogBody.setAttribute("class", "article-body");
-  blogBody.textContent = currentArticle.body;
+  blogBody.textContent = data.body;
 
   const articleDate = document.createElement("p");
   articleDate.setAttribute("class", "article-date");
 
-  articleDate.textContent = currentArticle.publishedOn;
+  articleDate.textContent = data.publishedOn;
 
   article.appendChild(blogTitle);
   article.appendChild(blogImage);
+  article.appendChild(bodyBreak);
   article.appendChild(blogBody);
   article.appendChild(articleDate);
 
@@ -166,19 +254,23 @@ const commentForm = document.querySelector(".comment-form");
 const nameInput = document.querySelector("#name-input");
 const emailInput = document.querySelector("#email-input");
 const commentInput = document.querySelector("#comment-input");
-const errorMessage = document.querySelector(".error-message");
+const commentErrorMessage = document.querySelector(
+  ".comment-form .error-message"
+);
 
-const validate = () => {
+const validateComment = () => {
   const emailRex = /\S+@\S+\.\S+/;
 
   if (nameInput.value.length < 4) {
-    errorMessage.textContent = "The name must be at least 4 charcters long";
+    commentErrorMessage.textContent =
+      "The name must be at least 4 charcters long";
     return false;
   } else if (!emailRex.test(emailInput.value)) {
-    errorMessage.textContent = "The email is not a valid email address";
+    commentErrorMessage.textContent = "The email is not a valid email address";
     return false;
   } else if (commentInput.value.length < 10) {
-    errorMessage.textContent = "The comment must be at least 10 charcters long";
+    commentErrorMessage.textContent =
+      "The comment must be at least 10 charcters long";
     return false;
   } else {
     return true;
@@ -186,9 +278,10 @@ const validate = () => {
 };
 
 const handleSubmit = (e) => {
+  loader.classList.remove("hide");
   e.preventDefault();
 
-  if (validate()) {
+  if (validateComment()) {
     db.collection("comments")
       .add({
         articleId: currentArticleId,
@@ -198,17 +291,18 @@ const handleSubmit = (e) => {
         publishedOn: new Date().toDateString(),
       })
       .then((res) => {
-        errorMessage.classList.add("hide");
+        commentErrorMessage.classList.add("hide");
         nameInput.value = "";
         emailInput.value = "";
         commentInput.value = "";
+        loader.classList.add("hide");
         displayNotification("Comment published successfully!", "success");
       })
       .catch((err) => {
         displayNotification(err, "error");
       });
   } else {
-    errorMessage.classList.remove("hide");
+    commentErrorMessage.classList.remove("hide");
   }
 };
 
@@ -226,6 +320,7 @@ db.collection("articles")
     const data = doc.data();
 
     if (data) {
+      currentArticle = data;
       displayArticle(data);
     } else {
       displayNotification("Article can't be found now", "error");

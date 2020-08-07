@@ -4,7 +4,7 @@ const password = document.querySelector("form .password-input");
 const errorMessage = document.querySelector(".error-message");
 
 const validate = () => {
-  const passwordRex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+  var passwordRex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
   const emailRex = /\S+@\S+\.\S+/;
 
   if (!emailRex.test(email.value)) {
