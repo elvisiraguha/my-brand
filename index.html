@@ -9,6 +9,7 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="./UI/styles/landing.css" />
+    <link rel="stylesheet" href="./UI/styles/helper.styles.css" />
     <title>Elvis Iraguha - A Full Stack Web Developer</title>
   </head>
   <body>
@@ -39,10 +40,12 @@
             <li>
               <a href="./UI/pages/blogs.html">Blogs</a>
             </li>
-            <li class="admin-link">
+            <li class="admin-link hide">
               <a href="./UI/pages/admin.html">Admin</a>
             </li>
-            <li class="sign-in-out-link"></li>
+            <li class="sign-in-out-link">
+              <button></button>
+            </li>
           </ul>
           <div class="burger">
             <div class="line1"></div>
@@ -252,11 +255,20 @@
           <p>Kigali, Rwanda</p>
         </section>
       </main>
-      <section class="notification hide"></section>
       <footer>
         &copy; Elvis Iraguha 2020
       </footer>
     </div>
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-auth.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+         https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-analytics.js"></script>
+
+    <script src="./UI/scripts/firebase.config.js" type="module"></script>
     <script src="./UI/scripts/landing.js" type="module"></script>
   </body>
 </html>

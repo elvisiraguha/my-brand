@@ -1,7 +1,50 @@
 import { queries } from "./queriesList.js";
 import { displayNotification } from "./helperFunctions.js";
 
-const isSignedIn = localStorage.getItem("signedIn");
+const db = firebase.firestore();
+const auth = firebase.auth();
+
+auth.onAuthStateChanged((user) => {
+  isAuthor(user);
+});
+
+const handleLogout = () => {
+  showLoader();
+  auth
+    .signOut()
+    .then(() => {
+      hideLoader();
+    })
+    .catch((err) => {
+      hideLoader();
+      displayNotification(err, "error");
+    });
+};
+
+const handleLogin = () => {
+  window.location.assign("./signin.html");
+};
+
+const isAuthor = (user) => {
+  const unauthorized = document.querySelector(".unauthorized-author");
+  const message = document.querySelector(".messages");
+  const adminLink = document.querySelector(".admin-link");
+  const signInOutBtn = document.querySelector(".sign-in-out-link button");
+
+  if (user) {
+    signInOutBtn.textContent = "SignOut";
+    signInOutBtn.addEventListener("click", handleLogout);
+    message.classList.remove("hide");
+    adminLink.classList.remove("hide");
+    unauthorized.classList.add("hide");
+  } else {
+    signInOutBtn.textContent = "SignIn";
+    signInOutBtn.addEventListener("click", handleLogin);
+    adminLink.classList.add("hide");
+    message.classList.add("hide");
+    unauthorized.classList.remove("hide");
+  }
+};
 
 const sortedQueries = (function () {
   const sortedByDate = queries.sort(
@@ -152,12 +195,6 @@ const paginationButton = (page, items) => {
   return button;
 };
 
-const handleLogout = () => {
-  localStorage.setItem("signedIn", false);
-  window.location.reload();
-  displayNotification("Signed out successfully", "success");
-};
-
 // handle responsiveness
 const responsive = () => {
   const burger = document.querySelector(".burger");
@@ -169,40 +206,9 @@ const responsive = () => {
   });
 };
 
-const isAuthor = (authorized) => {
-  const adminLink = document.querySelector(".admin-link");
-  const message = document.querySelector(".messages");
-  const unauthorized = document.querySelector(".unauthorized-author");
-
-  if (authorized) {
-    message.classList.remove("hide");
-    adminLink.classList.remove("hide");
-    unauthorized.classList.add("hide");
-  } else {
-    message.classList.add("hide");
-    adminLink.classList.add("hide");
-    unauthorized.classList.remove("hide");
-  }
-
-  const signInOut = document.querySelector(".sign-in-out-link");
-  if (authorized) {
-    const button = document.createElement("button");
-    button.setAttribute("class", "signout-btn");
-    button.textContent = "Signout";
-    button.addEventListener("click", handleLogout);
-    signInOut.appendChild(button);
-  } else {
-    const a = document.createElement("a");
-    a.setAttribute("href", "./signin.html");
-    a.textContent = "Signin";
-    signInOut.appendChild(a);
-  }
-};
-
 let currentPage = 1;
 let rows = 10;
 
 responsive();
-isAuthor(isSignedIn === "true" ? true : false);
 displayQueries(sortedQueries, queriesSection, rows, currentPage);
 setUpPagination(sortedQueries, paginationSection, rows);

@@ -1,3 +1,7 @@
+import { showLoader, hideLoader } from "./helperFunctions.js";
+
+const auth = firebase.auth();
+
 const form = document.querySelector(".signin-container form");
 const email = document.querySelector("form .email-input");
 const password = document.querySelector("form .password-input");
@@ -23,9 +27,20 @@ const handleSubmit = (e) => {
   e.preventDefault();
 
   if (validate()) {
-    localStorage.setItem("signedIn", true);
-    window.location.replace("blogs.html");
-    errorMessage.classList.add("hide");
+    showLoader();
+    errorMessage.textContent = "";
+    auth
+      .signInWithEmailAndPassword(email.value, password.value)
+      .then((cred) => {
+        hideLoader();
+        window.history.back();
+      })
+      .catch((err) => {
+        hideLoader();
+        password.value = "";
+        errorMessage.classList.remove("hide");
+        errorMessage.textContent = err;
+      });
   } else {
     errorMessage.classList.remove("hide");
   }

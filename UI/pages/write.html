@@ -9,6 +9,7 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="../styles/write.css" />
+    <link rel="stylesheet" href="../styles/helper.styles.css" />
     <title>Write Article</title>
   </head>
   <body>
@@ -28,10 +29,12 @@
             <li>
               <a href="blogs.html">Blogs</a>
             </li>
-            <li class="admin-link">
+            <li class="admin-link hide">
               <a href="./admin.html">Admin</a>
             </li>
-            <li class="sign-in-out-link"></li>
+            <li class="sign-in-out-link">
+              <button></button>
+            </li>
           </ul>
           <div class="burger">
             <div class="line1"></div>
@@ -46,9 +49,6 @@
           <button class="btn btn-confirm-cancel">Confirm</button>
           <button class="btn btn-back">Return to Editing</button>
         </div>
-      </div>
-      <div class="hide loader-modal">
-       <div class="loader"></div>
       </div>
       <div class="hide publish-modal">
         <p>Publish Article Now?</p>
@@ -65,7 +65,7 @@
             <input type="text" id="title-input"/>
             <h4>Article Background Image</h5>
               <p>Upload the article background image</p>
-            <input type="file" id="image-input"/>
+            <input type="file" id="image-input" accept="image/*"/>
             <h4>Article Contents</h5>
             <textarea cols="30" rows="10" id="body-input"></textarea>
             <p class="error-message hide"></p>
@@ -80,7 +80,6 @@
           </div>
         </section>
       </main>
-      <section class="notification hide"></section>
       <footer>
         &copy; Elvis Iraguha 2020
       </footer>
@@ -89,6 +88,7 @@
     <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-firestore.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-storage.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-auth.js"></script>
 
     <!-- TODO: Add SDKs for Firebase products that you want to use
      https://firebase.google.com/docs/web/setup#available-libraries -->
