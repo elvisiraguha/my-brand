@@ -10,10 +10,17 @@ const mongodb_url =
 
 const app = express();
 
-mongoose.connect(mongodb_url, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+mongoose
+  .connect(mongodb_url, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => {
+    console.log("Successfully connected to the database");
+  })
+  .catch((error) => {
+    console.log("Error while trying to connect to database! ", error);
+  });
 
 app.use(express.json());
 app.use(router);

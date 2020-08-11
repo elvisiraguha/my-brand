@@ -2,7 +2,7 @@ import supertest from "supertest";
 import app from "../index.js";
 
 const request = supertest(app);
-
+jest.useFakeTimers();
 describe("Articles routes", () => {
   it("should create a new article", async (done) => {
     const res = await request.post("/api/articles").send({

@@ -19,14 +19,12 @@
   },
   "scripts": {
     "start": "nodemon --exec babel-node server.js",
-    "test": "jest --config --coverage --detectOpenHandles",
+    "test": "jest --config --coverage --detectOpenHandles --forceExit",
     "posttest": "cat ./coverage/lcov.info | coveralls"
   },
   "devDependencies": {
     "coveralls": "^3.1.0",
-    "cross-env": "^7.0.2",
     "jest": "^26.3.0",
-    "sinon": "^9.0.2",
     "supertest": "^4.0.2"
   }
 }
