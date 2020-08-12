@@ -35,16 +35,16 @@ describe("Articles routes", () => {
   it("should fail to fetch an individual article with invalid id", async (done) => {
     const res = await request.get("/api/articles/f322a26e079717269f2710a");
 
-    expect(res.status).toBe(404);
-    expect(res.body.message).toBe("Article Not Found");
+    expect(res.status).toBe(500);
+    expect(res.body.message).toBe("Internal Server Error");
     done();
   });
 
   it("should fail to fetch an individual article with incomplete id", async (done) => {
     const res = await request.get("/api/articles/f322a26e0710a");
 
-    expect(res.status).toBe(404);
-    expect(res.body.message).toBe("Article Not Found");
+    expect(res.status).toBe(500);
+    expect(res.body.message).toBe("Internal Server Error");
     done();
   });
 
