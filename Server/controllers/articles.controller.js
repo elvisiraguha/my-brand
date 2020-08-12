@@ -7,7 +7,7 @@ class Articles {
       .then((articles) => {
         Response.success(res, 200, "Articles fetched successfully", articles);
       })
-      .catch((err) => Response.error(res, 404, "Articles Not Found"));
+      .catch((err) => Response.error(res, 500, "Internal Server Error"));
   };
 
   static getOne = async (req, res) => {
@@ -19,7 +19,7 @@ class Articles {
           Response.error(res, 404, "Article  Not Found");
         }
       })
-      .catch((err) => Response.error(res, 404, "Article Not Found"));
+      .catch((err) => Response.error(res, 500, "Internal Server Error"));
   };
 
   static create = async (req, res) => {
@@ -35,7 +35,7 @@ class Articles {
       .then((article) => {
         Response.success(res, 201, "Article created successfully", article);
       })
-      .catch((err) => Response.error(res, 500, err));
+      .catch((err) => Response.error(res, 500, "Internal Server Error"));
   };
 }
 
