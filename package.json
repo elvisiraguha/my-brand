@@ -8,7 +8,10 @@
   "dependencies": {
     "@babel/core": "^7.11.1",
     "@babel/node": "^7.10.5",
+    "@babel/plugin-proposal-class-properties": "^7.10.4",
+    "@babel/plugin-transform-runtime": "^7.11.0",
     "@babel/preset-env": "^7.11.0",
+    "babel-jest": "^26.3.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "mongoose": "^5.9.28",
@@ -16,11 +19,12 @@
   },
   "scripts": {
     "start": "nodemon --exec babel-node server.js",
-    "test": "jest --config --coverage",
+    "test": "jest --config --coverage --detectOpenHandles --forceExit",
     "posttest": "cat ./coverage/lcov.info | coveralls"
   },
   "devDependencies": {
     "coveralls": "^3.1.0",
-    "jest": "^26.3.0"
+    "jest": "^26.3.0",
+    "supertest": "^4.0.2"
   }
 }
