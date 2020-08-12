@@ -26,7 +26,7 @@ class Articles {
     const article = new Article({
       title: req.body.title,
       body: req.body.content,
-      imageUrl: req.body.url,
+      imageUrl: req.body.imageUrl,
       publishedOn: new Date().toLocaleString(),
     });
 
