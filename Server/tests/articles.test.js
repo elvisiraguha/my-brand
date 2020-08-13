@@ -6,15 +6,36 @@ jest.useFakeTimers();
 let id;
 
 describe("Articles routes", () => {
+  it("should fail to create a new article, with missing or short properties ", async (done) => {
+    const res = await request.post("/api/articles").send({
+      content: "Lorem ipsum Lorem ipsum Lorem ipsum",
+      imageUrl: "https://picsum.photos/200/300",
+    });
+    expect(res.status).toBe(400);
+    expect(res.body.message).toBeTruthy();
+    done();
+  });
+
   it("should create a new article", async (done) => {
     const res = await request.post("/api/articles").send({
-      title: "Post Five",
+      title: "a new article in test",
       content: "Lorem ipsum Lorem ipsum Lorem ipsum",
       imageUrl: "https://picsum.photos/200/300",
     });
     id = res.body.data._id;
     expect(res.status).toBe(201);
     expect(res.body.message).toBe("Article created successfully");
+    done();
+  });
+
+  it("should fail to create an article if title alread exist", async (done) => {
+    const res = await request.post("/api/articles").send({
+      title: "a new article in test",
+      content: "Lorem ipsum Lorem ipsum Lorem ipsum",
+      imageUrl: "https://picsum.photos/200/300",
+    });
+    expect(res.status).toBe(409);
+    expect(res.body.message).toContain("alread exists");
     done();
   });
 
@@ -65,12 +86,34 @@ describe("Articles routes", () => {
       imageUrl: "https://picsum.photos/200/300",
     });
 
-    expect(res.status).toBe(201);
+    expect(res.status).toBe(200);
     expect(res.body.message).toBe("Article updated successfully");
     done();
   });
 
-  it("should fail to update an article with invalid id", async (done) => {
+  it("should fail to update an article which doesn't exist", async (done) => {
+    const res = await request
+      .patch(`/api/articles/5f3530278d5769275f0ea769`)
+      .send({
+        title: "Post Updated",
+        content: "Lorem ipsum Lorem ipsum Lorem ipsum",
+        imageUrl: "https://picsum.photos/200/300",
+      });
+
+    expect(res.status).toBe(404);
+    expect(res.body.message).toBe("The article with given id does not exist");
+    done();
+  });
+
+  it("should fail to update an article when no new contents provided", async (done) => {
+    const res = await request.patch(`/api/articles/${id}`);
+
+    expect(res.status).toBe(400);
+    expect(res.body.message).toBe("You must provide the updated contents");
+    done();
+  });
+
+  it("should fail to update an article when there is a server error", async (done) => {
     const res = await request
       .patch(`/api/articles/f322a26e079717269f2710a`)
       .send({
@@ -84,7 +127,7 @@ describe("Articles routes", () => {
     done();
   });
 
-  it("should fail to update an article with incomplete id", async (done) => {
+  it("should fail to update an article when there is a server error", async (done) => {
     const res = await request.patch(`/api/articles/f322a26e07970a`).send({
       title: "Post Updated",
       content: "Lorem ipsum Lorem ipsum Lorem ipsum",
@@ -99,7 +142,8 @@ describe("Articles routes", () => {
   it("should delete an article", async (done) => {
     const res = await request.delete(`/api/articles/${id}`);
 
-    expect(res.status).toBe(204);
+    expect(res.status).toBe(200);
+    expect(res.body.message).toBe("Article deleted successfully");
     done();
   });
 

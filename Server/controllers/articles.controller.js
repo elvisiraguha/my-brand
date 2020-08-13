@@ -39,32 +39,19 @@ class Articles {
   };
 
   static update = async (req, res) => {
+    const { title, content, imageUrl } = req.body;
+
     Article.findOne({ _id: req.params.id })
       .then((article) => {
-        if (article) {
-          if (req.body.title) {
-            article.title = req.body.title;
-          }
-          if (req.body.content) {
-            article.body = req.body.content;
-          }
-          if (req.body.imageUrl) {
-            article.imageUrl = req.body.imageUrl;
-          }
+        article.title = title || article.title;
+        article.body = content || article.body;
+        article.imageUrl = imageUrl || article.imageUrl;
 
-          try {
-            article.save().then((updated) => {
-              Response.success(
-                res,
-                201,
-                "Article updated successfully",
-                updated
-              );
-            });
-          } catch (error) {
-            Response.error(res, 500, "Internal Server Error");
-          }
-        } else {
+        try {
+          article.save().then((updated) => {
+            Response.success(res, 200, "Article updated successfully", updated);
+          });
+        } catch (error) {
           Response.error(res, 500, "Internal Server Error");
         }
       })
@@ -76,7 +63,7 @@ class Articles {
       if (error) {
         Response.error(res, 500, "Internal Server Error");
       } else {
-        Response.success(res, 204);
+        Response.success(res, 200, "Article deleted successfully");
       }
     });
   };
