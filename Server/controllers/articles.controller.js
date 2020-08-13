@@ -76,7 +76,7 @@ class Articles {
       if (error) {
         Response.error(res, 500, "Internal Server Error");
       } else {
-        Response.success(res, 200, "Article deleted successfully");
+        Response.success(res, 204);
       }
     });
   };

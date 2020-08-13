@@ -99,8 +99,7 @@ describe("Articles routes", () => {
   it("should delete an article", async (done) => {
     const res = await request.delete(`/api/articles/${id}`);
 
-    expect(res.status).toBe(200);
-    expect(res.body.message).toBe("Article deleted successfully");
+    expect(res.status).toBe(204);
     done();
   });
 
