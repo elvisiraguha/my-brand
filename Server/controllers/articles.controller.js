@@ -16,10 +16,12 @@ class Articles {
         if (article) {
           Response.success(res, 200, "Article fetched successfully", article);
         } else {
-          Response.error(res, 404, "Article  Not Found");
+          Response.error(res, 404, "The article with given id does not exist");
         }
       })
-      .catch((err) => Response.error(res, 500, "Internal Server Error"));
+      .catch((err) => {
+        Response.error(res, 500, "Internal Server Error");
+      });
   };
 
   static create = async (req, res) => {

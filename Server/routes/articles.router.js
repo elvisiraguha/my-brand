@@ -5,9 +5,9 @@ import Middleware from "../middleware/articles.middleware.js";
 const router = express.Router();
 
 router.get("/", Articles.get);
-router.get("/:id", Articles.getOne);
+router.get("/:id", Middleware.validId, Articles.getOne);
 router.post("/", Middleware.newArticle, Articles.create);
-router.patch("/:id", Middleware.update, Articles.update);
-router.delete("/:id", Articles.delete);
+router.patch("/:id", Middleware.validId, Middleware.update, Articles.update);
+router.delete("/:id", Middleware.validId, Articles.delete);
 
 export default router;

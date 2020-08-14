@@ -55,19 +55,11 @@ describe("Articles routes", () => {
     done();
   });
 
-  it("should fail to fetch an individual article with invalid id", async (done) => {
-    const res = await request.get("/api/articles/f322a26e079717269f2710a");
+  it("should fail to fetch an article with unexisting id", async (done) => {
+    const res = await request.get("/api/articles/4f322a26e079717269f2710a");
 
-    expect(res.status).toBe(500);
-    expect(res.body.message).toBe("Internal Server Error");
-    done();
-  });
-
-  it("should fail to fetch an individual article with incomplete id", async (done) => {
-    const res = await request.get("/api/articles/f322a26e0710a");
-
-    expect(res.status).toBe(500);
-    expect(res.body.message).toBe("Internal Server Error");
+    expect(res.status).toBe(404);
+    expect(res.body.message).toBe("The article with given id does not exist");
     done();
   });
 
@@ -91,7 +83,7 @@ describe("Articles routes", () => {
     done();
   });
 
-  it("should fail to update an article which doesn't exist", async (done) => {
+  it("should fail to update an article with unexisting id", async (done) => {
     const res = await request
       .patch(`/api/articles/5f3530278d5769275f0ea769`)
       .send({
@@ -113,29 +105,15 @@ describe("Articles routes", () => {
     done();
   });
 
-  it("should fail to update an article when there is a server error", async (done) => {
-    const res = await request
-      .patch(`/api/articles/f322a26e079717269f2710a`)
-      .send({
-        title: "Post Updated",
-        content: "Lorem ipsum Lorem ipsum Lorem ipsum",
-        imageUrl: "https://picsum.photos/200/300",
-      });
-
-    expect(res.status).toBe(500);
-    expect(res.body.message).toBe("Internal Server Error");
-    done();
-  });
-
-  it("should fail to update an article when there is a server error", async (done) => {
+  it("should fail to update an article with invalid id", async (done) => {
     const res = await request.patch(`/api/articles/f322a26e07970a`).send({
       title: "Post Updated",
       content: "Lorem ipsum Lorem ipsum Lorem ipsum",
       imageUrl: "https://picsum.photos/200/300",
     });
 
-    expect(res.status).toBe(500);
-    expect(res.body.message).toBe("Internal Server Error");
+    expect(res.status).toBe(404);
+    expect(res.body.message).toBe("The provided article id is incorrect.");
     done();
   });
 
@@ -144,14 +122,6 @@ describe("Articles routes", () => {
 
     expect(res.status).toBe(200);
     expect(res.body.message).toBe("Article deleted successfully");
-    done();
-  });
-
-  it("should fail to delete an article with invalid id", async (done) => {
-    const res = await request.delete(`/api/articles/f322a26e079717269f2710a`);
-
-    expect(res.status).toBe(500);
-    expect(res.body.message).toBe("Internal Server Error");
     done();
   });
 });

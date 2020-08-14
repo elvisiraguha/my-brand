@@ -49,6 +49,16 @@ class Articles {
     }
     next();
   };
+
+  static validId = async (req, res, next) => {
+    const id = req.params.id;
+
+    if (id.length === 24) {
+      next();
+    } else {
+      return Responses.error(res, 404, "The provided article id is incorrect.");
+    }
+  };
 }
 
 export default Articles;
