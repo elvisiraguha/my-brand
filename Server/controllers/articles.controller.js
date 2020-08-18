@@ -7,7 +7,9 @@ class Articles {
       .then((articles) => {
         Response.success(res, 200, "Articles fetched successfully", articles);
       })
-      .catch((err) => Response.error(res, 500, "Internal Server Error"));
+      .catch((err) => {
+        return Response.error(res, 500, "Internal Server Error");
+      });
   };
 
   static getOne = async (req, res) => {
