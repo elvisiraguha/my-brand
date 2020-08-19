@@ -9,7 +9,6 @@ class Auth {
     const schema = Joi.object({
       email: Joi.string().trim().required().min(6),
       password: Joi.string().trim().required().min(8),
-      role: Joi.string().trim().required().min(4),
     });
 
     const { value, error } = schema.validate(req.body);
@@ -28,8 +27,8 @@ class Auth {
     }
 
     try {
-      const userEmail = jwt.verify(token, process.env.JWT_SECRET);
-      const user = await User.findOne({ email: userEmail });
+      const {email} = jwt.verify(token, process.env.JWT_SECRET);
+      const user = await User.findOne({ email });
 
       if (!user) {
         return Responses.error(res, 404, "User with given email is not found");

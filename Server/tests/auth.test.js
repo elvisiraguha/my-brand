@@ -17,7 +17,6 @@ describe("Articles routes", () => {
     const res = await request.post("/api/auth/signin").send({
       email: "iraguha@gil.com",
       password: "password",
-      role: "admin",
     });
     expect(res.status).toBe(404);
     expect(res.body.message).toBe("User with given email is not found");
@@ -28,7 +27,6 @@ describe("Articles routes", () => {
     const res = await request.post("/api/auth/signin").send({
       email: "iraguha@gmail.com",
       password: "password",
-      role: "admin",
     });
     expect(res.status).toBe(403);
     expect(res.body.message).toBe("Password don't match");
@@ -39,7 +37,6 @@ describe("Articles routes", () => {
     const res = await request.post("/api/auth/signin").send({
       email: "iraguha@gmail.com",
       password: "Password123",
-      role: "admin",
     });
     expect(res.status).toBe(200);
     expect(res.body.message).toBe("Signin successfully");

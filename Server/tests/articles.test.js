@@ -11,7 +11,6 @@ describe("Articles routes", () => {
     const res = await request.post("/api/auth/signin").send({
       email: "iraguha@gmail.com",
       password: "Password123",
-      role: "admin",
     });
 
     token = res.body.data.token;

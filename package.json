@@ -18,7 +18,10 @@
     "joi": "^17.2.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.28",
-    "nodemon": "^2.0.4"
+    "nodemon": "^2.0.4",
+    "swagger-jsdoc": "^4.0.0",
+    "swagger-ui": "^3.32.1",
+    "swagger-ui-express": "^4.1.4"
   },
   "scripts": {
     "start": "nodemon --exec babel-node server.js",
