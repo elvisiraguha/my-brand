@@ -1,5 +1,5 @@
 import Joi from "joi";
-import Article from "../models/Article.model.js";
+import Query from "../models/Query.model.js";
 import Responses from "../helpers/responses";
 
 class Queries {
@@ -13,6 +13,33 @@ class Queries {
 
     const { value, error } = schema.validate(req.body);
 
+    if (error) {
+      return Responses.error(res, 400, error.details[0].message);
+    } else {
+      next();
+    }
+  };
+
+  static update = async (req, res, next) => {
+    try {
+      const exists = await Query.findOne({ _id: req.params.id });
+
+      if (!exists) {
+        return Responses.error(
+          res,
+          404,
+          "The querie with given id does not exist"
+        );
+      }
+    } catch (error) {
+      return Responses.error(res, 500, "Internal Server Error");
+    }
+
+    const schema = Joi.object({
+      read: Joi.required().valid(true, false),
+    });
+
+    const { value, error } = schema.validate(req.body);
     if (error) {
       return Responses.error(res, 400, error.details[0].message);
     } else {

@@ -5,6 +5,7 @@ const schema = mongoose.Schema({
 	email: String,
 	subject: String,
 	message: String,
+    read: Boolean
 });
 
-export default mongoose.model("Querie", schema);
+export default mongoose.model("Query", schema);

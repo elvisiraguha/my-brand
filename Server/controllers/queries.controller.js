@@ -1,26 +1,45 @@
-import Querie from "../models/Querie.model.js";
+import Query from "../models/Query.model.js";
 import Response from "../helpers/responses.js";
 
 class Queries {
   static post = async (req, res) => {
-    const querie = new Querie({
+    const query = new Query({
       name: req.body.name,
-      email: req.body.name,
+      email: req.body.email,
       subject: req.body.subject,
-      message: req.body.name,
+      message: req.body.message,
+      read: false
     })
 
-    querie.save()
-    .then((article) => {
-        Response.success(res, 201, "Message sent successfully", article);
+    query.save()
+    .then((response) => {
+        Response.success(res, 201, "Message sent successfully", response);
       })
       .catch((err) => Response.error(res, 500, "Internal Server Error"));
   };
 
   static get = async (req, res) => {
-    Querie.find()
+    Query.find()
       .then((queries) => {
         Response.success(res, 200, "Queries fetched successfully", queries);
+      })
+      .catch((err) => {
+        return Response.error(res, 500, "Internal Server Error");
+      });
+  };
+
+  static update = async (req, res) => {
+    Query.findOne({_id: req.params.id})
+      .then((query) => {
+         query.read = req.body.read
+
+        try {
+          query.save().then((updated) => {
+            Response.success(res, 200, `Read marked ${updated.read}`, updated);
+          });
+        } catch (error) {
+          Response.error(res, 500, "Internal Server Error");
+        }
       })
       .catch((err) => {
         return Response.error(res, 500, "Internal Server Error");
