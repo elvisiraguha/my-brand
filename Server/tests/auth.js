@@ -4,7 +4,7 @@ import app from "../index.js";
 const request = supertest(app);
 jest.useFakeTimers();
 
-describe("Articles routes", () => {
+describe("Signin routes", () => {
   it("should fail to signin with incomplete data", async (done) => {
     const res = await request.post("/api/auth/signin");
 
