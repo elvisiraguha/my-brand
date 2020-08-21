@@ -107,16 +107,17 @@ describe("Queries routes", () => {
     done();
   });
 
-
   it("should fait to set a querry read true if query id is not found", async (done) => {
     const res = await request
-      .patch(`/api/queries/5f3d4a27bb0bc7268f6bb76a`)
+      .patch("/api/queries/5f3d4a27bb0bc7268f6bb76a")
       .send({
         read: true,
       })
       .set("x-auth-token", token);
     expect(res.status).toBe(404);
-    expect(res.body.message).toContain("The querie with given id does not exist");
+    expect(res.body.message).toContain(
+      "The querie with given id does not exist"
+    );
     done();
   });
 

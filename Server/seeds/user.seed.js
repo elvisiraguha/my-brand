@@ -6,7 +6,7 @@ import UserHelper from "../helpers/user.helper.js";
   await User.deleteOne({ email: process.env.USER_EMAIL });
 })();
 
-const newUser = User({
+const newUser = new User({
   email: process.env.USER_EMAIL,
   password: UserHelper.hashPassword(process.env.USER_PASSWORD),
   role: process.env.USER_ROLE,

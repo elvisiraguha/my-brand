@@ -8,7 +8,7 @@ const router = express.Router();
 
 router.use("/api/articles", articles);
 router.use("/api/auth", auth);
-router.use('/api/queries', queries)
+router.use("/api/queries", queries);
 
 router.use("/*", (req, res) => {
   Response.error(res, 405, "Method Not Allowed");

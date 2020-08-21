@@ -8,11 +8,12 @@ class Queries {
       email: req.body.email,
       subject: req.body.subject,
       message: req.body.message,
-      read: false
-    })
+      read: false,
+    });
 
-    query.save()
-    .then((response) => {
+    query
+      .save()
+      .then((response) => {
         Response.success(res, 201, "Message sent successfully", response);
       })
       .catch((err) => Response.error(res, 500, "Internal Server Error"));
@@ -29,9 +30,9 @@ class Queries {
   };
 
   static update = async (req, res) => {
-    Query.findOne({_id: req.params.id})
+    Query.findOne({ _id: req.params.id })
       .then((query) => {
-         query.read = req.body.read
+        query.read = req.body.read;
 
         try {
           query.save().then((updated) => {

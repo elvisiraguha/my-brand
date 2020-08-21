@@ -1,3 +1,3 @@
-import './auth.js'
-import './queries.js'
-import './articles.js'
+import "./auth.js";
+import "./queries.js";
+import "./articles.js";
