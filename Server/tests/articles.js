@@ -2,7 +2,6 @@ import supertest from "supertest";
 import app from "../index.js";
 
 const request = supertest(app);
-jest.useFakeTimers();
 let id;
 let token;
 
@@ -62,7 +61,7 @@ describe("Articles routes", () => {
         "eyJhbGciOiJIUzI1NiJ9.aXJhZ3VoYUBnbW0.KMTUdOu1E-CF-JxB03zzocy4aDkcqHFjhd0ReePFFCw"
       );
     expect(res.status).toBe(404);
-    expect(res.body.message).toBe('User with given email is not found');
+    expect(res.body.message).toBe("User with given email is not found");
     done();
   });
 

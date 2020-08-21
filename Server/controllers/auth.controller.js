@@ -14,8 +14,8 @@ class Auth {
       return Response.error(res, 403, "Password don't match");
     }
 
-    const {email, role} = user
-    const token = await UserHelper.generateToken({email, role});
+    const { email, role } = user;
+    const token = await UserHelper.generateToken({ email, role });
     Response.success(res, 200, "Signin successfully", { token });
   };
 }

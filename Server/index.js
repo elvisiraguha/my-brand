@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 import "dotenv/config";
 import router from "./routes";
 
-const mongodb_url =
+const mongodbURL =
   process.env.NODE_ENV === "production"
     ? process.env.MONGO_DB_URL_PRO
     : process.env.MONGO_DB_URL_DEV;
@@ -11,7 +11,7 @@ const mongodb_url =
 const app = express();
 
 mongoose
-  .connect(mongodb_url, {
+  .connect(mongodbURL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })

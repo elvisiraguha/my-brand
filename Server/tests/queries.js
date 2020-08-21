@@ -2,7 +2,6 @@ import supertest from "supertest";
 import app from "../index.js";
 
 const request = supertest(app);
-jest.useFakeTimers();
 let token;
 let id;
 
@@ -81,7 +80,6 @@ describe("Queries routes", () => {
     });
 
     id = res.body.data._id;
-    console.log(id);
     expect(res.status).toBe(201);
     expect(res.body.message).toContain("Message sent successfully");
     done();

@@ -2,7 +2,6 @@ import supertest from "supertest";
 import app from "../index.js";
 
 const request = supertest(app);
-jest.useFakeTimers();
 
 describe("Signin routes", () => {
   it("should fail to signin with incomplete data", async (done) => {
