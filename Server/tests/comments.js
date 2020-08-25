@@ -37,7 +37,7 @@ describe("Comments routes", () => {
   });
 
   it("should fail create a new comment, when article id is invalid", async (done) => {
-    const res = await request.post(`/api/articles/fdaskdfaskj/comment`).send({
+    const res = await request.post("/api/articles/fdaskdfaskj/comment").send({
       name: "Anonymous",
       email: "user@mail.email",
       comment: "a newly created comment",
@@ -50,7 +50,7 @@ describe("Comments routes", () => {
 
   it("should fail create a new comment, when article id is not found", async (done) => {
     const res = await request
-      .post(`/api/articles/5f3530278d5769275f0ea769/comment`)
+      .post("/api/articles/5f3530278d5769275f0ea769/comment")
       .send({
         name: "Anonymous",
         email: "user@mail.email",
