@@ -136,6 +136,7 @@ describe("Articles routes", () => {
 
     expect(res.status).toBe(200);
     expect(res.body.message).toBe("Article fetched successfully");
+    expect(res.body.data.comments).toBeTruthy();
     done();
   });
 
