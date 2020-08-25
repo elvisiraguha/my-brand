@@ -1,11 +1,17 @@
 import Article from "../models/Article.model.js";
+import Comment from "../models/Comment.model.js";
 import Response from "../helpers/responses.js";
 
 class Articles {
   static get = async (req, res) => {
     Article.find()
       .then((articles) => {
-        Response.success(res, 200, "Articles fetched successfully", articles);
+        return Response.success(
+          res,
+          200,
+          "Articles fetched successfully",
+          articles
+        );
       })
       .catch((err) => {
         return Response.error(res, 500, "Internal Server Error");
@@ -16,9 +22,18 @@ class Articles {
     Article.findOne({ _id: req.params.id })
       .then((article) => {
         if (article) {
-          Response.success(res, 200, "Article fetched successfully", article);
+          Comment.find({ articleId: article._id }).then((comments) => {
+            return Response.success(res, 200, "Article fetched successfully", {
+              article,
+              comments,
+            });
+          });
         } else {
-          Response.error(res, 404, "The article with given id does not exist");
+          return Response.error(
+            res,
+            404,
+            "The article with given id does not exist"
+          );
         }
       })
       .catch((err) => {

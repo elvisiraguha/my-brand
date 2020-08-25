@@ -1,10 +1,11 @@
 import mongoose from "mongoose";
 
-const article = mongoose.Schema({
-  title: String,
-  body: String,
-  imageUrl: String,
-  publishedOn: Date,
+const schema = mongoose.Schema({
+	title: String,
+	body: String,
+	imageUrl: String,
+	publishedOn: Date,
+	comments: Array,
 });
 
-export default mongoose.model("Article", article);
+export default mongoose.model("Article", schema);

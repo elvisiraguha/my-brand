@@ -1,20 +1,39 @@
 import express from "express";
 import Articles from "../controllers/articles.controller.js";
-import Middleware from "../middleware/articles.middleware.js";
+import Comments from "../controllers/comments.controller.js";
+import ArticleMiddleware from "../middleware/articles.middleware.js";
+import CommentMiddleware from "../middleware/comments.middleware.js";
 import Auth from "../middleware/auth.middleware.js";
 
 const router = express.Router();
 
 router.get("/", Articles.get);
-router.get("/:id", Middleware.validId, Articles.getOne);
-router.post("/", Auth.checkToken, Middleware.newArticle, Articles.create);
-router.patch(
-  "/:id",
-  Auth.checkToken,
-  Middleware.validId,
-  Middleware.update,
-  Articles.update
+router.get("/:id", ArticleMiddleware.validId, Articles.getOne);
+router.post(
+	"/:id/comment",
+	ArticleMiddleware.validId,
+	CommentMiddleware.existingArticle,
+	CommentMiddleware.validate,
+	Comments.create
 );
-router.delete("/:id", Auth.checkToken, Middleware.validId, Articles.delete);
+router.post(
+	"/",
+	Auth.checkToken,
+	ArticleMiddleware.newArticle,
+	Articles.create
+);
+router.patch(
+	"/:id",
+	Auth.checkToken,
+	ArticleMiddleware.validId,
+	ArticleMiddleware.update,
+	Articles.update
+);
+router.delete(
+	"/:id",
+	Auth.checkToken,
+	ArticleMiddleware.validId,
+	Articles.delete
+);
 
 export default router;
