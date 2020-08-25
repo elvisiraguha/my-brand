@@ -19,23 +19,6 @@ class Comments {
       next();
     }
   };
-
-  static existingArticle = async (req, res, next) => {
-    try {
-      const exists = await Article.findOne({ _id: req.params.id });
-
-      if (!exists) {
-        return Responses.error(
-          res,
-          404,
-          "The article with given id does not exist"
-        );
-      }
-      next();
-    } catch (error) {
-      return Responses.error(res, 500, "Internal Server Error");
-    }
-  };
 }
 
 export default Comments;

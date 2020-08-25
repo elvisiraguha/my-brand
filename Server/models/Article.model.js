@@ -5,7 +5,6 @@ const schema = mongoose.Schema({
 	body: String,
 	imageUrl: String,
 	publishedOn: Date,
-	comments: Array,
 });
 
 export default mongoose.model("Article", schema);

@@ -12,7 +12,7 @@ router.get("/:id", ArticleMiddleware.validId, Articles.getOne);
 router.post(
 	"/:id/comment",
 	ArticleMiddleware.validId,
-	CommentMiddleware.existingArticle,
+	ArticleMiddleware.isArticleExist,
 	CommentMiddleware.validate,
 	Comments.create
 );
@@ -26,13 +26,15 @@ router.patch(
 	"/:id",
 	Auth.checkToken,
 	ArticleMiddleware.validId,
-	ArticleMiddleware.update,
+	ArticleMiddleware.isArticleExist,
+	ArticleMiddleware.updateContents,
 	Articles.update
 );
 router.delete(
 	"/:id",
 	Auth.checkToken,
 	ArticleMiddleware.validId,
+	ArticleMiddleware.isArticleExist,
 	Articles.delete
 );
 

@@ -29,7 +29,7 @@ class Articles {
     }
   };
 
-  static update = async (req, res, next) => {
+  static isArticleExist = async (req, res, next) => {
     try {
       const exists = await Article.findOne({ _id: req.params.id });
 
@@ -40,10 +40,13 @@ class Articles {
           "The article with given id does not exist"
         );
       }
+      next();
     } catch (error) {
       return Responses.error(res, 500, "Internal Server Error");
     }
+  };
 
+  static updateContents = async (req, res, next) => {
     if (!req.body.title && !req.body.content && !req.body.imageUrl) {
       return Responses.error(res, 400, "You must provide the updated contents");
     }
