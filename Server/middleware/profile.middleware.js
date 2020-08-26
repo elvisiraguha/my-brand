@@ -72,12 +72,12 @@ class Profile {
   };
 
   static updateContents = async (req, res, next) => {
-     if (!Object.keys(req.body).length) {
+    if (!Object.keys(req.body).length) {
       return Responses.error(res, 400, "You must provide the updated contents");
     } else {
       next();
     }
-  }
+  };
 
   static updateSkill = async (req, res, next) => {
     const schema = Joi.object({

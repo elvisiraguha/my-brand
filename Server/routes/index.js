@@ -15,7 +15,7 @@ router.use("/api/auth", auth);
 router.use("/api/queries", queries);
 
 router.use("/*", (req, res) => {
-  Response.error(res, 405, "Method Not Allowed");
+	Response.error(res, 405, "Method Not Allowed");
 });
 
 export default router;

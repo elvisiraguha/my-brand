@@ -322,7 +322,7 @@ describe("Profile routes", () => {
     done();
   });
 
-    it("should delete a profile item", async (done) => {
+  it("should delete a profile item", async (done) => {
     const res = await request
       .delete(`/api/profile/experiences/${experienceId}`)
       .set("x-auth-token", token);

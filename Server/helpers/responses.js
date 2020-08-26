@@ -6,7 +6,7 @@ class Response {
     });
   };
 
-  static error = (res, statusCode = 500, message) => {
+  static error = (res, statusCode, message) => {
     return res.status(statusCode).json({
       message,
     });
