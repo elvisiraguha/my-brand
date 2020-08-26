@@ -47,10 +47,23 @@ class Articles {
   };
 
   static updateContents = async (req, res, next) => {
-    if (!req.body.title && !req.body.content && !req.body.imageUrl) {
+    if (!Object.keys(req.body).length) {
       return Responses.error(res, 400, "You must provide the updated contents");
     }
-    next();
+
+    const schema = Joi.object({
+      title: Joi.string().trim().min(10),
+      content: Joi.string().trim().min(20),
+      imageUrl: Joi.string().trim().min(6),
+    });
+
+    const { value, error } = schema.validate(req.body);
+
+    if (error) {
+      return Responses.error(res, 400, error.details[0].message);
+    } else {
+      next();
+    }
   };
 
   static validId = async (req, res, next) => {
