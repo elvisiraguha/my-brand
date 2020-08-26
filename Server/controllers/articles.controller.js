@@ -66,13 +66,9 @@ class Articles {
         article.body = content || article.body;
         article.imageUrl = imageUrl || article.imageUrl;
 
-        try {
-          article.save().then((updated) => {
-            Response.success(res, 200, "Article updated successfully", updated);
-          });
-        } catch (error) {
-          Response.error(res, 500, "Internal Server Error");
-        }
+        article.save().then((updated) => {
+          Response.success(res, 200, "Article updated successfully", updated);
+        });
       })
       .catch((err) => Response.error(res, 500, "Internal Server Error"));
   };

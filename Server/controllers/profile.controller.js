@@ -46,13 +46,9 @@ class Profile {
         info.subTitle = subTitle || info.subTitle;
         info.title = title || info.title;
 
-        try {
-          info.save().then((updated) => {
-            Response.success(res, 200, "Info updated successfully", updated);
-          });
-        } catch (error) {
-          Response.error(res, 500, "Internal Server Error");
-        }
+        info.save().then((updated) => {
+          Response.success(res, 200, "Info updated successfully", updated);
+        });
       })
       .catch((err) => {
         return Response.error(res, 500, "Internal Server Error");
@@ -92,13 +88,9 @@ class Profile {
         skill.title = title || skill.title;
         skill.logoUrl = logoUrl || skill.logoUrl;
 
-        try {
-          skill.save().then((updated) => {
-            Response.success(res, 200, "Skill updated successfully", updated);
-          });
-        } catch (error) {
-          Response.error(res, 500, "Internal Server Error");
-        }
+        skill.save().then((updated) => {
+          Response.success(res, 200, "Skill updated successfully", updated);
+        });
       })
       .catch((err) => Response.error(res, 500, "Internal Server Error"));
   };
@@ -130,13 +122,9 @@ class Profile {
         project.link = link || project.link;
         project.description = description || project.description;
 
-        try {
-          project.save().then((updated) => {
-            Response.success(res, 200, "Project updated successfully", updated);
-          });
-        } catch (error) {
-          Response.error(res, 500, "Internal Server Error");
-        }
+        project.save().then((updated) => {
+          Response.success(res, 200, "Project updated successfully", updated);
+        });
       })
       .catch((err) => Response.error(res, 500, "Internal Server Error"));
   };
@@ -173,18 +161,14 @@ class Profile {
         experience.startDate = startDate || experience.startDate;
         experience.endDate = endDate || experience.endDate;
 
-        try {
-          experience.save().then((updated) => {
-            Response.success(
-              res,
-              200,
-              "Experience updated successfully",
-              updated
-            );
-          });
-        } catch (error) {
-          Response.error(res, 500, "Internal Server Error");
-        }
+        experience.save().then((updated) => {
+          Response.success(
+            res,
+            200,
+            "Experience updated successfully",
+            updated
+          );
+        });
       })
       .catch((err) => Response.error(res, 500, "Internal Server Error"));
   };
