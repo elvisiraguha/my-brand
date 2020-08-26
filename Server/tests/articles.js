@@ -212,7 +212,7 @@ describe("Articles routes", () => {
     const res = await request
       .patch(`/api/articles/${id}`)
       .send({
-        title: 't'
+        title: "t",
       })
       .set("x-auth-token", token);
 

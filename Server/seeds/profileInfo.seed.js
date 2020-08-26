@@ -1,6 +1,6 @@
 import ProfileInfo from "../models/ProfileInfo.model";
 
-ProfileInfo.deleteOne({type: 'info'});
+ProfileInfo.deleteOne({ type: "info" });
 
 const info = new ProfileInfo({
 	type: "info",
