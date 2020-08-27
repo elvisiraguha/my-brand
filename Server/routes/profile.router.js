@@ -1,6 +1,7 @@
 import express from "express";
 import Auth from "../middleware/auth.middleware.js";
 import ProfileMiddleware from "../middleware/profile.middleware.js";
+import CommonMiddleware from "../middleware/common.middleware.js";
 import Profile from "../controllers/profile.controller.js";
 
 const router = express.Router();
@@ -9,71 +10,81 @@ router.get("/", Profile.getItems);
 router.get("/info", Profile.getInfo);
 router.patch(
 	"/info",
-	ProfileMiddleware.updateInfo,
 	Auth.checkToken,
+	CommonMiddleware.hasContents,
+	ProfileMiddleware.updateInfo,
 	Profile.updateInfo
 );
 
 router.post(
 	"/skills",
 	Auth.checkToken,
-	ProfileMiddleware.newSkill,
+	CommonMiddleware.hasContents,
+	ProfileMiddleware.validateItem,
 	Profile.createSkill
 );
 router.patch(
 	"/skills/:id",
 	Auth.checkToken,
-	ProfileMiddleware.validId,
-	ProfileMiddleware.updateContents,
-	ProfileMiddleware.updateSkill,
+	CommonMiddleware.validId,
+	ProfileMiddleware.isItemExist,
+	CommonMiddleware.hasContents,
+	ProfileMiddleware.validateItem,
 	Profile.updateSkill
 );
 router.delete(
 	"/skills/:id",
 	Auth.checkToken,
-	ProfileMiddleware.validId,
+	CommonMiddleware.validId,
+	ProfileMiddleware.isItemExist,
 	Profile.deleteItem
 );
 
 router.post(
 	"/experiences",
 	Auth.checkToken,
-	ProfileMiddleware.newExperience,
+	CommonMiddleware.hasContents,
+	ProfileMiddleware.validateItem,
 	Profile.createExperience
 );
 router.patch(
 	"/experiences/:id",
 	Auth.checkToken,
-	ProfileMiddleware.validId,
-	ProfileMiddleware.updateContents,
-	ProfileMiddleware.updateExperience,
+	CommonMiddleware.validId,
+	ProfileMiddleware.isItemExist,
+	CommonMiddleware.hasContents,
+	ProfileMiddleware.validateItem,
 	Profile.updateExperience
 );
 router.delete(
 	"/experiences/:id",
 	Auth.checkToken,
-	ProfileMiddleware.validId,
+	ProfileMiddleware.isItemExist,
+	CommonMiddleware.validId,
 	Profile.deleteItem
 );
 
 router.post(
 	"/projects",
 	Auth.checkToken,
-	ProfileMiddleware.newProject,
+	CommonMiddleware.hasContents,
+	ProfileMiddleware.validateItem,
 	Profile.createProject
 );
 router.patch(
 	"/projects/:id",
 	Auth.checkToken,
-	ProfileMiddleware.validId,
-	ProfileMiddleware.updateContents,
-	ProfileMiddleware.updateProject,
+	CommonMiddleware.validId,
+	ProfileMiddleware.isItemExist,
+	CommonMiddleware.hasContents,
+	ProfileMiddleware.validateItem,
 	Profile.updateProject
 );
 router.delete(
 	"/projects/:id",
 	Auth.checkToken,
-	ProfileMiddleware.validId,
+	CommonMiddleware.validId,
+	ProfileMiddleware.isItemExist,
 	Profile.deleteItem
 );
 

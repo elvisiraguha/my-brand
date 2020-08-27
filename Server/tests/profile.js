@@ -103,7 +103,7 @@ describe("Profile routes", () => {
     done();
   });
 
-  it("should fail to modify an item,, when user with current token is not found", async (done) => {
+  it("should fail to modify an item, when user with current token is not found", async (done) => {
     const res = await request
       .post("/api/profile/skills")
       .send({
@@ -167,6 +167,7 @@ describe("Profile routes", () => {
         logoUrl: "https://picsum.photos/200/300",
       })
       .set("x-auth-token", token);
+
     skillId = res.body.data._id;
     expect(res.status).toBe(201);
     expect(res.body.message).toBe("Skill created successfully");
@@ -214,7 +215,7 @@ describe("Profile routes", () => {
       .set("x-auth-token", token);
 
     expect(res.status).toBe(400);
-    expect(res.body.message).toBe("You must provide the updated contents");
+    expect(res.body.message).toBe("You must provide the contents");
     done();
   });
 
@@ -266,7 +267,7 @@ describe("Profile routes", () => {
       .set("x-auth-token", token);
 
     expect(res.status).toBe(400);
-    expect(res.body.message).toBe("The provided item id is incorrect");
+    expect(res.body.message).toBe("The provided id is incorrect");
     done();
   });
 
