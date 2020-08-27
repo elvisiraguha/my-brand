@@ -56,13 +56,8 @@ class Articles {
   };
 
   static deleteOne = async (req, res) => {
-    Article.deleteOne({ _id: req.params.id }, (error) => {
-      if (error) {
-        Response.error(res, 500, "Internal Server Error");
-      } else {
-        Response.success(res, 200, "Article deleted successfully");
-      }
-    });
+    await Article.deleteOne({ _id: req.params.id });
+    Response.success(res, 200, "Article deleted successfully");
   };
 }
 

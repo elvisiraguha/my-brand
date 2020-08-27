@@ -4,4 +4,5 @@ module.exports = {
   testEnvironment: "node",
   coveragePathIgnorePatterns: ["/node_modules/"],
   timers: "fake",
+  testPathIgnorePatterns: ["dist/tests/index.test.js"]
 };
