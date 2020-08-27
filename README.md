@@ -11,6 +11,6 @@ A personal blog and website
 
 [elvisiraguha.github.io/my-brand](https://elvisiraguha.github.io/my-brand)
 
-## API endpoints
+## My Brand Server
 
 [my-brand.herokuapp.com](https://my-brand.herokuapp.com)
