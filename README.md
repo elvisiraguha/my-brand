@@ -13,9 +13,9 @@ Hosted UI [elvisiraguha.github.io/my-brand](https://elvisiraguha.github.io/my-br
 
 ### Technologies used
 
-  - HTML5
-  - CSS3
-  - JavaScript
+-   HTML5
+-   CSS3
+-   JavaScript
 
 ## Server(Backend)
 
@@ -25,8 +25,8 @@ Hosted API [my-brand.herokuapp.com](https://my-brand.herokuapp.com)
 
 ### Tools used
 
-  - [Node.js](https://nodejs.org/en/) - a JavaScript runtime
-  - [Express js](https://expressjs.com/) - web framework for Node.js
-  - [Mongoose](https://mongoosejs.com/) - elegant mongodb object modeling for Node.js
-  - [MongoDB](https://www.mongodb.com/) - a general purpose, document-based, distributed database
-  - [Jest](https://jestjs.io/) - a delightful JavaScript Testing Framework
+-   [Node.js](https://nodejs.org/en/) - a JavaScript runtime
+-   [Express js](https://expressjs.com/) - web framework for Node.js
+-   [Mongoose](https://mongoosejs.com/) - elegant mongodb object modeling for Node.js
+-   [MongoDB](https://www.mongodb.com/) - a general purpose, document-based, distributed database
+-   [Jest](https://jestjs.io/) - a delightful JavaScript Testing Framework
