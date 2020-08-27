@@ -28,6 +28,7 @@ class Profile {
       email: Joi.string().trim().email().min(6),
       intro: Joi.string().trim().min(6),
       phone: Joi.string().trim().min(10),
+      profileImageUrl: Joi.string().trim().min(10),
       subTitle: Joi.string().trim().min(10),
       title: Joi.string().trim().min(4),
     });
@@ -44,19 +45,29 @@ class Profile {
   static isItemExist = async (req, res, next) => {
     const id = req.params.id;
 
-    try {
-      const exists = await ProfileItem.findOne({ _id: req.params.id });
+    const exists = await ProfileItem.findOne({ _id: req.params.id });
 
-      if (!exists) {
-        return Responses.error(
-          res,
-          404,
-          "The item with given id does not exist"
-        );
-      }
+    if (!exists) {
+      return Responses.error(res, 404, "The item with given id does not exist");
+    }
+    next();
+  };
+
+  static validQuery = async (req, res, next) => {
+    const schema = Joi.object({
+      itemType: Joi.required().valid("skill", "project", "experience"),
+    });
+
+    const { value, error } = schema.validate(req.query);
+
+    if (error) {
+      return Responses.error(
+        res,
+        400,
+        "Query Error: " + error.details[0].message
+      );
+    } else {
       next();
-    } catch (error) {
-      return Responses.error(res, 500, "Internal Server Error");
     }
   };
 }

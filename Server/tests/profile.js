@@ -2,9 +2,7 @@ import supertest from "supertest";
 import app from "../index.js";
 
 const request = supertest(app);
-let skillId;
-let projectId;
-let experienceId;
+let itemId;
 let token;
 
 describe("Profile routes", () => {
@@ -78,7 +76,7 @@ describe("Profile routes", () => {
   });
 
   it("should fail to modify an item, when no token is provided", async (done) => {
-    const res = await request.post("/api/profile/skills").send({
+    const res = await request.post("/api/profile").send({
       title: "a new article in test",
       logoUrl: "https://picsum.photos/200/300",
     });
@@ -89,7 +87,7 @@ describe("Profile routes", () => {
 
   it("should fail to modify an item, with malformed token", async (done) => {
     const res = await request
-      .post("/api/profile/skills")
+      .post("/api/profile")
       .send({
         title: "a new article in test",
         logoUrl: "https://picsum.photos/200/300",
@@ -105,7 +103,7 @@ describe("Profile routes", () => {
 
   it("should fail to modify an item, when user with current token is not found", async (done) => {
     const res = await request
-      .post("/api/profile/skills")
+      .post("/api/profile")
       .send({
         title: "a new article in test",
         logoUrl: "https://picsum.photos/200/300",
@@ -121,7 +119,7 @@ describe("Profile routes", () => {
 
   it("should fail to modify an item, with invalid token", async (done) => {
     const res = await request
-      .post("/api/profile/skills")
+      .post("/api/profile")
       .send({
         title: "a new article in test",
         logoUrl: "https://picsum.photos/200/300",
@@ -132,86 +130,47 @@ describe("Profile routes", () => {
     done();
   });
 
-  it("should fail to create a skill, with short, invalid or no contents", async (done) => {
+  it("should fail to create an item, with short, invalid or no contents", async (done) => {
     const res = await request
-      .post("/api/profile/skills")
+      .post("/api/profile")
       .set("x-auth-token", token);
     expect(res.status).toBe(400);
     expect(res.body.message).toBeTruthy();
     done();
   });
 
-  it("should fail to create a project, with short, invalid or no contents", async (done) => {
+  it("should fail to create a new item, provided no or invalid query", async (done) => {
     const res = await request
-      .post("/api/profile/projects")
-      .set("x-auth-token", token);
-    expect(res.status).toBe(400);
-    expect(res.body.message).toBeTruthy();
-    done();
-  });
-
-  it("should fail to create an experience, with short, invalid or no contents", async (done) => {
-    const res = await request
-      .post("/api/profile/experiences")
-      .set("x-auth-token", token);
-    expect(res.status).toBe(400);
-    expect(res.body.message).toBeTruthy();
-    done();
-  });
-
-  it("should create new skill", async (done) => {
-    const res = await request
-      .post("/api/profile/skills")
+      .post("/api/profile?itemType=somethingInvalid")
       .send({
         title: "a new article in test",
         logoUrl: "https://picsum.photos/200/300",
       })
       .set("x-auth-token", token);
 
-    skillId = res.body.data._id;
-    expect(res.status).toBe(201);
-    expect(res.body.message).toBe("Skill created successfully");
+    expect(res.status).toBe(400);
+    expect(res.body.message).toBeTruthy();
     done();
   });
 
-  it("should create new project", async (done) => {
+  it("should create a new item", async (done) => {
     const res = await request
-      .post("/api/profile/projects")
+      .post("/api/profile?itemType=skill")
       .send({
-        title: "Auth",
+        title: "a new article in test",
         logoUrl: "https://picsum.photos/200/300",
-        description: "A Signup and Signin form built using React js",
-        link: "https://my-auth-ui.herokuapp.com/",
       })
       .set("x-auth-token", token);
 
-    projectId = res.body.data._id;
+    itemId = res.body.data._id;
     expect(res.status).toBe(201);
-    expect(res.body.message).toBe("Project created successfully");
+    expect(res.body.message).toBe("Item created successfully");
     done();
   });
 
-  it("should create new experience", async (done) => {
+  it("should fail to update an item, when no contents provided", async (done) => {
     const res = await request
-      .post("/api/profile/experiences")
-      .send({
-        title: "Freelancing",
-        description:
-          "I have worked on several tech solutions as a freelancer which includes both front-end and back-end stack.",
-        startDate: "2020-03-26",
-        endDate: "Present",
-      })
-      .set("x-auth-token", token);
-
-    experienceId = res.body.data._id;
-    expect(res.status).toBe(201);
-    expect(res.body.message).toBe("Experience created successfully");
-    done();
-  });
-
-  it("should fail to update items, when no contents provided", async (done) => {
-    const res = await request
-      .patch(`/api/profile/experiences/${experienceId}`)
+      .patch(`/api/profile/${itemId}`)
       .set("x-auth-token", token);
 
     expect(res.status).toBe(400);
@@ -219,35 +178,9 @@ describe("Profile routes", () => {
     done();
   });
 
-  it("should fail to update skill, when provided short or invalid contents", async (done) => {
+  it("should fail to update an item, when provided short or invalid contents", async (done) => {
     const res = await request
-      .patch(`/api/profile/skills/${skillId}`)
-      .send({
-        title: "f",
-      })
-      .set("x-auth-token", token);
-
-    expect(res.status).toBe(400);
-    expect(res.body.message).toBeTruthy();
-    done();
-  });
-
-  it("should fail to update project, when provided short or invalid contents", async (done) => {
-    const res = await request
-      .patch(`/api/profile/projects/${projectId}`)
-      .send({
-        title: "f",
-      })
-      .set("x-auth-token", token);
-
-    expect(res.status).toBe(400);
-    expect(res.body.message).toBeTruthy();
-    done();
-  });
-
-  it("should fail to update experience, when provided short or invalid contents", async (done) => {
-    const res = await request
-      .patch(`/api/profile/experiences/${experienceId}`)
+      .patch(`/api/profile/${itemId}`)
       .send({
         title: "f",
       })
@@ -260,7 +193,7 @@ describe("Profile routes", () => {
 
   it("should fail to modify an item, when provided invalid id", async (done) => {
     const res = await request
-      .patch("/api/profile/skills/fdsafafa")
+      .patch("/api/profile/fdsafafa")
       .send({
         title: "Updated title",
       })
@@ -273,7 +206,7 @@ describe("Profile routes", () => {
 
   it("should fail to modify an item, when provided inexisting id", async (done) => {
     const res = await request
-      .patch("/api/profile/skills/5f3530278d5769275f0ea769")
+      .patch("/api/profile/5f3530278d5769275f0ea769")
       .send({
         title: "Updated title",
       })
@@ -284,48 +217,22 @@ describe("Profile routes", () => {
     done();
   });
 
-  it("should update a skill", async (done) => {
+  it("should update an item", async (done) => {
     const res = await request
-      .patch(`/api/profile/skills/${skillId}`)
+      .patch(`/api/profile/${itemId}`)
       .send({
         title: "Updated title",
       })
       .set("x-auth-token", token);
 
     expect(res.status).toBe(200);
-    expect(res.body.message).toBe("Skill updated successfully");
+    expect(res.body.message).toBe("Item updated successfully");
     done();
   });
 
-  it("should update a project", async (done) => {
+  it("should delete an item", async (done) => {
     const res = await request
-      .patch(`/api/profile/projects/${projectId}`)
-      .send({
-        title: "Updated title",
-      })
-      .set("x-auth-token", token);
-
-    expect(res.status).toBe(200);
-    expect(res.body.message).toBe("Project updated successfully");
-    done();
-  });
-
-  it("should update an experience", async (done) => {
-    const res = await request
-      .patch(`/api/profile/experiences/${experienceId}`)
-      .send({
-        title: "Updated title",
-      })
-      .set("x-auth-token", token);
-
-    expect(res.status).toBe(200);
-    expect(res.body.message).toBe("Experience updated successfully");
-    done();
-  });
-
-  it("should delete a profile item", async (done) => {
-    const res = await request
-      .delete(`/api/profile/experiences/${experienceId}`)
+      .delete(`/api/profile/${itemId}`)
       .set("x-auth-token", token);
 
     expect(res.status).toBe(200);

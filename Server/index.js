@@ -22,7 +22,6 @@ mongoose
     console.log("Error while trying to connect to database! ", error);
   });
 
-app.use(express.json());
 app.use(router);
 
 export default app;
