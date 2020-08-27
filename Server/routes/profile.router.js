@@ -9,50 +9,37 @@ const router = express.Router();
 router.get("/", Profile.getItems);
 router.get("/info", Profile.getInfo);
 router.patch(
-	"/info",
-	Auth.checkToken,
-	CommonMiddleware.hasContents,
-	ProfileMiddleware.updateInfo,
-	Profile.updateInfo
+  "/info",
+  Auth.checkToken,
+  CommonMiddleware.hasContents,
+  ProfileMiddleware.updateInfo,
+  Profile.updateInfo
 );
 
 router.post(
-	"/skills",
-	Auth.checkToken,
-	CommonMiddleware.hasContents,
-	ProfileMiddleware.validateItem,
-	Profile.createSkill
-);
-router.post(
-	"/experiences",
-	Auth.checkToken,
-	CommonMiddleware.hasContents,
-	ProfileMiddleware.validateItem,
-	Profile.createExperience
-);
-router.post(
-	"/projects",
-	Auth.checkToken,
-	CommonMiddleware.hasContents,
-	ProfileMiddleware.validateItem,
-	Profile.createProject
+  "/",
+  Auth.checkToken,
+  ProfileMiddleware.validQuery,
+  CommonMiddleware.hasContents,
+  ProfileMiddleware.validateItem,
+  Profile.createItem
 );
 
 router.patch(
-	"/:id",
-	Auth.checkToken,
-	CommonMiddleware.validId,
-	ProfileMiddleware.isItemExist,
-	CommonMiddleware.hasContents,
-	ProfileMiddleware.validateItem,
-	Profile.updateItem
+  "/:id",
+  Auth.checkToken,
+  CommonMiddleware.validId,
+  ProfileMiddleware.isItemExist,
+  CommonMiddleware.hasContents,
+  ProfileMiddleware.validateItem,
+  Profile.updateItem
 );
 router.delete(
-	"/:id",
-	Auth.checkToken,
-	CommonMiddleware.validId,
-	ProfileMiddleware.isItemExist,
-	Profile.deleteItem
+  "/:id",
+  Auth.checkToken,
+  CommonMiddleware.validId,
+  ProfileMiddleware.isItemExist,
+  Profile.deleteItem
 );
 
 export default router;

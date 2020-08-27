@@ -18,6 +18,15 @@ class CommonMiddleware {
 			next();
 		}
 	};
+
+	static validRequest = async (err, req, res, next) => {
+    	console.log('i was here, before')
+    if (err) {
+    	console.log('i was here')
+      return Responses.error(res, err.status, err.message);
+    }
+    next();
+  }
 }
 
 export default CommonMiddleware;

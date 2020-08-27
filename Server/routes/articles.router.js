@@ -8,7 +8,7 @@ import Auth from "../middleware/auth.middleware.js";
 
 const router = express.Router();
 
-router.get("/", Articles.get);
+router.get("/", Articles.getAll);
 router.get("/:id", CommonMiddleware.validId, Articles.getOne);
 router.post(
 	"/:id/comment",
@@ -37,7 +37,7 @@ router.delete(
 	Auth.checkToken,
 	CommonMiddleware.validId,
 	ArticleMiddleware.isArticleExist,
-	Articles.delete
+	Articles.deleteOne
 );
 
 export default router;

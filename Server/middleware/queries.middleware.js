@@ -21,18 +21,14 @@ class Queries {
   };
 
   static update = async (req, res, next) => {
-    try {
-      const exists = await Query.findOne({ _id: req.params.id });
+    const exists = await Query.findOne({ _id: req.params.id });
 
-      if (!exists) {
-        return Responses.error(
-          res,
-          404,
-          "The querie with given id does not exist"
-        );
-      }
-    } catch (error) {
-      return Responses.error(res, 500, "Internal Server Error");
+    if (!exists) {
+      return Responses.error(
+        res,
+        404,
+        "The querie with given id does not exist"
+      );
     }
 
     const schema = Joi.object({

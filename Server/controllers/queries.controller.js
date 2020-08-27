@@ -11,36 +11,21 @@ class Queries {
       read: false,
     });
 
-    query
-      .save()
-      .then((response) => {
-        Response.success(res, 201, "Message sent successfully", response);
-      })
-      .catch((err) => Response.error(res, 500, "Internal Server Error"));
+    const created = await query.save();
+    Response.success(res, 201, "Message sent successfully", created);
   };
 
-  static get = async (req, res) => {
-    Query.find()
-      .then((queries) => {
-        Response.success(res, 200, "Queries fetched successfully", queries);
-      })
-      .catch((err) => {
-        return Response.error(res, 500, "Internal Server Error");
-      });
+  static getAll = async (req, res) => {
+    const queries = await Query.find();
+    Response.success(res, 200, "Queries fetched successfully", queries);
   };
 
   static update = async (req, res) => {
-    Query.findOne({ _id: req.params.id })
-      .then((query) => {
-        query.read = req.body.read;
+    const query = await Query.findOne({ _id: req.params.id });
+    query.read = req.body.read;
 
-        query.save().then((updated) => {
-          Response.success(res, 200, `Read marked ${updated.read}`, updated);
-        });
-      })
-      .catch((err) => {
-        return Response.error(res, 500, "Internal Server Error");
-      });
+    const updated = await query.save();
+    Response.success(res, 200, `Read marked ${updated.read}`, updated);
   };
 }
 

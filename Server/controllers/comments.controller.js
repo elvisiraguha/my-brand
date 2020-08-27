@@ -10,12 +10,8 @@ class Comments {
       articleId: req.params.id,
     });
 
-    comment
-      .save()
-      .then((comment) => {
-        Response.success(res, 201, "Comment added successfully", comment);
-      })
-      .catch((err) => Response.error(res, 500, "Internal Server Error"));
+    const created = await comment.save();
+    Response.success(res, 201, "Comment added successfully", created);
   };
 }
 
