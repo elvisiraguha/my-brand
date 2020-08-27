@@ -43,8 +43,8 @@ describe("Comments routes", () => {
       comment: "a newly created comment",
     });
 
-    expect(res.status).toBe(404);
-    expect(res.body.message).toBe("The provided article id is incorrect.");
+    expect(res.status).toBe(400);
+    expect(res.body.message).toBe("The provided id is incorrect");
     done();
   });
 

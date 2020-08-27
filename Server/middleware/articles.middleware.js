@@ -46,12 +46,8 @@ class Articles {
     }
   };
 
-  static updateContents = async (req, res, next) => {
-    if (!Object.keys(req.body).length) {
-      return Responses.error(res, 400, "You must provide the updated contents");
-    }
-
-    const schema = Joi.object({
+  static update = async (req, res, next) => {
+   const schema = Joi.object({
       title: Joi.string().trim().min(10),
       content: Joi.string().trim().min(20),
       imageUrl: Joi.string().trim().min(6),
@@ -63,16 +59,6 @@ class Articles {
       return Responses.error(res, 400, error.details[0].message);
     } else {
       next();
-    }
-  };
-
-  static validId = async (req, res, next) => {
-    const id = req.params.id;
-
-    if (id.length === 24) {
-      next();
-    } else {
-      return Responses.error(res, 404, "The provided article id is incorrect.");
     }
   };
 }

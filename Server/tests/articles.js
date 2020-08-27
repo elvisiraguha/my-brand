@@ -204,7 +204,7 @@ describe("Articles routes", () => {
       .set("x-auth-token", token);
 
     expect(res.status).toBe(400);
-    expect(res.body.message).toBe("You must provide the updated contents");
+    expect(res.body.message).toBe("You must provide the contents");
     done();
   });
 
@@ -231,8 +231,8 @@ describe("Articles routes", () => {
       })
       .set("x-auth-token", token);
 
-    expect(res.status).toBe(404);
-    expect(res.body.message).toBe("The provided article id is incorrect.");
+    expect(res.status).toBe(400);
+    expect(res.body.message).toBe("The provided id is incorrect");
     done();
   });
 
