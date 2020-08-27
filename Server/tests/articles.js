@@ -185,7 +185,7 @@ describe("Articles routes", () => {
 
   it("should fail to update an article with unexisting id", async (done) => {
     const res = await request
-      .patch(`/api/articles/5f3530278d5769275f0ea769`)
+      .patch("/api/articles/5f3530278d5769275f0ea769")
       .send({
         title: "Post Updated",
         content: "Lorem ipsum Lorem ipsum Lorem ipsum",
@@ -223,7 +223,7 @@ describe("Articles routes", () => {
 
   it("should fail to update an article with invalid id", async (done) => {
     const res = await request
-      .patch(`/api/articles/f322a26e07970a`)
+      .patch("/api/articles/f322a26e07970a")
       .send({
         title: "Post Updated",
         content: "Lorem ipsum Lorem ipsum Lorem ipsum",

@@ -50,13 +50,8 @@ class Profile {
   };
 
   static deleteItem = async (req, res) => {
-    ProfileItem.deleteOne({ _id: req.params.id }, (error) => {
-      if (error) {
-        Response.error(res, 500, "Internal Server Error");
-      } else {
-        Response.success(res, 200, "Item deleted successfully");
-      }
-    });
+    await ProfileItem.deleteOne({ _id: req.params.id });
+    Response.success(res, 200, "Item deleted successfully");
   };
 
   static createItem = async (req, res) => {
