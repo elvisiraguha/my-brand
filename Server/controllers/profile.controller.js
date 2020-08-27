@@ -35,7 +35,15 @@ class Profile {
   };
 
   static updateInfo = async (req, res) => {
-    const { address, email, intro, phone, subTitle, title } = req.body;
+    const {
+      address,
+      email,
+      intro,
+      phone,
+      subTitle,
+      title,
+      profileImageUrl,
+    } = req.body;
 
     ProfileInfo.findOne({ type: "info" })
       .then((info) => {
@@ -43,6 +51,7 @@ class Profile {
         info.email = email || info.email;
         info.intro = intro || info.intro;
         info.phone = phone || info.phone;
+        info.profileImageUrl = profileImageUrl || info.profileImageUrl;
         info.subTitle = subTitle || info.subTitle;
         info.title = title || info.title;
 
@@ -80,19 +89,25 @@ class Profile {
       .catch((err) => Response.error(res, 500, "Internal Server Error"));
   };
 
-  static updateSkill = async (req, res) => {
-    const { title, logoUrl } = req.body;
+  static updateItem = async (req, res) => {
+    const { title, logoUrl, description, link, startDate, endDate } = req.body;
 
     ProfileItem.findOne({ _id: req.params.id })
-      .then((skill) => {
-        skill.title = title || skill.title;
-        skill.logoUrl = logoUrl || skill.logoUrl;
+      .then((item) => {
+        item.title = title || item.title;
+        item.logoUrl = logoUrl || item.logoUrl;
+        item.description = description || item.description;
+        item.link = link || item.link;
+        item.startDate = startDate || item.startDate;
+        item.endDate = endDate || item.endDate;
 
-        skill.save().then((updated) => {
-          Response.success(res, 200, "Skill updated successfully", updated);
+        item.save().then((updated) => {
+          Response.success(res, 200, "Item updated successfully", updated);
         });
       })
-      .catch((err) => Response.error(res, 500, "Internal Server Error"));
+      .catch((err) => {
+        Response.error(res, 500, "Internal Server Error");
+      });
   };
 
   static createProject = async (req, res) => {
@@ -108,23 +123,6 @@ class Profile {
       .save()
       .then((project) => {
         Response.success(res, 201, "Project created successfully", project);
-      })
-      .catch((err) => Response.error(res, 500, "Internal Server Error"));
-  };
-
-  static updateProject = async (req, res) => {
-    const { title, logoUrl, description, link } = req.body;
-
-    ProfileItem.findOne({ _id: req.params.id })
-      .then((project) => {
-        project.title = title || project.title;
-        project.logoUrl = logoUrl || project.logoUrl;
-        project.link = link || project.link;
-        project.description = description || project.description;
-
-        project.save().then((updated) => {
-          Response.success(res, 200, "Project updated successfully", updated);
-        });
       })
       .catch((err) => Response.error(res, 500, "Internal Server Error"));
   };
@@ -147,28 +145,6 @@ class Profile {
           "Experience created successfully",
           experience
         );
-      })
-      .catch((err) => Response.error(res, 500, "Internal Server Error"));
-  };
-
-  static updateExperience = async (req, res) => {
-    const { title, description, startDate, endDate } = req.body;
-
-    ProfileItem.findOne({ _id: req.params.id })
-      .then((experience) => {
-        experience.title = title || experience.title;
-        experience.description = description || experience.description;
-        experience.startDate = startDate || experience.startDate;
-        experience.endDate = endDate || experience.endDate;
-
-        experience.save().then((updated) => {
-          Response.success(
-            res,
-            200,
-            "Experience updated successfully",
-            updated
-          );
-        });
       })
       .catch((err) => Response.error(res, 500, "Internal Server Error"));
   };

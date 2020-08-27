@@ -28,6 +28,7 @@ class Profile {
       email: Joi.string().trim().email().min(6),
       intro: Joi.string().trim().min(6),
       phone: Joi.string().trim().min(10),
+      profileImageUrl: Joi.string().trim().min(10),
       subTitle: Joi.string().trim().min(10),
       title: Joi.string().trim().min(4),
     });

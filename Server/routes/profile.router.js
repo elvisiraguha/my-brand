@@ -23,23 +23,6 @@ router.post(
 	ProfileMiddleware.validateItem,
 	Profile.createSkill
 );
-router.patch(
-	"/skills/:id",
-	Auth.checkToken,
-	CommonMiddleware.validId,
-	ProfileMiddleware.isItemExist,
-	CommonMiddleware.hasContents,
-	ProfileMiddleware.validateItem,
-	Profile.updateSkill
-);
-router.delete(
-	"/skills/:id",
-	Auth.checkToken,
-	CommonMiddleware.validId,
-	ProfileMiddleware.isItemExist,
-	Profile.deleteItem
-);
-
 router.post(
 	"/experiences",
 	Auth.checkToken,
@@ -47,23 +30,6 @@ router.post(
 	ProfileMiddleware.validateItem,
 	Profile.createExperience
 );
-router.patch(
-	"/experiences/:id",
-	Auth.checkToken,
-	CommonMiddleware.validId,
-	ProfileMiddleware.isItemExist,
-	CommonMiddleware.hasContents,
-	ProfileMiddleware.validateItem,
-	Profile.updateExperience
-);
-router.delete(
-	"/experiences/:id",
-	Auth.checkToken,
-	ProfileMiddleware.isItemExist,
-	CommonMiddleware.validId,
-	Profile.deleteItem
-);
-
 router.post(
 	"/projects",
 	Auth.checkToken,
@@ -71,17 +37,18 @@ router.post(
 	ProfileMiddleware.validateItem,
 	Profile.createProject
 );
+
 router.patch(
-	"/projects/:id",
+	"/:id",
 	Auth.checkToken,
 	CommonMiddleware.validId,
 	ProfileMiddleware.isItemExist,
 	CommonMiddleware.hasContents,
 	ProfileMiddleware.validateItem,
-	Profile.updateProject
+	Profile.updateItem
 );
 router.delete(
-	"/projects/:id",
+	"/:id",
 	Auth.checkToken,
 	CommonMiddleware.validId,
 	ProfileMiddleware.isItemExist,

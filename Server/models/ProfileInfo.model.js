@@ -6,6 +6,7 @@ const schema = mongoose.Schema({
 	email: String,
 	intro: String,
 	phone: String,
+	profileImageUrl: String,
 	subTitle: String,
 	title: String,
 });
