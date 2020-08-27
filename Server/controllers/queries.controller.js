@@ -34,13 +34,9 @@ class Queries {
       .then((query) => {
         query.read = req.body.read;
 
-        try {
-          query.save().then((updated) => {
-            Response.success(res, 200, `Read marked ${updated.read}`, updated);
-          });
-        } catch (error) {
-          Response.error(res, 500, "Internal Server Error");
-        }
+        query.save().then((updated) => {
+          Response.success(res, 200, `Read marked ${updated.read}`, updated);
+        });
       })
       .catch((err) => {
         return Response.error(res, 500, "Internal Server Error");

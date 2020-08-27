@@ -208,6 +208,19 @@ describe("Articles routes", () => {
     done();
   });
 
+  it("should fail to update an article when provided invalid contents", async (done) => {
+    const res = await request
+      .patch(`/api/articles/${id}`)
+      .send({
+        title: "t",
+      })
+      .set("x-auth-token", token);
+
+    expect(res.status).toBe(400);
+    expect(res.body.message).toBeTruthy();
+    done();
+  });
+
   it("should fail to update an article with invalid id", async (done) => {
     const res = await request
       .patch(`/api/articles/f322a26e07970a`)
