@@ -1,6 +1,8 @@
-import { showLoader, hideLoader } from "../scripts/helperFunctions.js";
-
-const db = firebase.firestore();
+import {
+  showLoader,
+  hideLoader,
+  displayNotification,
+} from "../scripts/helperFunctions.js";
 
 const handleLogout = () => {
   localStorage.removeItem("token");
@@ -58,10 +60,8 @@ const displayArticles = (latestBlogs, wrapper, rowsPerPage, page) => {
   let end = start + rowsPerPage;
   let paginatedItems = latestBlogs.slice(start, end);
 
-  paginatedItems.map((blogRaw) => {
-    const blog = blogRaw.data();
+  paginatedItems.map((blog) => {
     const article = document.createElement("article");
-
     // read more link
     const readMore = document.createElement("h5");
     readMore.textContent = "Read More";
@@ -84,8 +84,8 @@ const displayArticles = (latestBlogs, wrapper, rowsPerPage, page) => {
     blogImage.src = blog.imageUrl;
 
     // set the clickedon article
-    blogTitle.addEventListener("click", () => setCurrentArticle(blogRaw.id));
-    readMore.addEventListener("click", () => setCurrentArticle(blogRaw.id));
+    blogTitle.addEventListener("click", () => setCurrentArticle(blog._id));
+    readMore.addEventListener("click", () => setCurrentArticle(blog._id));
 
     // blog preview
     const blogPreview = document.createElement("p");
@@ -141,12 +141,15 @@ const paginationButton = (page, items) => {
 isAuthor();
 responsive();
 showLoader();
-db.collection("articles")
-  .get()
-  .then((snapshot) => {
+
+const url = "https://my-brand.herokuapp.com/api/articles";
+
+fetch(url)
+  .then((res) => res.json())
+  .then(({ data }) => {
     hideLoader();
-    displayArticles(snapshot.docs, articlesSection, rows, currentPage);
-    setUpPagination(snapshot.docs, paginationSection, rows);
+    displayArticles(data, articlesSection, rows, currentPage);
+    setUpPagination(data, paginationSection, rows);
   })
   .catch((err) => {
     displayNotification(err, "error");

@@ -4,13 +4,17 @@ import {
   hideLoader,
 } from "./helperFunctions.js";
 
-const db = firebase.firestore();
 const storageRef = firebase.storage().ref();
 
 const handleLogout = () => {
   localStorage.removeItem("token");
   window.location.reload();
 };
+
+const currentArticleId = localStorage.getItem("current-article-id");
+let currentArticle;
+
+const url = `https://my-brand.herokuapp.com/api/articles/${currentArticleId}`;
 
 const handleLogin = () => {
   window.location.assign("./signin.html");
@@ -35,9 +39,6 @@ const isAuthor = () => {
     authorEdits.classList.remove("authorized");
   }
 };
-
-const currentArticleId = localStorage.getItem("current-article-id");
-let currentArticle;
 
 // edit article button
 const editArticle = document.querySelector("button.edit");
@@ -78,6 +79,7 @@ const fillModalContents = () => {
   const imagePreview = document.querySelector(".modal-image-preview");
   imagePreview.src = currentArticle.imageUrl;
   const imageInput = document.querySelector(".modal-image-input");
+
   imageInput.addEventListener("change", ({ target }) => {
     const file = target.files[0];
     if (file) {
@@ -101,6 +103,20 @@ const fillModalContents = () => {
     }
   };
 
+  const handleUpdateResponse = (data) => {
+    hideLoader();
+    toggleModal();
+    displayNotification("Article saved successfully", "success");
+    window.location.reload();
+  };
+
+  const handleUpdateError = (err) => {
+    console.log(err);
+    displayNotification(err, "error");
+    hideLoader();
+    toggleModal();
+  };
+
   const handleSave = (e) => {
     if (validateArticle()) {
       showLoader();
@@ -114,45 +130,52 @@ const fillModalContents = () => {
           .child(fileName)
           .put(file)
           .then((snapshot) => snapshot.ref.getDownloadURL())
-          .then((url) => {
-            db.collection("articles")
-              .doc(currentArticleId)
-              .update({
+          .then((imageUrl) => {
+            const fetchOptions = {
+              method: "PATCH",
+              headers: {
+                "Content-Type": "application/json",
+                "x-auth-token": token,
+              },
+              body: JSON.stringify({
                 title: editTitle.value,
-                body: editBody.value,
-                imageUrl: url,
-              })
-              .then(() => {
-                hideLoader();
-                toggleModal();
-                displayNotification("Article saved successfully", "success");
-                window.location.reload();
+                content: editBody.value,
+                imageUrl,
+              }),
+            };
+
+            fetch(url, fetchOptions)
+              .then((res) => res.json())
+              .then((data) => {
+                handleUpdateResponse(data);
               })
               .catch((err) => {
-                displayNotification(err, "error");
-                toggleModal();
+                handleUpdateError(err);
               });
           })
           .catch((err) => {
-            displayNotification(err, "error");
-            toggleModal();
+            handleUpdateError(err);
           });
       } else {
-        db.collection("articles")
-          .doc(currentArticleId)
-          .update({
+        const fetchOptions = {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            "x-auth-token": token,
+          },
+          body: JSON.stringify({
             title: editTitle.value,
-            body: editBody.value,
-          })
-          .then(() => {
-            hideLoader();
-            displayNotification("Article saved successfully", "success");
-            window.location.reload();
-            toggleModal();
+            content: editBody.value,
+          }),
+        };
+
+        fetch(url, fetchOptions)
+          .then((res) => res.json())
+          .then((data) => {
+            handleUpdateResponse(data);
           })
           .catch((err) => {
-            displayNotification(err, "error");
-            toggleModal();
+            handleUpdateError(err);
           });
       }
     } else {
@@ -173,10 +196,17 @@ deleteArticle.addEventListener("click", (e) => {
 });
 
 confirmDelete.addEventListener("click", () => {
+  const fetchOptions = {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      "x-auth-token": token,
+    },
+  };
+
   showLoader();
-  db.collection("articles")
-    .doc(currentArticleId)
-    .delete()
+  fetch(url, fetchOptions)
+    .then((res) => res.json())
     .then(() => {
       hideLoader();
       displayNotification("Article deleted successfully!", "success");
@@ -233,25 +263,18 @@ const displayArticle = (data) => {
 
 const displayComments = (comments) => {
   comments.map((comment) => {
-    comment = comment.doc.data();
-
     const commentsSection = document.querySelector(".previous-comments");
     const commentElement = document.createElement("div");
     commentElement.classList.add("comment");
 
     const commentAuthor = document.createElement("h6");
-    commentAuthor.textContent = comment.author;
+    commentAuthor.textContent = comment.name;
 
     const commentBody = document.createElement("p");
-    commentBody.textContent = comment.body;
-
-    const commentDate = document.createElement("p");
-    commentDate.classList.add("comment-date");
-    commentDate.textContent = `Commented on ${comment.publishedOn}`;
+    commentBody.textContent = comment.comment;
 
     commentElement.appendChild(commentAuthor);
     commentElement.appendChild(commentBody);
-    commentElement.appendChild(commentDate);
 
     commentsSection.appendChild(commentElement);
   });
@@ -289,15 +312,22 @@ const handleSubmit = (e) => {
   e.preventDefault();
 
   if (validateComment()) {
-    db.collection("comments")
-      .add({
-        articleId: currentArticleId,
-        body: commentInput.value,
+    const fetchOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-auth-token": token,
+      },
+      body: JSON.stringify({
+        comment: commentInput.value,
         email: emailInput.value,
-        author: nameInput.value,
-        publishedOn: new Date().toDateString(),
-      })
-      .then((res) => {
+        name: nameInput.value,
+      }),
+    };
+    fetch(`${url}/comment`, fetchOptions)
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
         commentErrorMessage.classList.add("hide");
         nameInput.value = "";
         emailInput.value = "";
@@ -318,15 +348,13 @@ commentForm.addEventListener("submit", handleSubmit);
 isAuthor();
 responsive();
 
-db.collection("articles")
-  .doc(currentArticleId)
-  .get()
-  .then((doc) => {
-    const data = doc.data();
-
+fetch(url)
+  .then((res) => res.json())
+  .then(({ data }) => {
     if (data) {
-      currentArticle = data;
-      displayArticle(data);
+      currentArticle = data.article;
+      displayArticle(currentArticle);
+      displayComments(data.comments);
     } else {
       displayNotification("Article can't be found now", "error");
     }
@@ -334,15 +362,3 @@ db.collection("articles")
   .catch((err) => {
     displayNotification(err, "error");
   });
-
-db.collection("comments")
-  .where("articleId", "==", currentArticleId)
-  .onSnapshot(
-    (snap) => {
-      let changes = snap.docChanges();
-      displayComments(changes);
-    },
-    (err) => {
-      displayNotification(err, "error");
-    }
-  );
