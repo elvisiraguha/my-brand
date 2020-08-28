@@ -1,13 +1,15 @@
 class Response {
-  static success = (res, statusCode, message, data) => {
-    return res.status(statusCode).json({
+  static success = (res, status, message, data) => {
+    return res.status(status).json({
+      status,
       message,
       data,
     });
   };
 
-  static error = (res, statusCode, message) => {
-    return res.status(statusCode).json({
+  static error = (res, status, message) => {
+    return res.status(status).json({
+      status,
       message,
     });
   };
