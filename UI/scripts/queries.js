@@ -2,36 +2,25 @@ import { queries } from "./queriesList.js";
 import { displayNotification } from "./helperFunctions.js";
 
 const db = firebase.firestore();
-const auth = firebase.auth();
-
-auth.onAuthStateChanged((user) => {
-  isAuthor(user);
-});
 
 const handleLogout = () => {
-  showLoader();
-  auth
-    .signOut()
-    .then(() => {
-      hideLoader();
-    })
-    .catch((err) => {
-      hideLoader();
-      displayNotification(err, "error");
-    });
+  localStorage.removeItem("token");
+  window.location.reload();
 };
 
 const handleLogin = () => {
   window.location.assign("./signin.html");
 };
 
-const isAuthor = (user) => {
+const token = localStorage.getItem("token");
+
+const isAuthor = () => {
   const unauthorized = document.querySelector(".unauthorized-author");
   const message = document.querySelector(".messages");
   const adminLink = document.querySelector(".admin-link");
   const signInOutBtn = document.querySelector(".sign-in-out-link button");
 
-  if (user) {
+  if (token) {
     signInOutBtn.textContent = "SignOut";
     signInOutBtn.addEventListener("click", handleLogout);
     message.classList.remove("hide");
@@ -209,6 +198,7 @@ const responsive = () => {
 let currentPage = 1;
 let rows = 10;
 
+isAuthor();
 responsive();
 displayQueries(sortedQueries, queriesSection, rows, currentPage);
 setUpPagination(sortedQueries, paginationSection, rows);

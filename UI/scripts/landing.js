@@ -1,30 +1,21 @@
-import {
-  displayNotification,
-  showLoader,
-  hideLoader,
-} from "./helperFunctions.js";
-
-const auth = firebase.auth();
-
-showLoader();
-auth.onAuthStateChanged((user) => {
-  hideLoader();
-  isAuthor(user);
-});
+import { displayNotification } from "./helperFunctions.js";
 
 const handleLogout = () => {
-  auth.signOut();
+  localStorage.removeItem("token");
+  window.location.reload();
 };
 
 const handleLogin = () => {
   window.location.assign("./UI/pages/signin.html");
 };
 
-const isAuthor = (user) => {
+const token = localStorage.getItem("token");
+
+const isAuthor = () => {
   const adminLink = document.querySelector(".admin-link");
   const signInOutBtn = document.querySelector(".sign-in-out-link button");
 
-  if (user) {
+  if (token) {
     signInOutBtn.textContent = "SignOut";
     signInOutBtn.addEventListener("click", handleLogout);
     adminLink.classList.remove("hide");
@@ -139,6 +130,7 @@ const handleSubmit = (e) => {
 
 messageForm.addEventListener("submit", handleSubmit);
 
+isAuthor();
 responsive();
 
 window.addEventListener("load", () => {
