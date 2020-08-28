@@ -17,7 +17,7 @@ const handleLogin = () => {
   window.location.assign("./signin.html");
 };
 
-const token = localStorage.getItem('token')
+const token = localStorage.getItem("token");
 
 const isAuthor = () => {
   const writeArticle = document.querySelector(".write-article");

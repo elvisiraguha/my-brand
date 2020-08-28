@@ -1,10 +1,10 @@
 import { queries } from "./queriesList.js";
-import { displayNotification} from "./helperFunctions.js";
+import { displayNotification } from "./helperFunctions.js";
 
 const db = firebase.firestore();
 
 const handleLogout = () => {
-  localStorage.removeItem('token');
+  localStorage.removeItem("token");
   window.location.reload();
 };
 
@@ -12,7 +12,7 @@ const handleLogin = () => {
   window.location.assign("./signin.html");
 };
 
-const token = localStorage.getItem('token');
+const token = localStorage.getItem("token");
 
 const isAuthor = () => {
   const unauthorized = document.querySelector(".unauthorized-author");
@@ -198,7 +198,7 @@ const responsive = () => {
 let currentPage = 1;
 let rows = 10;
 
-isAuthor()
+isAuthor();
 responsive();
 displayQueries(sortedQueries, queriesSection, rows, currentPage);
 setUpPagination(sortedQueries, paginationSection, rows);

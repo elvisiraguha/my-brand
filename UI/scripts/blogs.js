@@ -1,7 +1,4 @@
-import {
-  showLoader,
-  hideLoader,
-} from "../scripts/helperFunctions.js";
+import { showLoader, hideLoader } from "../scripts/helperFunctions.js";
 
 const db = firebase.firestore();
 
@@ -14,7 +11,7 @@ const handleLogin = () => {
   window.location.assign("./signin.html");
 };
 
-const token = localStorage.getItem('token');
+const token = localStorage.getItem("token");
 
 const isAuthor = () => {
   const adminLink = document.querySelector(".admin-link");

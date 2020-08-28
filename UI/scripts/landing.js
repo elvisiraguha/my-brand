@@ -1,9 +1,7 @@
-import {
-  displayNotification,
-} from "./helperFunctions.js";
+import { displayNotification } from "./helperFunctions.js";
 
 const handleLogout = () => {
-  localStorage.removeItem('token');
+  localStorage.removeItem("token");
   window.location.reload();
 };
 
@@ -11,7 +9,7 @@ const handleLogin = () => {
   window.location.assign("./UI/pages/signin.html");
 };
 
-const token = localStorage.getItem('token');
+const token = localStorage.getItem("token");
 
 const isAuthor = () => {
   const adminLink = document.querySelector(".admin-link");
