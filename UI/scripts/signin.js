@@ -24,7 +24,7 @@ const validate = () => {
 const handleData = (response) => {
   if (response.status === 200) {
     localStorage.setItem("token", response.data.token);
-    window.history.back();
+    window.location.assign('./admin.html');
   } else {
     password.value = "";
     errorMessage.classList.remove("hide");
