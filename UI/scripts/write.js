@@ -8,34 +8,24 @@ const db = firebase.firestore();
 const auth = firebase.auth();
 const storageRef = firebase.storage().ref();
 
-auth.onAuthStateChanged((user) => {
-  isAuthor(user);
-});
-
 const handleLogout = () => {
-  showLoader();
-  auth
-    .signOut()
-    .then(() => {
-      hideLoader();
-    })
-    .catch((err) => {
-      hideLoader();
-      displayNotification(err, "error");
-    });
+  localStorage.removeItem("token");
+  window.location.reload();
 };
 
 const handleLogin = () => {
   window.location.assign("./signin.html");
 };
 
-const isAuthor = (user) => {
+const token = localStorage.getItem('token')
+
+const isAuthor = () => {
   const writeArticle = document.querySelector(".write-article");
   const unauthorized = document.querySelector(".unauthorized-author");
   const adminLink = document.querySelector(".admin-link");
   const signInOutBtn = document.querySelector(".sign-in-out-link button");
 
-  if (user) {
+  if (token) {
     signInOutBtn.textContent = "SignOut";
     signInOutBtn.addEventListener("click", handleLogout);
     adminLink.classList.remove("hide");
@@ -169,3 +159,4 @@ returnToEdit.forEach((btn) => {
 window.addEventListener("beforeunload", handleOnLeave);
 
 responsive();
+isAuthor();

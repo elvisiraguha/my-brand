@@ -1,23 +1,20 @@
-const auth = firebase.auth();
-
-auth.onAuthStateChanged((user) => {
-  isAuthor(user);
-});
-
 const handleLogout = () => {
-  auth.signOut();
+  localStorage.removeItem("token");
+  window.location.reload();
 };
 
 const handleLogin = () => {
   window.location.assign("./signin.html");
 };
 
-const isAuthor = (user) => {
+const token = localStorage.getItem("token");
+
+const isAuthor = () => {
   const unauthorizedAuthor = document.querySelector(".unauthorized-author");
   const adminContents = document.querySelector(".admin-contents");
   const signInOutBtn = document.querySelector(".sign-in-out-link button");
 
-  if (user) {
+  if (token) {
     signInOutBtn.textContent = "SignOut";
     signInOutBtn.addEventListener("click", handleLogout);
     unauthorizedAuthor.classList.add("hide");
@@ -41,4 +38,5 @@ const responsive = () => {
   });
 };
 
+isAuthor();
 responsive();

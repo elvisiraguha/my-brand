@@ -1,31 +1,20 @@
 import profileData from "./profileData.js";
-import { displayNotification } from "./helperFunctions.js";
+import { displayNotification} from "./helperFunctions.js";
 
 const db = firebase.firestore();
-const auth = firebase.auth();
-
-auth.onAuthStateChanged((user) => {
-  isAuthor(user);
-});
 
 const handleLogout = () => {
-  showLoader();
-  auth
-    .signOut()
-    .then(() => {
-      hideLoader();
-    })
-    .catch((err) => {
-      hideLoader();
-      displayNotification(err, "error");
-    });
+  localStorage.removeItem('token');
+  window.location.reload();
 };
 
 const handleLogin = () => {
   window.location.assign("./signin.html");
 };
 
-const isAuthor = (user) => {
+const token = localStorage.getItem('token');
+
+const isAuthor = () => {
   const adminLink = document.querySelector(".admin-link");
   const signInOutBtn = document.querySelector(".sign-in-out-link button");
   const authorizedContents = document.querySelector("main");
@@ -33,7 +22,7 @@ const isAuthor = (user) => {
     "section.unauthorized-author"
   );
 
-  if (user) {
+  if (token) {
     signInOutBtn.textContent = "SignOut";
     signInOutBtn.addEventListener("click", handleLogout);
     adminLink.classList.remove("hide");
@@ -1084,6 +1073,7 @@ const editPageContents = () => {
 const changePictureBtn = document.querySelector(".profile-intro div.cover");
 changePictureBtn.addEventListener("click", changePicture);
 
+isAuthor();
 responsive();
 displaySkills();
 displaySocials();

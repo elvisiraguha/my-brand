@@ -1,7 +1,5 @@
 import { showLoader, hideLoader } from "./helperFunctions.js";
 
-const auth = firebase.auth();
-
 const form = document.querySelector(".signin-container form");
 const email = document.querySelector("form .email-input");
 const password = document.querySelector("form .password-input");
@@ -23,17 +21,43 @@ const validate = () => {
   }
 };
 
+const handleData = (response) => {
+  if (response.status === 200) {
+    localStorage.setItem("token", response.data.token);
+    window.history.back();
+  } else {
+    password.value = "";
+    errorMessage.classList.remove("hide");
+    errorMessage.textContent = response.message;
+  }
+};
+
 const handleSubmit = (e) => {
   e.preventDefault();
+  const url = "https://my-brand.herokuapp.com/api/auth/signin";
 
   if (validate()) {
     showLoader();
     errorMessage.textContent = "";
-    auth
-      .signInWithEmailAndPassword(email.value, password.value)
-      .then((cred) => {
+
+    const fetchOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: email.value,
+        password: password.value,
+      }),
+    };
+
+    fetch(url, fetchOptions)
+      .then((res) => {
         hideLoader();
-        window.history.back();
+        return res.json();
+      })
+      .then((data) => {
+        handleData(data);
       })
       .catch((err) => {
         hideLoader();
