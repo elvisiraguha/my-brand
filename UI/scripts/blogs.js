@@ -152,5 +152,6 @@ fetch(url)
     setUpPagination(data, paginationSection, rows);
   })
   .catch((err) => {
+    hideLoader();
     displayNotification(err, "error");
   });

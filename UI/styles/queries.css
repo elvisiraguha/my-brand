@@ -207,7 +207,7 @@ div.unauthorized-author .btn {
   border: 1px solid black;
 }
 
-.read-on {
+[data-status="true"] {
   background-color: #81827769;
 }
 

@@ -1,4 +1,10 @@
-import { displayNotification } from "./helperFunctions.js";
+import {
+  displayNotification,
+  showLoader,
+  hideLoader,
+} from "./helperFunctions.js";
+
+const url = "https://my-brand.herokuapp.com/api";
 
 const handleLogout = () => {
   localStorage.removeItem("token");
@@ -109,7 +115,6 @@ const validate = () => {
     errorMessage.textContent = "The message must be at least 10 charcters long";
     return false;
   } else {
-    displayNotification("Message is sent successfully!", "success");
     return true;
   }
 };
@@ -118,11 +123,38 @@ const handleSubmit = (e) => {
   e.preventDefault();
 
   if (validate()) {
-    errorMessage.classList.add("hide");
-    nameInput.value = "";
-    emailInput.value = "";
-    subjectInput.value = "";
-    messageInput.value = "";
+    showLoader();
+    const fetchOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-auth-token": token,
+      },
+      body: JSON.stringify({
+        name: nameInput.value,
+        email: emailInput.value,
+        subject: subjectInput.value,
+        message: messageInput.value,
+      }),
+    };
+
+    fetch(`${url}/queries`, fetchOptions)
+      .then((res) => {
+        hideLoader();
+        return res.json();
+      })
+      .then((data) => {
+        errorMessage.classList.add("hide");
+        nameInput.value = "";
+        emailInput.value = "";
+        subjectInput.value = "";
+        messageInput.value = "";
+        displayNotification(data.message, "success");
+      })
+      .catch((err) => {
+        hideLoader();
+        displayNotification(err, "error");
+      });
   } else {
     errorMessage.classList.remove("hide");
   }
