@@ -211,6 +211,14 @@ div.unauthorized-author .btn {
   background-color: #81827769;
 }
 
+[data-status="false"]::before {
+  content: "📧";
+}
+
+[data-status="true"]::before {
+  content: "📖";
+}
+
 .error-message {
   margin-top: 20px;
   color: red;

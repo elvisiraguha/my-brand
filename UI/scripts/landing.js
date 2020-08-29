@@ -160,6 +160,93 @@ const handleSubmit = (e) => {
   }
 };
 
+const displayInfo = (data) => {
+  hideLoader();
+  const infoTitle = document.querySelector(".profile-info-title");
+  const infoSubTitle = document.querySelector(".profile-info-subtitle");
+  const infoIntro = document.querySelector(".profile-info-intro");
+  const infoProfileImage = document.querySelector(".profile-info-profileImage");
+  const infoEmail = document.querySelector(".profile-info-email");
+  const infoPhone = document.querySelector(".profile-info-phone");
+  const infoAddress = document.querySelector(".profile-info-address");
+
+  infoTitle.textContent = data.title;
+  infoSubTitle.textContent = data.subTitle;
+  infoIntro.innerHTML = `
+  <span class="first-char">${data.intro.slice(0, 1)}</span> ${data.intro.slice(
+    1
+  )}
+  `;
+  infoEmail.textContent = data.email;
+  infoEmail.setAttribute("href", `mailto://${data.email}`);
+  infoPhone.textContent = data.phone;
+  infoAddress.textContent = data.address;
+};
+
+const displayItems = (items) => {
+  const skillsCard = document.querySelector(".skills-cards-container");
+  const projectsCard = document.querySelector(".projects-cards-container");
+  const experiencesCard = document.querySelector("#experience-section");
+
+  const displaySkill = (skill) => {
+    const skillCard = `
+    <div class="skill-card">
+              <img src="${skill.logoUrl}" alt="${skill.title} logo" />
+              <p>${skill.title}</p>
+            </div>
+    `;
+    skillsCard.innerHTML += skillCard;
+  };
+
+  const displayProject = (project) => {
+    const projectCard = `
+    <div class="project-card">
+              <img
+                src="${project.logoUrl}"
+                alt="${project.title} logo"
+              />
+              <h5>${project.title}</h5>
+              <p>${project.description}</p>
+              <a
+                href="${project.link}"
+                class="btn visit-project"
+                target="_blank"
+                ><button>Visit</button></a
+              >
+            </div>
+    `;
+    projectsCard.innerHTML += projectCard;
+  };
+
+  const displayExperience = (experience) => {
+    const experienceCard = `
+    <section class="individual-experience">
+            <h6>${experience.title}</h6>
+            <p>
+            ${experience.description}
+            </p>
+          </section>
+    `;
+    experiencesCard.innerHTML += experienceCard;
+  };
+
+  items.forEach((item) => {
+    switch (item.type) {
+      case "skill":
+        displaySkill(item);
+        break;
+      case "project":
+        displayProject(item);
+        break;
+      case "experience":
+        displayExperience(item);
+        break;
+      default:
+        break;
+    }
+  });
+};
+
 messageForm.addEventListener("submit", handleSubmit);
 
 isAuthor();
@@ -168,3 +255,21 @@ responsive();
 window.addEventListener("load", () => {
   highlightNav();
 });
+
+showLoader();
+
+fetch(`${url}/profile/info`)
+  .then((res) => res.json())
+  .then(({ data }) => displayInfo(data))
+  .catch((err) => {
+    hideLoader();
+    displayNotification(err, "error");
+  });
+
+fetch(`${url}/profile`)
+  .then((res) => res.json())
+  .then(({ data }) => displayItems(data))
+  .catch((err) => {
+    hideLoader();
+    displayNotification(err, "error");
+  });

@@ -83,10 +83,8 @@ const handleActions = () => {
           target.dataset.status = data.read;
           if (data.read) {
             displayNotification("Marked read", "success");
-            target.innerHTML = "&#10004;";
           } else {
             displayNotification("Marked unread", "success");
-            target.innerHTML = "Read";
           }
         })
         .catch((err) => {
@@ -146,7 +144,6 @@ const displayQueries = (queries, wrapper, rowsPerPage, page) => {
   let paginatedQueries = sortedQueries.slice(start, end);
 
   paginatedQueries.map((querie) => {
-    const readContent = querie.read ? "&#10004;" : "Read";
     const displayedQuerie = `
           <div class="message" data-id="${querie._id}">
             <h4><i>Sender Name:</i> ${querie.name}</h4>
@@ -159,7 +156,7 @@ const displayQueries = (queries, wrapper, rowsPerPage, page) => {
             </p>
             <div class="controls">
               <button class="btn reply">Reply</button>
-              <button class="btn read" data-status=${querie.read}>${readContent}</button>
+              <button class="btn read" data-status=${querie.read}></button>
             </div>
           </div>
     `;
