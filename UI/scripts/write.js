@@ -128,7 +128,6 @@ const confirmModal = () => {
           return res.json();
         })
         .then((data) => {
-          console.log(data);
           titleInput.value = "";
           bodyInput.value = "";
           onLeaveModal.classList.add("hide");

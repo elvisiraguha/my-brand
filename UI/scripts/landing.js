@@ -161,7 +161,6 @@ const handleSubmit = (e) => {
 };
 
 const displayInfo = (data) => {
-  hideLoader();
   const infoTitle = document.querySelector(".profile-info-title");
   const infoSubTitle = document.querySelector(".profile-info-subtitle");
   const infoIntro = document.querySelector(".profile-info-intro");
@@ -184,6 +183,7 @@ const displayInfo = (data) => {
 };
 
 const displayItems = (items) => {
+  hideLoader();
   const skillsCard = document.querySelector(".skills-cards-container");
   const projectsCard = document.querySelector(".projects-cards-container");
   const experiencesCard = document.querySelector("#experience-section");

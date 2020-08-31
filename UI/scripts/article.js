@@ -111,7 +111,6 @@ const fillModalContents = () => {
   };
 
   const handleUpdateError = (err) => {
-    console.log(err);
     displayNotification(err, "error");
     hideLoader();
     toggleModal();
@@ -327,7 +326,6 @@ const handleSubmit = (e) => {
     fetch(`${url}/comment`, fetchOptions)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         commentErrorMessage.classList.add("hide");
         nameInput.value = "";
         emailInput.value = "";
