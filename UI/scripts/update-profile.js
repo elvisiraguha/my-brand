@@ -51,6 +51,24 @@ const responsive = () => {
   });
 };
 
+const fetchInfo = () => {
+  fetch(`${url}/info`)
+    .then((res) => res.json())
+    .then(({ data }) => updateInfo(data))
+    .catch((err) => {
+      hideLoader();
+      displayNotification(err, "error");
+    });
+};
+const fetchItems = () => {
+  fetch(url)
+    .then((res) => res.json())
+    .then(({ data }) => updateItems(data))
+    .catch((err) => {
+      displayNotification(err, "error");
+    });
+};
+
 const addModal = document.querySelector(".add-modal");
 const editModal = document.querySelector(".edit-modal");
 
@@ -261,6 +279,279 @@ const updateInfo = (data) => {
     };
 
     save.addEventListener("click", handleSave);
+  });
+};
+
+const setupAddItem = () => {
+  const modalForm = document.querySelector(".add-modal form");
+  const modalTitle = document.querySelector(".add-modal .title");
+  const itemTitle = document.querySelector(".add-modal input.item-name");
+  const itemStartDate = document.querySelector(
+    ".add-modal input.item-startDate"
+  );
+  const itemEndDate = document.querySelector(".add-modal input.item-endDate");
+  const itemDescription = document.querySelector(
+    ".add-modal textarea.item-description"
+  );
+  const itemLink = document.querySelector(".add-modal input.item-link");
+  const itemLogoPreview = document.querySelector(".add-modal img.logo-preview");
+  const itemLogo = document.querySelector(".add-modal input.item-logo");
+
+  const cancelBtn = document.querySelector(".add-modal .btn.cancel");
+  const errorMessage = document.querySelector(".add-modal .error-message");
+
+  cancelBtn.addEventListener("click", (e) => handleCancel(e, addModal));
+  const addBtns = document.querySelectorAll(".add");
+
+  const cleanModal = () => {
+    itemLogoPreview.src = "";
+    itemLogoPreview.classList.add("hide");
+    itemLogo.value = "";
+    itemTitle.textContent = "";
+    itemDescription.textContent = "";
+    itemLogo.textContent = "";
+  };
+
+  const validateSkill = () => {
+    if (itemTitle.value.length < 2) {
+      errorMessage.textContent =
+        "The skill name must be at least 2 charcters long";
+      return false;
+    } else if (!itemLogo.value) {
+      errorMessage.textContent = "There is no logo image selected";
+      return false;
+    } else {
+      errorMessage.textContent = "";
+      return true;
+    }
+  };
+
+  const validateExperience = () => {
+    if (itemTitle.value.length < 6) {
+      errorMessage.textContent =
+        "The experience title must be at least 6 charcters long";
+      return false;
+    } else if (itemDescription.value < 20) {
+      errorMessage.textContent =
+        "The experience description must be at least 20 charcters long";
+      return false;
+    } else if (!itemStartDate.value) {
+      errorMessage.textContent = "The start date must be specified";
+      return false;
+    } else if (!itemEndDate.value) {
+      errorMessage.textContent = "The end date must be specified";
+      return false;
+    } else {
+      errorMessage.textContent = "";
+      return true;
+    }
+  };
+
+  const validateProject = () => {
+    if (itemTitle.value.length < 4) {
+      errorMessage.textContent =
+        "The project name must be at least 4 charcters long";
+      return false;
+    } else if (itemDescription.value.length < 10) {
+      errorMessage.textContent =
+        "The project description must be at least 10 charcters long";
+      return false;
+    } else if (itemLink.value.length < 2) {
+      errorMessage.textContent = "Invalid project link";
+      return false;
+    } else if (!itemLogo.value) {
+      errorMessage.textContent = "There is no logo image selected";
+      return false;
+    } else {
+      errorMessage.textContent = "";
+      return true;
+    }
+  };
+
+  const handleAddSkill = () => {
+    modalTitle.textContent = "Add a new skill";
+    cleanModal();
+
+    itemLogo.addEventListener("change", ({ target }) => {
+      const file = target.files[0];
+
+      if (file) {
+        const reader = new FileReader();
+        reader.addEventListener("load", () => {
+          itemLogoPreview.src = reader.result;
+          itemLogoPreview.classList.remove("hide");
+        });
+
+        reader.readAsDataURL(file);
+      }
+    });
+
+    const handleSubmitSkill = (e) => {
+      e.preventDefault();
+
+      if (validateSkill()) {
+        showLoader();
+        const file = itemLogo.files[0];
+        const fileName = `${new Date().toLocaleString()}-${file.name}`;
+
+        storageRef
+          .child(fileName)
+          .put(file)
+          .then((snapshot) => snapshot.ref.getDownloadURL())
+          .then((logoUrl) => {
+            const fetchOptions = {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                "x-auth-token": token,
+              },
+              body: JSON.stringify({
+                title: itemTitle.value,
+                logoUrl,
+              }),
+            };
+
+            fetch(`${url}/?itemType=skill`, fetchOptions)
+              .then((res) => {
+                return res.json();
+              })
+              .then((data) => {
+                addModal.classList.add("hide");
+                fetchItems();
+                displayNotification(data.message, "success");
+              });
+          })
+          .catch((err) => displayNotification(err, "error"));
+      } else {
+        errorMessage.classList.remove("hide");
+      }
+    };
+
+    modalForm.addEventListener("submit", handleSubmitSkill);
+  };
+  const handleAddProject = () => {
+    modalTitle.textContent = "Add a new project";
+    cleanModal();
+
+    itemLogo.addEventListener("change", ({ target }) => {
+      const file = target.files[0];
+
+      if (file) {
+        const reader = new FileReader();
+        reader.addEventListener("load", () => {
+          itemLogoPreview.src = reader.result;
+          itemLogoPreview.classList.remove("hide");
+        });
+
+        reader.readAsDataURL(file);
+      }
+    });
+
+    const handleSubmitProject = (e) => {
+      e.preventDefault();
+
+      if (validateProject()) {
+        showLoader();
+        const file = itemLogo.files[0];
+        const fileName = `${new Date().toLocaleString()}-${file.name}`;
+
+        storageRef
+          .child(fileName)
+          .put(file)
+          .then((snapshot) => snapshot.ref.getDownloadURL())
+          .then((logoUrl) => {
+            const fetchOptions = {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                "x-auth-token": token,
+              },
+              body: JSON.stringify({
+                title: itemTitle.value,
+                description: itemDescription.value,
+                link: itemLink.value,
+                logoUrl,
+              }),
+            };
+
+            fetch(`${url}/?itemType=project`, fetchOptions)
+              .then((res) => {
+                return res.json();
+              })
+              .then((data) => {
+                addModal.classList.add("hide");
+                fetchItems();
+                displayNotification(data.message, "success");
+              });
+          })
+          .catch((err) => displayNotification(err, "error"));
+      } else {
+        errorMessage.classList.remove("hide");
+      }
+    };
+
+    modalForm.addEventListener("submit", handleSubmitProject);
+  };
+  const handleAddExperience = () => {
+    modalTitle.textContent = "Add a new experience";
+    const handleSubmitExperience = (e) => {
+      e.preventDefault();
+
+      if (validateExperience()) {
+        showLoader();
+        const fetchOptions = {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "x-auth-token": token,
+          },
+          body: JSON.stringify({
+            title: itemTitle.value,
+            description: itemDescription.value,
+            startDate: itemStartDate.value,
+            endDate: itemEndDate.value,
+          }),
+        };
+
+        fetch(`${url}/?itemType=experience`, fetchOptions)
+          .then((res) => {
+            return res.json();
+          })
+          .then((data) => {
+            addModal.classList.add("hide");
+            fetchItems();
+            displayNotification(data.message, "success");
+          })
+          .catch((err) => displayNotification(err, "error"));
+      } else {
+        errorMessage.classList.remove("hide");
+      }
+    };
+    modalForm.addEventListener("submit", handleSubmitExperience);
+  };
+
+  addBtns.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const itemType = btn.dataset.type;
+      addModal.classList.remove("hide");
+
+      switch (itemType) {
+        case "skill":
+          addModal.dataset.type = itemType;
+          handleAddSkill();
+          break;
+        case "project":
+          addModal.dataset.type = itemType;
+          handleAddProject();
+          break;
+        case "experience":
+          addModal.dataset.type = itemType;
+          handleAddExperience();
+          break;
+        default:
+          break;
+      }
+    });
   });
 };
 
@@ -706,299 +997,8 @@ const updateItems = (items) => {
   });
 };
 
-const setupAddItem = () => {
-  const modalForm = document.querySelector(".add-modal form");
-  const modalTitle = document.querySelector(".add-modal .title");
-  const itemTitle = document.querySelector(".add-modal input.item-name");
-  const itemStartDate = document.querySelector(
-    ".add-modal input.item-startDate"
-  );
-  const itemEndDate = document.querySelector(".add-modal input.item-endDate");
-  const itemDescription = document.querySelector(
-    ".add-modal textarea.item-description"
-  );
-  const itemLink = document.querySelector(".add-modal input.item-link");
-  const itemLogoPreview = document.querySelector(".add-modal img.logo-preview");
-  const itemLogo = document.querySelector(".add-modal input.item-logo");
-
-  const cancelBtn = document.querySelector(".add-modal .btn.cancel");
-  const errorMessage = document.querySelector(".add-modal .error-message");
-
-  cancelBtn.addEventListener("click", (e) => handleCancel(e, addModal));
-  const addBtns = document.querySelectorAll(".add");
-
-  const cleanModal = () => {
-    itemLogoPreview.src = "";
-    itemLogoPreview.classList.add("hide");
-    itemLogo.value = "";
-    itemTitle.textContent = "";
-    itemDescription.textContent = "";
-    itemLogo.textContent = "";
-  };
-
-  const validateSkill = () => {
-    if (itemTitle.value.length < 2) {
-      errorMessage.textContent =
-        "The skill name must be at least 2 charcters long";
-      return false;
-    } else if (!itemLogo.value) {
-      errorMessage.textContent = "There is no logo image selected";
-      return false;
-    } else {
-      errorMessage.textContent = "";
-      return true;
-    }
-  };
-
-  const validateExperience = () => {
-    if (itemTitle.value.length < 6) {
-      errorMessage.textContent =
-        "The experience title must be at least 6 charcters long";
-      return false;
-    } else if (itemDescription.value < 20) {
-      errorMessage.textContent =
-        "The experience description must be at least 20 charcters long";
-      return false;
-    } else if (!itemStartDate.value) {
-      errorMessage.textContent = "The start date must be specified";
-      return false;
-    } else if (!itemEndDate.value) {
-      errorMessage.textContent = "The end date must be specified";
-      return false;
-    } else {
-      errorMessage.textContent = "";
-      return true;
-    }
-  };
-
-  const validateProject = () => {
-    if (itemTitle.value.length < 4) {
-      errorMessage.textContent =
-        "The project name must be at least 4 charcters long";
-      return false;
-    } else if (itemDescription.value.length < 10) {
-      errorMessage.textContent =
-        "The project description must be at least 10 charcters long";
-      return false;
-    } else if (itemLink.value.length < 2) {
-      errorMessage.textContent = "Invalid project link";
-      return false;
-    } else if (!itemLogo.value) {
-      errorMessage.textContent = "There is no logo image selected";
-      return false;
-    } else {
-      errorMessage.textContent = "";
-      return true;
-    }
-  };
-
-  const handleAddSkill = () => {
-    modalTitle.textContent = "Add a new skill";
-    cleanModal();
-
-    itemLogo.addEventListener("change", ({ target }) => {
-      const file = target.files[0];
-
-      if (file) {
-        const reader = new FileReader();
-        reader.addEventListener("load", () => {
-          itemLogoPreview.src = reader.result;
-          itemLogoPreview.classList.remove("hide");
-        });
-
-        reader.readAsDataURL(file);
-      }
-    });
-
-    const handleSubmitSkill = (e) => {
-      e.preventDefault();
-
-      if (validateSkill()) {
-        showLoader();
-        const file = itemLogo.files[0];
-        const fileName = `${new Date().toLocaleString()}-${file.name}`;
-
-        storageRef
-          .child(fileName)
-          .put(file)
-          .then((snapshot) => snapshot.ref.getDownloadURL())
-          .then((logoUrl) => {
-            const fetchOptions = {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-                "x-auth-token": token,
-              },
-              body: JSON.stringify({
-                title: itemTitle.value,
-                logoUrl,
-              }),
-            };
-
-            fetch(`${url}/?itemType=skill`, fetchOptions)
-              .then((res) => {
-                return res.json();
-              })
-              .then((data) => {
-                addModal.classList.add("hide");
-                fetchItems();
-                displayNotification(data.message, "success");
-              });
-          })
-          .catch((err) => displayNotification(err, "error"));
-      } else {
-        errorMessage.classList.remove("hide");
-      }
-    };
-
-    modalForm.addEventListener("submit", handleSubmitSkill);
-  };
-  const handleAddProject = () => {
-    modalTitle.textContent = "Add a new project";
-    cleanModal();
-
-    itemLogo.addEventListener("change", ({ target }) => {
-      const file = target.files[0];
-
-      if (file) {
-        const reader = new FileReader();
-        reader.addEventListener("load", () => {
-          itemLogoPreview.src = reader.result;
-          itemLogoPreview.classList.remove("hide");
-        });
-
-        reader.readAsDataURL(file);
-      }
-    });
-
-    const handleSubmitProject = (e) => {
-      e.preventDefault();
-
-      if (validateProject()) {
-        showLoader();
-        const file = itemLogo.files[0];
-        const fileName = `${new Date().toLocaleString()}-${file.name}`;
-
-        storageRef
-          .child(fileName)
-          .put(file)
-          .then((snapshot) => snapshot.ref.getDownloadURL())
-          .then((logoUrl) => {
-            const fetchOptions = {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-                "x-auth-token": token,
-              },
-              body: JSON.stringify({
-                title: itemTitle.value,
-                description: itemDescription.value,
-                link: itemLink.value,
-                logoUrl,
-              }),
-            };
-
-            fetch(`${url}/?itemType=project`, fetchOptions)
-              .then((res) => {
-                return res.json();
-              })
-              .then((data) => {
-                addModal.classList.add("hide");
-                fetchItems();
-                displayNotification(data.message, "success");
-              });
-          })
-          .catch((err) => displayNotification(err, "error"));
-      } else {
-        errorMessage.classList.remove("hide");
-      }
-    };
-
-    modalForm.addEventListener("submit", handleSubmitProject);
-  };
-  const handleAddExperience = () => {
-    modalTitle.textContent = "Add a new experience";
-    const handleSubmitExperience = (e) => {
-      e.preventDefault();
-
-      if (validateExperience()) {
-        showLoader();
-        const fetchOptions = {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "x-auth-token": token,
-          },
-          body: JSON.stringify({
-            title: itemTitle.value,
-            description: itemDescription.value,
-            startDate: itemStartDate.value,
-            endDate: itemEndDate.value,
-          }),
-        };
-
-        fetch(`${url}/?itemType=experience`, fetchOptions)
-          .then((res) => {
-            return res.json();
-          })
-          .then((data) => {
-            addModal.classList.add("hide");
-            fetchItems();
-            displayNotification(data.message, "success");
-          })
-          .catch((err) => displayNotification(err, "error"));
-      } else {
-        errorMessage.classList.remove("hide");
-      }
-    };
-    modalForm.addEventListener("submit", handleSubmitExperience);
-  };
-
-  addBtns.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const itemType = btn.dataset.type;
-      addModal.classList.remove("hide");
-
-      switch (itemType) {
-        case "skill":
-          addModal.dataset.type = itemType;
-          handleAddSkill();
-          break;
-        case "project":
-          addModal.dataset.type = itemType;
-          handleAddProject();
-          break;
-        case "experience":
-          addModal.dataset.type = itemType;
-          handleAddExperience();
-          break;
-        default:
-          break;
-      }
-    });
-  });
-};
-
 isAuthor();
 responsive();
-
-const fetchInfo = () => {
-  fetch(`${url}/info`)
-    .then((res) => res.json())
-    .then(({ data }) => updateInfo(data))
-    .catch((err) => {
-      hideLoader();
-      displayNotification(err, "error");
-    });
-};
-const fetchItems = () => {
-  fetch(url)
-    .then((res) => res.json())
-    .then(({ data }) => updateItems(data))
-    .catch((err) => {
-      displayNotification(err, "error");
-    });
-};
 
 window.addEventListener("load", () => {
   showLoader();
