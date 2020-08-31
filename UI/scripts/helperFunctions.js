@@ -1,5 +1,5 @@
 const main = document.querySelector("main");
-const contaner = document.querySelector(".container");
+const container = document.querySelector(".container");
 
 // notification
 const notification = document.createElement("div");
@@ -25,9 +25,11 @@ loader.innerHTML = `
 loader.classList.add("loader-modal");
 
 export const showLoader = () => {
-  contaner.appendChild(loader);
+  container.appendChild(loader);
 };
 
 export const hideLoader = () => {
-  contaner.removeChild(loader);
+  if (loader === container.lastElementChild) {
+    container.removeChild(loader);
+  }
 };

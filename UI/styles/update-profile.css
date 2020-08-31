@@ -602,6 +602,24 @@ section.unauthorized-author .btn {
   color: black;
   text-decoration: none;
 }
+
+[data-type="skill"] .item-description,
+[data-type="skill"] .item-link,
+[data-type="skill"] .item-startDate,
+[data-type="skill"] .item-endDate {
+  display: none;
+}
+
+[data-type="experience"] .item-link,
+[data-type="experience"] .logo-preview,
+[data-type="experience"] .item-logo {
+  display: none;
+}
+
+[data-type="project"] .item-startDate,
+[data-type="project"] .item-endDate {
+  display: none;
+}
 @media screen and (max-width: 1024px) {
   .container {
     width: 100%;

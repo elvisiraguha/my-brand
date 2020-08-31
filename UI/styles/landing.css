@@ -110,7 +110,7 @@ main section p {
   margin-top: 20px;
 }
 
-main article p span {
+main article span.first-char {
   font-size: 96px;
   font-family: "Sanchez", serif;
 }

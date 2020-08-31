@@ -1,7 +1,10 @@
-import { queries } from "./queriesList.js";
-import { displayNotification } from "./helperFunctions.js";
+import {
+  displayNotification,
+  showLoader,
+  hideLoader,
+} from "./helperFunctions.js";
 
-const db = firebase.firestore();
+const url = "https://my-brand.herokuapp.com/api/queries";
 
 const handleLogout = () => {
   localStorage.removeItem("token");
@@ -35,16 +38,6 @@ const isAuthor = () => {
   }
 };
 
-const sortedQueries = (function () {
-  const sortedByDate = queries.sort(
-    (latest, old) => new Date(latest.date) - new Date(old.date)
-  );
-  const sortedByDone = sortedByDate.sort(
-    (done, undone) => done.read - undone.read
-  );
-  return sortedByDone;
-})();
-
 const paginationSection = document.querySelector(".pagination");
 const queriesSection = document.querySelector("section.messages");
 
@@ -68,14 +61,35 @@ const handleActions = () => {
 
   readBtns.forEach((btn) => {
     btn.addEventListener("click", ({ target }) => {
-      target.classList.toggle("read-on");
-      if (target.textContent === "Read") {
-        displayNotification("Marked read", "success");
-        target.innerHTML = "&#10004;";
-      } else {
-        displayNotification("Marked unread", "success");
-        target.textContent = "Read";
-      }
+      let queryId = target.parentElement.parentElement.dataset.id;
+      let queryStatus = target.dataset.status;
+      const parseStatus = queryStatus === "true" ? true : false;
+
+      const fetchOptions = {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          "x-auth-token": token,
+        },
+        body: JSON.stringify({
+          read: !parseStatus,
+        }),
+      };
+      fetch(`${url}/${queryId}`, fetchOptions)
+        .then((res) => {
+          return res.json();
+        })
+        .then(({ data }) => {
+          target.dataset.status = data.read;
+          if (data.read) {
+            displayNotification("Marked read", "success");
+          } else {
+            displayNotification("Marked unread", "success");
+          }
+        })
+        .catch((err) => {
+          displayNotification(err, "error");
+        });
     });
   });
 
@@ -120,31 +134,29 @@ const handleActions = () => {
   };
 };
 
-const displayQueries = (sortedQueries, wrapper, rowsPerPage, page) => {
-  wrapper.innerHTML = "";
+const displayQueries = (queries, wrapper, rowsPerPage, page) => {
   page -= 1;
+
+  const sortedQueries = queries.sort((done, undone) => done.read - undone.read);
 
   let start = rowsPerPage * page;
   let end = start + rowsPerPage;
   let paginatedQueries = sortedQueries.slice(start, end);
 
   paginatedQueries.map((querie) => {
-    const readOnClass = querie.read ? "read-on" : "";
-    const readContent = querie.read ? "&#10004;" : "Read";
     const displayedQuerie = `
-          <div class="message">
-            <h4><i>Sender Name:</i> ${querie.senderName}</h4>
+          <div class="message" data-id="${querie._id}">
+            <h4><i>Sender Name:</i> ${querie.name}</h4>
             <h4><i>Subject:</i> ${querie.subject}</h4>
             <h4>
-              <i>Email:</i> <a href="mail://${querie.senderEmail}">${querie.senderEmail}</a>
+              <i>Email:</i> <a href="mail://${querie.email}">${querie.email}</a>
             </h4>
             <p>
               ${querie.message}
             </p>
-            <p class='sent-date'>${querie.date}</p>
             <div class="controls">
               <button class="btn reply">Reply</button>
-              <button class="btn read ${readOnClass}">${readContent}</button>
+              <button class="btn read" data-status=${querie.read}></button>
             </div>
           </div>
     `;
@@ -200,5 +212,23 @@ let rows = 10;
 
 isAuthor();
 responsive();
-displayQueries(sortedQueries, queriesSection, rows, currentPage);
-setUpPagination(sortedQueries, paginationSection, rows);
+
+const fetchOptions = {
+  headers: {
+    "x-auth-token": token,
+  },
+};
+showLoader();
+fetch(url, fetchOptions)
+  .then((res) => {
+    hideLoader();
+    return res.json();
+  })
+  .then((data) => {
+    displayNotification(data.message, "success");
+    displayQueries(data.data, queriesSection, rows, currentPage);
+    setUpPagination(data.data, paginationSection, rows);
+  })
+  .catch((err) => {
+    displayNotification(err, "error");
+  });

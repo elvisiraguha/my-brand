@@ -4,8 +4,6 @@ import {
   hideLoader,
 } from "./helperFunctions.js";
 
-const db = firebase.firestore();
-const auth = firebase.auth();
 const storageRef = firebase.storage().ref();
 
 const handleLogout = () => {
@@ -104,24 +102,34 @@ const confirmModal = () => {
   showLoader();
   const file = imageInput.files[0];
   const fileName = `${new Date().toLocaleString()}-${file.name}`;
+  const url = "https://my-brand.herokuapp.com/api/articles";
 
   storageRef
     .child(fileName)
     .put(file)
     .then((snapshot) => snapshot.ref.getDownloadURL())
-    .then((url) => {
-      db.collection("articles")
-        .add({
+    .then((imageUrl) => {
+      const fetchOptions = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-auth-token": token,
+        },
+        body: JSON.stringify({
           title: titleInput.value,
-          body: bodyInput.value,
-          imageUrl: url,
-          publishedOn: new Date().toLocaleString(),
-        })
+          content: bodyInput.value,
+          imageUrl,
+        }),
+      };
+
+      fetch(url, fetchOptions)
         .then((res) => {
           hideLoader();
+          return res.json();
+        })
+        .then((data) => {
           titleInput.value = "";
           bodyInput.value = "";
-          imageInput.value = "";
           onLeaveModal.classList.add("hide");
           onPublishModal.classList.add("hide");
           displayNotification(

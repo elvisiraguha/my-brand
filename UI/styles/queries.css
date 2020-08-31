@@ -207,8 +207,16 @@ div.unauthorized-author .btn {
   border: 1px solid black;
 }
 
-.read-on {
+[data-status="true"] {
   background-color: #81827769;
+}
+
+[data-status="false"]::before {
+  content: "📧";
+}
+
+[data-status="true"]::before {
+  content: "📖";
 }
 
 .error-message {
