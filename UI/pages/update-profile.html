@@ -41,31 +41,29 @@
         </nav>
       </header>
       <main>
-        <div class="input-group">
-          <input class="input-lg input" type="text" value="ELVIS IRAGUHA" />
+        <div class="input-group" data-key="title">
+          <input class="input-lg input" type="text"/>
           <p class="error-message hide"></p>
           <button class="btn save save-title">Save</button>
         </div>
-        <div class="input-group">
+        <div class="input-group " data-key="subTitle">
           <input
             class="input-md input"
             type="text"
-            value="Full-Stack Web Developer"
           />
           <p class="error-message hide"></p>
           <button class="btn save save-minititle">Save</button>
         </div>
         <article class="profile-intro">
-          <div class="input-group">
-            <textarea class="input" cols="30" rows="3">I am A Passionate Web Developer who Aims at Excellency and Believe in Web Accessibility for All.</textarea>
+          <div class="input-group " data-key="intro">
+            <textarea class="input" cols="30" rows="3"></textarea>
             <p class="error-message hide"></p>
             <button class="btn save save-intro">Save</button>
           </div>
-          <div class="profile-picture">
+          <div class="profile-picture" data-key="profile-image">
             <div class="cover"></div>
-            <img
+            <img class="hide"
               width="300"
-              src="../assets/myprofile.png"
               alt="profile image"
             />
             <p>Change Picture</p>
@@ -76,30 +74,18 @@
             Skills:
           </h3>
           <section class="skills-cards-container">
-            <div class="skill-card add">
-              <img src="../assets/skill-logos/plus.png" alt="plus image" />
-              <p>
-                Add Skill
-              </p>
-            </div>
+            
           </section>
         </section>
         <section id="experience-section">
-          <h3>Experience:</h3>
-          <section class="individual-experience add">
-            <img src="../assets/skill-logos/plus.png" alt="plus image" />
-            <p>Add Experience</p>
-          </section>
+          
         </section>
         <section id="projects-section">
           <h3>
             Projects:
           </h3>
           <section class="projects-cards-container">
-            <div class="add add-project">
-              <img src="../assets/skill-logos/plus.png" alt="plus image" />
-              <p>Add Project</p>
-            </div>
+            
           </section>
         </section>
         <section id="contacts-section">
@@ -107,31 +93,24 @@
           <div>
             <div class="card contacts">
               <h6>Email:</h6>
-              <div class="input-group">
-                <input class="input" type="email" value="iraguhaelvis@gmail.com" />
+              <div class="input-group" data-key="email">
+                <input class="input" type="email" />
                 <p class="error-message hide"></p>
                 <button class="btn save save-email">Save</button>
               </div>
               <h6>Telephone:</h6>
-              <div class="input-group">
-                <input class="input" type="tel" value="+250783984662" />
+              <div class="input-group" data-key="phone">
+                <input class="input" type="tel"/>
             <p class="error-message hide"></p>
                 <button class="btn save save-telephone">Save</button>
-              </div>
-              <h6>Find me on:</h6>
-              <section class="socials">
-              </section>
-              <div class="add-social add">
-                <img src="../assets/skill-logos/plus.png" alt="plus image" />
-                <p>Add Profile</p>
               </div>
             </div>
           </div>
         </section>
         <section>
           <h3>Address:</h3>
-          <div class="input-group address">
-            <input class="input" type="text" value="Kigali, Rwanda" />
+          <div class="input-group address" data-key="address">
+            <input class="input" type="text"/>
             <p class="error-message hide"></p>
             <button class="btn save save-location">Save</button>
           </div>
@@ -141,20 +120,25 @@
         <div class="modal-content">
           <form>
             <h2 class="title"></h3>
-            <p class="item-name hide"></p>
-            <input class="item-name hide" type="text" placeholder="Enter name" />
-            <p class="item-description hide"></p>
+            <p class="item-name">Title</p>
+            <input class="item-name" type="text" placeholder="Enter name" />
+            <p class="item-description">Description</p>
             <textarea
-            class="item-description hide"
+            class="item-description"
               cols="30"
               rows="2"
-              placeholder="project description"
+              placeholder="description"
             ></textarea>
-            <p class="item-link hide"></p>
-            <input class="item-link hide" type="text" placeholder="Enter url" />
-            <p class="item-logo hide"></p>
-            <input class="item-logo hide" type="file" accept="image/*"/>
-            <p class="error-message hide"></p>
+            <p class="item-link">Link</p>
+            <input class="item-link" type="text" placeholder="Enter url" />
+            <p class="item-logo">Logo</p>
+            <img class="logo-preview hide" alt="project logo preview">
+            <input class="item-logo" type="file" accept="image/*"/>
+            <p class="item-startDate">Start date</p>
+            <input class="item-startDate" type="date"/>
+            <p class="item-endDate">End date</p>
+            <input class="item-endDate" type="date"/>
+            <p class="error-message"></p>
             <div class="controls">
               <button type="submit" class="btn add-item">Save</button>
               <button type="reset" class="btn cancel">Cancel</button>
@@ -166,18 +150,22 @@
         <div class="modal-content">
           <form>
             <h2 class="title"></h3>
-            <p class="item-name"></p>
+            <p class="item-name">Title</p>
             <input class="item-name" type="text" placeholder="Enter name" />
-            <p class="item-description"></p>
+            <p class="item-description">Description</p>
             <textarea
             class="item-description"
               cols="30"
-              rows="2"
-              placeholder="project description"
+              rows="4"
+              placeholder="description"
             ></textarea>
-            <p class="item-link"></p>
+            <p class="item-link">Link</p>
             <input class="item-link" type="text" placeholder="Enter url" />
-            <p class="item-logo"></p>
+            <p class="item-startDate">Start date</p>
+            <input class="item-startDate" type="date"/>
+            <p class="item-endDate">End date</p>
+            <input class="item-endDate" type="date"/>
+            <p class="item-logo">Logo</p>
             <img class="logo-preview" alt="project logo preview">
             <input class="item-logo file-input" type="file" accept="image/*"/>
             <p class="error-message hide"></p>
@@ -226,6 +214,7 @@
       <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-app.js"></script>
       <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-firestore.js"></script>
       <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-auth.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-storage.js"></script>
 
       <!-- TODO: Add SDKs for Firebase products that you want to use
      https://firebase.google.com/docs/web/setup#available-libraries -->
@@ -233,7 +222,6 @@
 
       <script src="../scripts/firebase.config.js" type="module"></script>
     <script src="../scripts/helperFunctions.js" type="module"></script>
-    <script src="../scripts/profileData.js" type="module"></script>
     <script src="../scripts/update-profile.js" type="module"></script>
   </body>
 </html>
