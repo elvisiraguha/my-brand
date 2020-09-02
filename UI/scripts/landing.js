@@ -5,6 +5,7 @@ import {
 } from "./helperFunctions.js";
 
 const auth = firebase.auth();
+const db = firebase.firestore();
 
 showLoader();
 auth.onAuthStateChanged((user) => {
@@ -118,7 +119,6 @@ const validate = () => {
     errorMessage.textContent = "The message must be at least 10 charcters long";
     return false;
   } else {
-    displayNotification("Message is sent successfully!", "success");
     return true;
   }
 };
@@ -127,11 +127,24 @@ const handleSubmit = (e) => {
   e.preventDefault();
 
   if (validate()) {
-    errorMessage.classList.add("hide");
-    nameInput.value = "";
-    emailInput.value = "";
-    subjectInput.value = "";
-    messageInput.value = "";
+    showLoader();
+    db.collection("queries")
+      .add({
+        senderName: nameInput.value,
+        senderEmail: emailInput.value,
+        subject: subjectInput.value,
+        message: messageInput.value,
+        read: false,
+      })
+      .then((res) => {
+        hideLoader();
+        displayNotification("Message sent", "success");
+        errorMessage.classList.add("hide");
+        nameInput.value = "";
+        emailInput.value = "";
+        subjectInput.value = "";
+        messageInput.value = "";
+      });
   } else {
     errorMessage.classList.remove("hide");
   }
@@ -140,7 +153,114 @@ const handleSubmit = (e) => {
 messageForm.addEventListener("submit", handleSubmit);
 
 responsive();
+showLoader();
+db.collection("profile")
+  .doc("basic_info")
+  .get()
+  .then((snap) => {
+    displayInfo(snap.data());
+  })
+  .catch((err) => console.log(err));
+
+db.collection("items")
+  .get()
+  .then((snap) => {
+    displayItems(snap.docs);
+  })
+  .catch((err) => console.log(err));
 
 window.addEventListener("load", () => {
   highlightNav();
 });
+
+const displayInfo = (data) => {
+  hideLoader();
+  const infoTitle = document.querySelector(".profile-info-title");
+  const infoSubTitle = document.querySelector(".profile-info-subtitle");
+  const infoIntro = document.querySelector(".profile-info-intro");
+  const infoProfileImage = document.querySelector(".profile-info-profileImage");
+  const infoEmail = document.querySelector(".profile-info-email");
+  const infoPhone = document.querySelector(".profile-info-phone");
+  const infoAddress = document.querySelector(".profile-info-address");
+
+  infoTitle.textContent = data.title;
+  infoSubTitle.textContent = data.subTitle;
+  infoIntro.innerHTML = `
+  <span class="first-char">${data.intro.slice(0, 1)}</span> ${data.intro.slice(
+    1
+  )}
+  `;
+  infoProfileImage.src = data.imageUrl;
+  infoEmail.textContent = data.email;
+  infoEmail.setAttribute("href", `mailto://${data.email}`);
+  infoPhone.textContent = data.phone;
+  infoAddress.textContent = data.address;
+};
+
+const displayItems = (items) => {
+  hideLoader();
+  const skillsCard = document.querySelector(".skills-cards-container");
+  const projectsCard = document.querySelector(".projects-cards-container");
+  const experiencesCard = document.querySelector("#experience-section");
+
+  const displaySkill = (item) => {
+    const skill = item.data();
+    const skillCard = `
+    <div class="skill-card">
+              <img src="${skill.logoUrl}" alt="${skill.title} logo" />
+              <p>${skill.title}</p>
+            </div>
+    `;
+    skillsCard.innerHTML += skillCard;
+  };
+
+  const displayProject = (item) => {
+    const project = item.data();
+    const projectCard = `
+    <div class="project-card">
+              <img
+                src="${project.logoUrl}"
+                alt="${project.title} logo"
+              />
+              <h5>${project.title}</h5>
+              <p>${project.description}</p>
+              <a
+                href="${project.link}"
+                class="btn visit-project"
+                target="_blank"
+                ><button>Visit</button></a
+              >
+            </div>
+    `;
+    projectsCard.innerHTML += projectCard;
+  };
+
+  const displayExperience = (item) => {
+    const experience = item.data();
+    const experienceCard = `
+    <section class="individual-experience">
+            <h6>${experience.title}</h6>
+            <p>
+            ${experience.description}
+            </p>
+          </section>
+    `;
+    experiencesCard.innerHTML += experienceCard;
+  };
+
+  items.forEach((item) => {
+    switch (item.data().type) {
+      case "skill":
+        displaySkill(item);
+        break;
+      case "project":
+        displayProject(item);
+        break;
+      case "experience":
+        displayExperience(item);
+        break;
+      default:
+        break;
+    }
+  });
+};
