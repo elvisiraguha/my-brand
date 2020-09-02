@@ -1,5 +1,8 @@
-import { queries } from "./queriesList.js";
-import { displayNotification } from "./helperFunctions.js";
+import {
+  displayNotification,
+  showLoader,
+  hideLoader,
+} from "./helperFunctions.js";
 
 const db = firebase.firestore();
 const auth = firebase.auth();
@@ -46,16 +49,6 @@ const isAuthor = (user) => {
   }
 };
 
-const sortedQueries = (function () {
-  const sortedByDate = queries.sort(
-    (latest, old) => new Date(latest.date) - new Date(old.date)
-  );
-  const sortedByDone = sortedByDate.sort(
-    (done, undone) => done.read - undone.read
-  );
-  return sortedByDone;
-})();
-
 const paginationSection = document.querySelector(".pagination");
 const queriesSection = document.querySelector("section.messages");
 
@@ -79,14 +72,25 @@ const handleActions = () => {
 
   readBtns.forEach((btn) => {
     btn.addEventListener("click", ({ target }) => {
-      target.classList.toggle("read-on");
-      if (target.textContent === "Read") {
-        displayNotification("Marked read", "success");
-        target.innerHTML = "&#10004;";
-      } else {
-        displayNotification("Marked unread", "success");
-        target.textContent = "Read";
-      }
+      let queryId = target.parentElement.parentElement.dataset.id;
+      let queryStatus = target.dataset.status;
+      const parseStatus = queryStatus === "true" ? true : false;
+
+      db.collection("queries")
+        .doc(queryId)
+        .update({ read: !parseStatus })
+        .then(() => {
+          target.dataset.status = !parseStatus;
+          if (!parseStatus) {
+            displayNotification("Marked read", "success");
+          } else {
+            displayNotification("Marked unread", "success");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          displayNotification(err, "error");
+        });
     });
   });
 
@@ -131,19 +135,19 @@ const handleActions = () => {
   };
 };
 
-const displayQueries = (sortedQueries, wrapper, rowsPerPage, page) => {
-  wrapper.innerHTML = "";
+const displayQueries = (queries, wrapper, rowsPerPage, page) => {
+  hideLoader();
+  wrapper.innerHTML = "<h3>All messages</h3>";
   page -= 1;
-
+  const sortedQueries = queries.sort((done, undone) => done.read - undone.read);
   let start = rowsPerPage * page;
   let end = start + rowsPerPage;
   let paginatedQueries = sortedQueries.slice(start, end);
 
-  paginatedQueries.map((querie) => {
-    const readOnClass = querie.read ? "read-on" : "";
-    const readContent = querie.read ? "&#10004;" : "Read";
+  paginatedQueries.map((item) => {
+    const querie = item.data();
     const displayedQuerie = `
-          <div class="message">
+          <div class="message" data-id="${item.id}">
             <h4><i>Sender Name:</i> ${querie.senderName}</h4>
             <h4><i>Subject:</i> ${querie.subject}</h4>
             <h4>
@@ -152,10 +156,9 @@ const displayQueries = (sortedQueries, wrapper, rowsPerPage, page) => {
             <p>
               ${querie.message}
             </p>
-            <p class='sent-date'>${querie.date}</p>
             <div class="controls">
               <button class="btn reply">Reply</button>
-              <button class="btn read ${readOnClass}">${readContent}</button>
+              <button class="btn read" data-status=${querie.read}></button>
             </div>
           </div>
     `;
@@ -210,5 +213,12 @@ let currentPage = 1;
 let rows = 10;
 
 responsive();
-displayQueries(sortedQueries, queriesSection, rows, currentPage);
-setUpPagination(sortedQueries, paginationSection, rows);
+showLoader();
+db.collection("queries").onSnapshot(
+  (snap) => {
+    const queries = snap.docs;
+    displayQueries(queries, queriesSection, rows, currentPage);
+    setUpPagination(queries, paginationSection, rows);
+  },
+  (err) => console.log(err)
+);
