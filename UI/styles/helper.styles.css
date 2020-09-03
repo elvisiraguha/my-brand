@@ -216,19 +216,21 @@ p.error-message {
     transform: rotate(-45deg) translate(-5px, 6px);
     transition: transform 0.2s ease-in-out;
   }
+
   .toggle .line2 {
     opacity: 0;
   }
+
   .toggle .line3 {
     transition: transform 0.2s ease-in-out;
     transform: rotate(45deg) translate(-5px, -6px);
   }
 }
 
-.container .hide {
+main .hide {
   display: none;
 }
 
-main .hide {
+.container .hide {
   display: none;
 }
