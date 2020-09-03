@@ -41,16 +41,6 @@ const isAuthor = () => {
   }
 };
 
-const responsive = () => {
-  const burger = document.querySelector(".burger");
-  const nav = document.querySelector("nav ul");
-
-  burger.addEventListener("click", () => {
-    nav.classList.toggle("nav-active");
-    burger.classList.toggle("toggle");
-  });
-};
-
 const fetchInfo = () => {
   fetch(`${url}/info`)
     .then((res) => res.json())
@@ -563,7 +553,7 @@ const updateItems = (items) => {
 
   skillsCard.innerHTML = `
   <div class="skill-card add" data-type="skill">
-            <img src="../assets/skill-logos/plus.png" alt="plus image" />
+            <img src="../assets/plus.png" alt="plus image" />
             <p>
               Add Skill
             </p>
@@ -571,14 +561,14 @@ const updateItems = (items) => {
   `;
   projectsCard.innerHTML = `
     <div class="add add-project" data-type="project">
-              <img src="../assets/skill-logos/plus.png" alt="plus image" />
+              <img src="../assets/plus.png" alt="plus image" />
               <p>Add Project</p>
             </div>
     `;
   experiencesCard.innerHTML = `
     <h3>Experience:</h3>
           <section class="individual-experience add" data-type="experience">
-            <img src="../assets/skill-logos/plus.png" alt="plus image" />
+            <img src="../assets/plus.png" alt="plus image" />
             <p>Add Experience</p>
           </section>
     `;
@@ -998,7 +988,6 @@ const updateItems = (items) => {
 };
 
 isAuthor();
-responsive();
 
 window.addEventListener("load", () => {
   showLoader();

@@ -196,22 +196,10 @@ const paginationButton = (page, items) => {
   return button;
 };
 
-// handle responsiveness
-const responsive = () => {
-  const burger = document.querySelector(".burger");
-  const nav = document.querySelector("nav ul");
-
-  burger.addEventListener("click", () => {
-    nav.classList.toggle("nav-active");
-    burger.classList.toggle("toggle");
-  });
-};
-
 let currentPage = 1;
 let rows = 10;
 
 isAuthor();
-responsive();
 
 const fetchOptions = {
   headers: {
