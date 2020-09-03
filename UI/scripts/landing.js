@@ -32,16 +32,6 @@ const isAuthor = () => {
   }
 };
 
-const responsive = () => {
-  const burger = document.querySelector(".burger");
-  const nav = document.querySelector("nav ul");
-
-  burger.addEventListener("click", () => {
-    nav.classList.toggle("nav-active");
-    burger.classList.toggle("toggle");
-  });
-};
-
 const highlightNav = () => {
   // highlighting the current nav
   const inPageLinks = document.querySelectorAll(".inpage-links");
@@ -176,6 +166,8 @@ const displayInfo = (data) => {
     1
   )}
   `;
+  infoProfileImage.src = data.profileImageUrl;
+  infoProfileImage.classList.remove("hide");
   infoEmail.textContent = data.email;
   infoEmail.setAttribute("href", `mailto://${data.email}`);
   infoPhone.textContent = data.phone;
@@ -245,18 +237,15 @@ const displayItems = (items) => {
         break;
     }
   });
+  setTimeout(() => {
+    highlightNav();
+  }, 2000);
 };
 
 messageForm.addEventListener("submit", handleSubmit);
 
-isAuthor();
-responsive();
-
-window.addEventListener("load", () => {
-  highlightNav();
-});
-
 showLoader();
+isAuthor();
 
 fetch(`${url}/profile/info`)
   .then((res) => res.json())

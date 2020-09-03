@@ -38,17 +38,6 @@ const isAuthor = () => {
   }
 };
 
-// handle responsiveness
-const responsive = () => {
-  const burger = document.querySelector(".burger");
-  const nav = document.querySelector("nav ul");
-
-  burger.addEventListener("click", () => {
-    nav.classList.toggle("nav-active");
-    burger.classList.toggle("toggle");
-  });
-};
-
 const cancelEditBtn = document.querySelector(".btn-cancel");
 const publishBtn = document.querySelector(".btn-publish");
 const onLeaveModal = document.querySelector(".leave-modal");
@@ -166,5 +155,4 @@ returnToEdit.forEach((btn) => {
 
 window.addEventListener("beforeunload", handleOnLeave);
 
-responsive();
 isAuthor();

@@ -56,17 +56,6 @@ const confirmDelete = document.querySelector(".btn-delete");
 const returnToArticle = document.querySelector(".btn-back");
 const loader = document.querySelector(".loader-modal");
 
-// handle responsiveness
-const responsive = () => {
-  const burger = document.querySelector(".burger");
-  const nav = document.querySelector("nav ul");
-
-  burger.addEventListener("click", () => {
-    nav.classList.toggle("nav-active");
-    burger.classList.toggle("toggle");
-  });
-};
-
 // fill the modal with current article
 const fillModalContents = () => {
   const articleErrorMessage = document.querySelector(".modal .error-message");
@@ -344,7 +333,6 @@ const handleSubmit = (e) => {
 commentForm.addEventListener("submit", handleSubmit);
 
 isAuthor();
-responsive();
 
 fetch(url)
   .then((res) => res.json())

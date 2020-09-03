@@ -33,3 +33,24 @@ export const hideLoader = () => {
     container.removeChild(loader);
   }
 };
+
+const responsive = () => {
+  const burger = document.querySelector(".burger");
+  const nav = document.querySelector("nav ul");
+
+  burger.addEventListener("click", () => {
+    nav.classList.toggle("nav-active");
+    burger.classList.toggle("toggle");
+  });
+};
+
+responsive();
+
+window.addEventListener("scroll", () => {
+  const header = document.querySelector("header");
+  if (window.pageYOffset > header.offsetTop) {
+    header.classList.add("underline");
+  } else {
+    header.classList.remove("underline");
+  }
+});

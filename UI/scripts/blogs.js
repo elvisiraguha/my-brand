@@ -33,17 +33,6 @@ const isAuthor = () => {
 const articlesSection = document.querySelector("section.articles");
 const paginationSection = document.querySelector(".pagination");
 
-// handle responsiveness
-const responsive = () => {
-  const burger = document.querySelector(".burger");
-  const nav = document.querySelector("nav ul");
-
-  burger.addEventListener("click", () => {
-    nav.classList.toggle("nav-active");
-    burger.classList.toggle("toggle");
-  });
-};
-
 const setCurrentArticle = (id) => {
   localStorage.setItem("current-article-id", id);
   window.location.assign("article.html");
@@ -139,7 +128,6 @@ const paginationButton = (page, items) => {
 };
 
 isAuthor();
-responsive();
 showLoader();
 
 const url = "https://my-brand.herokuapp.com/api/articles";
