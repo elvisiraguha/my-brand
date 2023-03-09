@@ -5,7 +5,7 @@ import {
 } from "./helperFunctions.js";
 
 const storageRef = firebase.storage().ref();
-const url = "https://my-brand-yo2d.onrender.com//api/profile";
+const url = "https://my-brand-yo2d.onrender.com/api/profile";
 
 const handleLogout = () => {
   localStorage.removeItem("token");

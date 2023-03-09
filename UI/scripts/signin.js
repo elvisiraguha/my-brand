@@ -34,7 +34,7 @@ const handleData = (response) => {
 
 const handleSubmit = (e) => {
   e.preventDefault();
-  const url = "https://my-brand-yo2d.onrender.com//api/auth/signin";
+  const url = "https://my-brand-yo2d.onrender.com/api/auth/signin";
 
   if (validate()) {
     showLoader();

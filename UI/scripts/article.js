@@ -14,7 +14,7 @@ const handleLogout = () => {
 const currentArticleId = localStorage.getItem("current-article-id");
 let currentArticle;
 
-const url = `https://my-brand-yo2d.onrender.com//api/articles/${currentArticleId}`;
+const url = `https://my-brand-yo2d.onrender.com/api/articles/${currentArticleId}`;
 
 const handleLogin = () => {
   window.location.assign("./signin.html");
