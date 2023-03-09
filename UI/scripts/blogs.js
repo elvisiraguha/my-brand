@@ -130,7 +130,7 @@ const paginationButton = (page, items) => {
 isAuthor();
 showLoader();
 
-const url = "https://my-brand.herokuapp.com/api/articles";
+const url = "https://my-brand-yo2d.onrender.com//api/articles";
 
 fetch(url)
   .then((res) => res.json())

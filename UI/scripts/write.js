@@ -91,7 +91,7 @@ const confirmModal = () => {
   showLoader();
   const file = imageInput.files[0];
   const fileName = `${new Date().toLocaleString()}-${file.name}`;
-  const url = "https://my-brand.herokuapp.com/api/articles";
+  const url = "https://my-brand-yo2d.onrender.com//api/articles";
 
   storageRef
     .child(fileName)

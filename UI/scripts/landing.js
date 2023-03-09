@@ -4,7 +4,7 @@ import {
   hideLoader,
 } from "./helperFunctions.js";
 
-const url = "https://my-brand.herokuapp.com/api";
+const url = "https://my-brand-yo2d.onrender.com//api";
 
 const handleLogout = () => {
   localStorage.removeItem("token");
